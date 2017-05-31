@@ -1,3 +1,3 @@
 class Game < ApplicationRecord
-  has_many :game_session
+  has_many :game_session, dependent: :destroy
 end

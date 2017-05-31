@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Game:</strong>
+  <%= @game_session.game %>
+</p>
+
+<p>
+  <strong>Game hash:</strong>
+  <%= @game_session.game_hash %>
+</p>
+
+<%= link_to 'Edit', edit_game_session_path(@game_session) %> |
+<%= link_to 'Back', game_sessions_path %>

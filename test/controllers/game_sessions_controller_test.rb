@@ -17,7 +17,7 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create game_session" do
     assert_difference('GameSession.count') do
-      post game_sessions_url, params: { game_session: { game_hash: @game_session.game_hash, game_id: @game_session.game_id } }
+      post game_sessions_url + "?game_id=" + @game_session.game_id.to_s
     end
 
     assert_redirected_to game_session_url(GameSession.last)

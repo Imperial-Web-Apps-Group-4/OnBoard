@@ -8,6 +8,7 @@ services:
 
 env:
   DOCKER_COMPOSE_VERSION: 1.13.0
+  NOKOGIRI_USE_SYSTEM_LIBRARIES: true
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -16,10 +17,13 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
   - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-engine
+  - docker-compose build
 
 
 install:
   - docker-compose up -d
+  - docker-compose run web rake db:create
 
 script:
+  - docker-compose run web rake db:migrate
   - docker-compose run web rake test

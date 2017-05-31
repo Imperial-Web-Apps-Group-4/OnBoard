@@ -24,7 +24,12 @@ class GameSessionsController < ApplicationController
   # POST /game_sessions
   # POST /game_sessions.json
   def create
-    @game_session = GameSession.new(game_session_params)
+    params.require(:game_id)
+
+    @game_session = GameSession.new do |session|
+      session.game_id = params[:game_id]
+      session.game_hash = random_session_hash
+    end
 
     respond_to do |format|
       if @game_session.save
@@ -62,6 +67,10 @@ class GameSessionsController < ApplicationController
   end
 
   private
+    def random_session_hash
+      ('a'..'z').to_a.shuffle.join
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_game_session
       @game_session = GameSession.find(params[:id])

@@ -14,7 +14,7 @@
   <tbody>
     <% @game_sessions.each do |game_session| %>
       <tr>
-        <td><%= game_session.game %></td>
+        <td><%= game_session.game.name %></td>
         <td><%= game_session.game_hash %></td>
         <td><%= link_to 'Show', game_session %></td>
         <td><%= link_to 'Edit', edit_game_session_path(game_session) %></td>

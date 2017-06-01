@@ -16,9 +16,9 @@
       <tr>
         <td><%= game_session.game.name %></td>
         <td><%= game_session.game_hash %></td>
-        <td><%= link_to 'Show', game_session %></td>
-        <td><%= link_to 'Edit', edit_game_session_path(game_session) %></td>
-        <td><%= link_to 'Destroy', game_session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Spectate', game_session %></td>
+        <td><%= link_to 'Play', edit_game_session_path(game_session) %></td>
+        <td><%= link_to 'Delete', game_session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

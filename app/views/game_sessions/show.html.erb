@@ -1,14 +1,18 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Game:</strong>
-  <%= @game_session.game %>
-</p>
-
-<p>
-  <strong>Game hash:</strong>
-  <%= @game_session.game_hash %>
-</p>
-
-<%= link_to 'Edit', edit_game_session_path(@game_session) %> |
-<%= link_to 'Back', game_sessions_path %>
+<div class="left-settings sidebar">
+    <p><strong>SPECTATING [CURRENTLY DISABLED]</strong></p>
+    <p>
+      Game is <%= @game_session.game.name %>.  Session hash is <%= @game_session.game_hash %>. Notice: <%= notice %>.
+    </p>
+</div>
+<div class="middle">
+    <div class="board">
+	    <img src="http://bar.co.uk/wp-content/uploads/2016/10/monopoly-010.jpg" alt="Board" />
+    </div>
+	<fieldset class="zoom-controls">
+		<input type="button" class="zoom-in" value="Zoom in" />
+		<input type="button" class="zoom-out" value="Zoom out" />
+	</fieldset>
+</div>
+<div class="right-settings sidebar">
+    
+</div>

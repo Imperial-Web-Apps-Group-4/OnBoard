@@ -1,3 +1,51 @@
-// Place all the styles related to the GameSessions controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.game_sessions {
+    
+.board {
+    position: relative;
+    width: 5000px;
+    height: 5000px;
+    background-image: url('http://nextbaltic.com/wp-content/uploads/2015/09/wooden-table-texture-dark-wood-floor-texture-seamless-inspiration-design-catalog-wood-image.jpg');
+	background-color: #fff;
+	background-position: center top;
+	transform-origin: top left;
+}
+
+/* temp */
+.middle img {
+	position: absolute;
+	left: 50px;
+	top: 50px;
+	width: 1000px;
+}
+
+.zoom-controls {
+	position: absolute;
+	left: 20px;
+	bottom: 20px;
+	box-shadow: 0 2px 10px rgba(0,0,0,.5);
+}
+
+.zoom-controls > * {
+	display: block;
+	width: 12px;
+	height: 12px;
+	margin: 0;
+	padding: 15px;
+	border-width: 0;
+	background-color: #fff;
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
+	text-indent: -9999px;
+}
+
+.zoom-in {
+	background-image: url('http://i.imgur.com/r0BE5JM.png');
+	border-radius: 2px 2px 0 0;
+}
+
+.zoom-out {
+	background-image: url('http://i.imgur.com/lxqsJwa.png');
+	border-radius: 0 0 2px 2px;
+}   
+    
+}

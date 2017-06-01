@@ -8,10 +8,8 @@
   </head>
   <body>
     <div class="main">
-     <%= render "shared/header" %>
-        <div class="board"><!-- temporary -->
-     <%= yield %>
-     </div>
+        <%= render "shared/header" %>
+        <%= yield %>
     </div>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </body>

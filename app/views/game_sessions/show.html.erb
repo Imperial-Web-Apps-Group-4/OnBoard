@@ -1,16 +1,4 @@
-<p id="notice"><%= notice %></p>
-
 <p><strong>SPECTATING [CURRENTLY DISABLED]</strong></p>
-
 <p>
-  <strong>Game:</strong>
-  <%= @game_session.game %>
+  Game is <%= @game_session.game.name %>.  Session hash is <%= @game_session.game_hash %>. Notice: <%= notice %>.
 </p>
-
-<p>
-  <strong>Game hash:</strong>
-  <%= @game_session.game_hash %>
-</p>
-
-<%= link_to 'Edit', edit_game_session_path(@game_session) %> |
-<%= link_to 'Back', game_sessions_path %>

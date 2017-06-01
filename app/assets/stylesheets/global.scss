@@ -1,6 +1,11 @@
 @import url('http://fonts.googleapis.com/css?family=Nunito+Sans');
 @import url('https://fonts.googleapis.com/css?family=Caveat');
 
+$dark-blue: #1f2333;
+$blue-highlight: #40b1d0;
+$dark-grey-blue: #2e3244;
+$grey-blue: #8388a0;
+
 body {
 	background-color: #3b3f54;
 	font: 14px 'Nunito Sans', Arial, sans-serif;
@@ -23,8 +28,9 @@ a {
 
 .site-header {
 	grid-area: header;
-	background-color: #1f2333;
-	border-bottom: 1px solid #171a26;
+    background-color: $dark-blue;
+	background-image: linear-gradient(lighten($dark-blue, 2% ), $dark-blue);
+	border-bottom: 1px solid darken($dark-blue, 5%);
 	box-shadow: 0 2px 5px rgba(0,0,0,.075);
 	z-index: 2;
 }
@@ -43,45 +49,41 @@ a {
 
 .site-logo em {
     font-family: 'Caveat', cursive;
-    color: #40b1d0;
+    color: $blue-highlight;
 }
 
 .main-nav a {
     float: left;
     line-height: 44px;
-    margin-top: 2px;
-    padding: 0 10px;
+    padding: 2px 10px 0;
     font-weight: bold;
     text-transform: uppercase;
-    color: #8388a0;
-    border: 0 solid #40b1d0;
+    color: $grey-blue;
+    border: 0 solid $blue-highlight;
     transition: all 0.1s linear;
-}
-
-.main-nav a:hover {
-    background-color: #2e3244;
-    border-bottom-width: 2px;
-    color: #fff;
+    &:hover {
+        background-color: $dark-grey-blue;
+        border-bottom-width: 2px;
+        color: #fff;
+    }
 }
 
 .user-info {
     margin-right: 10px;
     float: right;
-}
-
-.user-info a {
-    line-height: 48px;
-    color: #8388a0;
-}
-
-.user-info img {
-    float: right;
-    margin: 14px 0 14px 10px;
-    border-radius: 16px;
+    a {
+        line-height: 48px;
+        color: $grey-blue;
+    }
+    img {
+        float: right;
+        margin: 14px 0 14px 10px;
+        border-radius: 16px;
+    }
 }
 
 .sidebar {
-	background-color: #2e3244;
+	background-color: $dark-grey-blue;
 }
 
 .left-settings {
@@ -139,43 +141,4 @@ a {
 .zoom-out {
 	background-image: url('http://i.imgur.com/lxqsJwa.png');
 	border-radius: 0 0 2px 2px;
-}
-
-/* Popup */
-
-.dialog {
-    width: 300px;
-    height: 200px;
-    position: absolute;
-    bottom: 100px;
-    left: 40%;
-    border: 1px solid #171a26;
-    background-color: #2e3244;
-    border-radius: 3px;
-    box-shadow: 0 3px 10px rgba(0,0,0,.5);
-}
-
-.dialog nav {
-    padding: 10px;
-    background-color: #1f2333;
-    border-bottom: 2px solid #40b1d0;
-}
-
-.dialog-name {
-    color: #8388a0;
-    display: inline;
-    user-select: none;
-}
-
-.close-dialog {
-    margin: 0;
-    padding: 0;
-    width: 20px;
-    height: 20px;
-    text-indent: -9999px;
-    border-width: 0;
-    background-color: transparent;
-    background-size: cover;
-    background-image: url('http://i.imgur.com/kMnZIOc.png');
-    float: right;
 }

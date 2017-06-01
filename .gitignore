@@ -21,3 +21,5 @@ tmp
 
 .idea
 .env
+
+public/user_upload/

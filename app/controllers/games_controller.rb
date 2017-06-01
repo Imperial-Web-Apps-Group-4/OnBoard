@@ -1,4 +1,6 @@
 class GamesController < ApplicationController
+  MAX_FILE_SIZE = 10 * (2 ** 20)
+  include RandomHash
   before_action :set_game, only: [:show, :edit, :update, :destroy]
 
   # GET /games
@@ -28,7 +30,7 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        format.html { redirect_to @game, notice: 'Game was successfully created.' }
+        format.html { redirect_to games_url, notice: 'Game was successfully created.' }
         format.json { render :show, status: :created, location: @game }
       else
         format.html { render :new }
@@ -58,6 +60,21 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+
+  def new_image
+    image_hash = random_hash
+    respond_to do |format|
+      if params[:file].size > MAX_FILE_SIZE
+        format.json { render json: {'error': 'File too big'} }
+      else
+        File.open(Rails.public_path.join("user_upload/game_images/#{image_hash}.png"), 'wb') { |file|
+          file.write(params[:file].read)
+        }
+        format.json { render json: {'id': image_hash} }
+      end
     end
   end
 

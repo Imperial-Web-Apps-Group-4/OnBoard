@@ -1,4 +1,5 @@
 class GameSessionsController < ApplicationController
+  include RandomHash
   before_action :set_game_session, only: [:show, :edit, :update, :destroy]
 
   # GET /game_sessions
@@ -28,7 +29,7 @@ class GameSessionsController < ApplicationController
 
     @game_session = GameSession.new do |session|
       session.game_id = params[:game_id]
-      session.game_hash = random_session_hash
+      session.game_hash = random_hash
     end
 
     respond_to do |format|
@@ -67,10 +68,6 @@ class GameSessionsController < ApplicationController
   end
 
   private
-    def random_session_hash
-      ('a'..'z').to_a.shuffle.join
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_game_session
       @game_session = GameSession.find(params[:id])

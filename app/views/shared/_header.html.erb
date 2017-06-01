@@ -1,15 +1,19 @@
 <header class="site-header">
     <nav>
-    	<h1><a href="#" class="site-logo">On<span>Board</span><em>.fun</em></a></h1>
+    	<h1>
+    	    <%= link_to root_path, :class => "site-logo" do %>
+                On<span>Board</span><em>.fun</em>
+            <% end %>
+        </h1>
     	<ul class="main-nav">
-    		<li><a href="#">Create</a></li>
-    		<li><a href="#">Browse</a></li>
+    		<li><%= link_to "Create", "/games/new" %></li>
+    		<li><%= link_to "Browse", "/games" %></li>
     	</ul>
-    	<div class="user-info">
+    	<!--<div class="user-info">
     		<a href="#">
     			<span>Tom Bower</span>
     			<img src="https://scontent-lht6-1.xx.fbcdn.net/v/t1.0-9/16711631_1097842290326512_920098688578473180_n.jpg?oh=7b136eca51ae78f782112735d1281a78&oe=59A574E3" alt="Tom Bower" width="20" height="20" />
     		</a>
-    	</div>
+    	</div>-->
     </nav>
 </header>

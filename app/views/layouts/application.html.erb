@@ -7,10 +7,12 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
-    <h1>OnBoard</h1>
   <body>  
-    <%= render "shared/header" %>
-    <%= yield %>
+    <div class="main">
+     <%= render "shared/header" %>
+        <div class="board"><!-- temporary -->
+     <%= yield %>
+     </div>
+    </div>
   </body>
 </html>

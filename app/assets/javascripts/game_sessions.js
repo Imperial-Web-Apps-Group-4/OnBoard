@@ -4,8 +4,12 @@ window.onload = function() {
         uiScale = 1,
         offsetX = 0,
         offsetY = 0,
-        movementX = 0
+        movementX = 0,
         movementY = 0;
+
+    function scaleBoard() {
+        document.querySelector(".board").setAttribute("style", "transform: scale(" + uiScale + ") translateX(" + offsetX + "px) translateY(" + offsetY + "px)");
+    }
         
     document.querySelector('.zoom-in').addEventListener("mousedown", function() {
        uiScale += 0.05;
@@ -16,10 +20,6 @@ window.onload = function() {
        uiScale -= 0.05;
        scaleBoard();
     });
-    
-    function scaleBoard() {
-        document.querySelector(".board").setAttribute("style", "transform: scale(" + uiScale + ") translateX(" + offsetX + "px) translateY(" + offsetY + "px)");
-    };
     
     document.querySelector('.board').addEventListener("mousedown", function(e) {
         e.preventDefault();
@@ -47,5 +47,4 @@ window.onload = function() {
         movementY = e.movementY;
         console.log("Movements changed.");}
     });
-
 };

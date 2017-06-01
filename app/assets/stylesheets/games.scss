@@ -1,3 +1,13 @@
-// Place all the styles related to the Games controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.game {
+    
+.main {
+    grid-template-areas:
+	"header header header"
+	"games games games";
+}    
+
+.games {
+    grid-area: games;
+}
+    
+}

@@ -27,3 +27,16 @@ install:
 script:
   - docker-compose run web rake db:migrate
   - docker-compose run web rake test
+
+
+deploy:
+  provider: script
+  script: scripts/deploy.sh
+  on:
+    branch: master
+
+
+addons:
+  ssh_known_hosts:
+  - onboard.fun
+  - 198.199.76.135

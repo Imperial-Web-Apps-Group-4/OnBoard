@@ -7,6 +7,10 @@ development: &default
   password:
   host: db
 
+production:
+  <<: *default
+  database: onboard_production
+
 test:
   <<: *default
   database: onboard_test

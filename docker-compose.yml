@@ -11,6 +11,6 @@ services:
          - .:/onboard
         ports:
          - "3000:3000"
-        entrypoint: ./wait_for_postgres.sh db 5432
+        entrypoint: ./scripts/wait_for_postgres.sh db 5432
         depends_on:
          - db

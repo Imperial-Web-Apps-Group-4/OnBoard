@@ -1,12 +1,9 @@
 @import url('http://fonts.googleapis.com/css?family=Nunito+Sans');
 @import url('https://fonts.googleapis.com/css?family=Caveat');
-
-$dark-blue: #1f2333;
-$blue-highlight: #40b1d0;
-$dark-grey-blue: #2e3244;
-$grey-blue: #8388a0;
+@import '_variables.scss';
 
 body {
+    margin-top: 48px;
 	font: 14px 'Nunito Sans', Arial, sans-serif;
 }
 
@@ -14,21 +11,14 @@ a {
     text-decoration: none;
 }
 
-.main {
-	display: grid;
-	grid-template-rows: 48px auto;
-	grid-template-columns: 250px auto 250px;
-	grid-template-areas:
-	"header header header"
-	"sidebar middle sidebar2";
-	width: 100%;
-	height: 100vh;
-}
-
 .site-header {
-	grid-area: header;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
     background-color: $dark-blue;
-	background-image: linear-gradient(lighten($dark-blue, 2% ), $dark-blue);
+	background-image: linear-gradient(lighten($dark-blue, 2%), $dark-blue);
 	border-bottom: 1px solid darken($dark-blue, 5%);
 	box-shadow: 0 2px 5px rgba(0,0,0,.075);
 	z-index: 2;
@@ -79,24 +69,4 @@ a {
         margin: 14px 0 14px 10px;
         border-radius: 16px;
     }
-}
-
-.sidebar {
-	background-color: $dark-grey-blue;
-}
-
-.left-settings {
-	grid-area: sidebar;
-	border-right: 1px solid #171a26;
-}
-
-.middle {
-	grid-area: middle;
-	overflow: hidden;
-	position: relative;
-}
-
-.right-settings {
-	grid-area: sidebar2;
-	border-left: 1px solid #171a26;
 }

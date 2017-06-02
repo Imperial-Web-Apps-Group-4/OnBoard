@@ -50,6 +50,26 @@ var editor = new Vue({
         "boardID": "98l0utbgyn"
       },
       "components": {
+        "3jh45kjh34j": {
+          "classID": "98l0utbgyn",
+          "posX": 0,
+          "posY": 0
+        },
+        "kj34lk": {
+          "classID": "qqazgairos",
+          "posX": 10,
+          "posY": 10
+        },
+        "h4jh2": {
+          "classID": "ptt88sopbn",
+          "posX": 10,
+          "posY": 40
+        },
+        "234njn": {
+          "classID": "zz1bq57nmck",
+          "posX": 40,
+          "posY": 10
+        }
       }
     }
   }

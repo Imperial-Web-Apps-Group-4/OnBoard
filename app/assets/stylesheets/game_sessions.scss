@@ -1,10 +1,12 @@
+@import '_variables.scss';
+
 .game_sessions {
-    
+
 .board {
-    position: relative;
-    width: 5000px;
-    height: 5000px;
-    background-image: url('http://nextbaltic.com/wp-content/uploads/2015/09/wooden-table-texture-dark-wood-floor-texture-seamless-inspiration-design-catalog-wood-image.jpg');
+  position: relative;
+  width: 5000px;
+  height: 5000px;
+  background-image: url('http://nextbaltic.com/wp-content/uploads/2015/09/wooden-table-texture-dark-wood-floor-texture-seamless-inspiration-design-catalog-wood-image.jpg');
 	background-color: #fff;
 	background-position: center top;
 	transform-origin: top left;
@@ -46,6 +48,20 @@
 .zoom-out {
 	background-image: url('http://i.imgur.com/lxqsJwa.png');
 	border-radius: 0 0 2px 2px;
-}   
-    
+}
+
+.game-table {
+  height: calc(100vh - 48px);
+}
+
+.board-area {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.component {
+  position: absolute;
+}
+
 }

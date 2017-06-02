@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require vue
+//= require interact.min
 //= require turbolinks
 //= require_tree .
 

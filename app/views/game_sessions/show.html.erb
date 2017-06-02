@@ -3,16 +3,13 @@
     <p>
       Game is <%= @game_session.game.name %>.  Session hash is <%= @game_session.game_hash %>. Notice: <%= notice %>.
     </p>
+    <%= link_to 'Play', edit_game_session_path(@game_session) %>
 </div>
+
+
 <div class="middle">
-    <div class="board">
-	    <img src="http://bar.co.uk/wp-content/uploads/2016/10/monopoly-010.jpg" alt="Board" />
-    </div>
-	<fieldset class="zoom-controls">
-		<input type="button" class="zoom-in" value="Zoom in" />
-		<input type="button" class="zoom-out" value="Zoom out" />
-	</fieldset>
+  <%= render 'game_view', game_session: @game_session %>
 </div>
 <div class="right-settings sidebar">
-    
+egg
 </div>

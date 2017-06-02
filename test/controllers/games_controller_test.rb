@@ -20,7 +20,7 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
       post games_url, params: { game: { name: @game.name, state: @game.state } }
     end
 
-    assert_redirected_to game_url(Game.last)
+    assert_redirected_to games_url
   end
 
   test "should show game" do

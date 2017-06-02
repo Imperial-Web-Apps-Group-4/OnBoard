@@ -1,3 +1,4 @@
+/*
 window.onload = function() {
 
     let dragging = false,
@@ -6,21 +7,21 @@ window.onload = function() {
         offsetY = 0,
         movementX = 0
         movementY = 0;
-        
+
     document.querySelector('.zoom-in').addEventListener("mousedown", function() {
        uiScale += 0.05;
        scaleBoard();
     });
-    
+
     document.querySelector('.zoom-out').addEventListener("mousedown", function() {
        uiScale -= 0.05;
        scaleBoard();
     });
-    
+
     function scaleBoard() {
         document.querySelector(".board").setAttribute("style", "transform: scale(" + uiScale + ") translateX(" + offsetX + "px) translateY(" + offsetY + "px)");
     };
-    
+
     document.querySelector('.board').addEventListener("mousedown", function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -29,13 +30,13 @@ window.onload = function() {
         console.log("Movements set to 0.");
         dragging = true;
     });
-    
+
     document.querySelector('.board').addEventListener("mouseup", function(e) {
         e.preventDefault();
         e.stopPropagation();
         dragging = false;
     });
-    
+
     document.querySelector('.board').addEventListener("mousemove", function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -49,3 +50,5 @@ window.onload = function() {
     });
 
 };
+*/
+

@@ -1,15 +1,16 @@
 <div class="games">
 
     <% @games.each do |game| %>
-      <tr>
-        <td><%= game.name %></td>
-        <td><%= game.state %></td>
-        <td><%= game.game_session.count %></td>
-        <td><%= button_to 'New session', game_sessions_path(game_id: game.id), method: :post %></td>
-        <td><%= link_to 'Show', game %></td>
-        <td><%= link_to 'Edit', edit_game_path(game) %></td>
-        <td><%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <%= game.name %>
+      <ul>
+        <li><%= game.state %></li>
+        <li><%= game.game_session.count %></li>
+        <li><%= button_to 'New session', game_sessions_path(game_id: game.id), method: :post %></li>
+        <li><%= link_to 'Show', game %></li>
+        <li><%= link_to 'Edit', edit_game_path(game) %></li>
+        <li><%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+      </ul>
+      <hr />
     <% end %>
 
 </div>

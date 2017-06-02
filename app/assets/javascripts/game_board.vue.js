@@ -11,7 +11,7 @@ Vue.component('game-view', {
 Vue.component('game-component', {
   props: ['component', 'componentClass'],
   template: `
-  <div class="component" v-bind:class="{ 'comp-drag': !component.locked }" v-bind:style="{ left: this.component.posX + 'px', top: this.component.posY + 'px' }">
+  <div class="component" v-bind:class="{ 'comp-drag': !component.locked }" v-bind:style="position">
     <img v-bind:style="size" v-bind:src="\'/user_upload/game_images/\' + componentClass.imageID + \'.png\'">
   </div>`,
   computed: {

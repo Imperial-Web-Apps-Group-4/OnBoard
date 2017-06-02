@@ -70,3 +70,26 @@ a {
         border-radius: 16px;
     }
 }
+
+.sidebar {
+    float: left;
+    width: 250px;
+    height: calc(100vh - 48px);
+	background-color: $dark-grey-blue;
+}
+
+.left-settings {
+	border-right: 1px solid #171a26;
+}
+
+.middle {
+    float: left;
+    width: calc(100vw - 502px);
+    height: calc(100vh - 48px);
+	overflow: hidden;
+	position: relative;
+}
+
+.right-settings {
+	border-left: 1px solid #171a26;
+}

@@ -10,14 +10,11 @@ Vue.component('game-view', {
 Vue.component('game-component', {
   props: ['component', 'componentClass'],
   template: `
-<div v-bind:id="component.id" class="component" v-bind:class="{ 'comp-drag': !component.locked }" v-bind:style="positionP">
+<div v-bind:id="component.id" class="component" v-bind:class="{ 'comp-drag': !component.locked }" v-bind:style="position">
   <img v-bind:style="size" v-bind:src="\'/user_upload/game_images/\' + componentClass.imageID + \'.png\'">
 </div>`,
   computed: {
-    positionT: function () {
-      return { transform: 'translate(' + this.component.posX + 'px, ' + this.component.posY + 'px)' };
-    },
-    positionP: function () {
+    position: function () {
       return {
         left: this.component.posX + 'px',
         top: this.component.posY + 'px'

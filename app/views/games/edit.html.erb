@@ -1,10 +1,10 @@
-<div class="games">
+<div class="thin-page">
+  <h1>Editing Game</h1>
 
-    <h1>Editing Game</h1>
-    
-    <%= render 'form', game: @game %>
-    
-    <%= link_to 'Show', @game %> |
-    <%= link_to 'Back', games_path %>
+  <%= render 'form', game: @game %>
 
+  <br/>
+
+  <%= link_to 'Show', @game, class: 'btn btn-flat' %>
+  <%= link_to 'Back', games_path, class: 'btn btn-flat' %>
 </div>

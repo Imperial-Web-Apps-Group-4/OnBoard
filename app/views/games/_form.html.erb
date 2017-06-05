@@ -1,50 +1,59 @@
-<div>
-  <br/>
+<%= form_for(game) do |f| %>
+  <% if game.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved:</h2>
+
+      <ul>
+        <% game.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="input-field">
+    <%= f.text_field :name %>
+    <%= f.label :name %>
+  </div>
+
   <div class="field" id="image_upload">
     <%= label_tag :image, 'Add image: ' %>
     <%= file_field_tag :image %>
   </div>
-  <p>Max size 10MB</p>
+  <p class="grey-text text-darken-4">Max size 10MB</p>
   <br/>
-  <%= form_for(game) do |f| %>
-      <% if game.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved:</h2>
 
-            <ul>
-              <% game.errors.full_messages.each do |message| %>
-                  <li><%= message %></li>
-              <% end %>
-            </ul>
-          </div>
-      <% end %>
+  <div id="images-display">
+    <img v-for="image in images" v-bind:src="image" />
+  </div>
 
-      <div class="field">
-        <%= f.label :name %>
-        <%= f.text_field :name %>
-      </div>
+  <div class="field">
+    <%= f.hidden_field :state %>
+  </div>
 
-      <div class="field">
-        <%= f.hidden_field :state %>
-      </div>
-
-      <div class="actions">
-        <%= f.submit %>
-      </div>
-  <% end %>
-
-</div>
+  <div class="actions">
+    <%= f.submit class: 'btn' %>
+  </div>
+<% end %>
 
 <script>
-    var images = [];
-    $('#image_upload').dmUploader({
-        url: '/games/new_image',
-        onUploadSuccess: function(id, data){
-            if (data.error !== undefined) {
-                console.log("Upload failed!");
-            } else {
-                console.log('Succefully uploaded image ' + id + ' to hash: ' + data.id);
-            }
-        }
-    });
+
+  var app = new Vue({
+    el: '#images-display',
+    data: {
+      images: []
+    }
+  })
+
+  $('#image_upload').dmUploader({
+    url: '/games/new_image',
+    onUploadSuccess: function(id, data){
+      if (data.error !== undefined) {
+        console.log("Upload failed!");
+      } else {
+        console.log('Succefully uploaded image ' + id + ' to hash: ' + data.id);
+        app.images.push('/user_upload/game_images/' + data.id + '.png');
+      }
+    }
+  });
 </script>

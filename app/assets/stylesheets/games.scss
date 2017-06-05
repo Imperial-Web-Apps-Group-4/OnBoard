@@ -1,4 +1,97 @@
-.game {
+.controller-games {
+  #images-display {
+    img {
+      width: 64px;
+      height: 64px;
+    }
+  }
 
-    
+  .games {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .card-image {
+      position: relative;
+
+      .btn-floating {
+        z-index: 100;
+      }
+
+      .card-hover-overlay {
+        opacity: 0;
+        top: 0;
+        position: absolute;
+        line-height: 400px;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        z-index: 50;
+        background-color: rgba(255, 255, 255, 0.5);
+        transition: opacity 250ms linear;
+        color: black;
+
+        .material-icons {
+          font-size: 128px;
+        }
+
+        &:hover {
+          opacity: 1;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .card-content {
+      z-index: 100;
+    }
+
+    section {
+      margin: 30px;
+      flex-basis: 500px;
+      flex-shrink: 50px;
+    }
+
+    .game {
+      overflow: hidden;
+      background-color: white;
+      border-radius: 3px;
+      text-align: center;
+      margin: 30px;
+      box-shadow: 0px 0px 40px 0px rgba(0,0,0,0.75);
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      h1 {
+        background-color: rgba(255, 255, 255, 0.75);
+        border-top: 1px black;
+        font-size: 1.75em;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+      }
+    }
+  }
 }
+
+.controller-games.action-show {
+  .collection {
+    max-width: 600px;
+    margin: auto;
+
+    /* TODO: Tidy this up */
+    .collection-item {
+      height: 48px;
+      line-height: 32px;
+
+      a {
+        margin-top: -4px;
+      }
+    }
+  }
+}
+

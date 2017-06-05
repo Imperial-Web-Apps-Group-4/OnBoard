@@ -15,4 +15,5 @@
 //= require vue
 //= require interact.min
 //= require turbolinks
+//= require materialize
 //= require_tree .

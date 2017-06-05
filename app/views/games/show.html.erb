@@ -1,25 +1,20 @@
-<div class="games">
+<div class="thin-page">
+<p id="notice"><%= notice %></p>
 
-    <p id="notice"><%= notice %></p>
-    
-    <p>
-      <strong>Name:</strong>
-      <%= @game.name %>
-    </p>
-    
-    <p>
-      <strong>Sessions:</strong>
-      <ul>
-        <% @game.game_session.each do |session| %>
-        <li><%= session.hash %>
-          <%= link_to 'View', [@game, session] %>
-          <%= link_to 'Play', [:edit, @game, session] %>
-        </li>
-        <% end %>
-      </ul>
-    </p>
-    
-    <%= link_to 'Edit', edit_game_path(@game) %> |
-    <%= link_to 'Back', games_path %>
-
+<h1><%= @game.name %></h1>
+<%= link_to game_game_sessions_path(game_id: @game.id), method: :post, class: 'btn waves-affect waves-light' do %>
+  New Game<i class="material-icons right">play_arrow</i>
+<% end %>
+&nbsp;
+<%= link_to 'Edit', edit_game_path(@game), class: 'btn waves-affect waves-light' %>
+<h2>Saves:</h2>
+<ul class="collection">
+  <% @game.game_session.each do |session| %>
+  <li class="collection-item">
+    <%= session.created_at %>
+    <%= link_to 'View', [@game, session], class: 'waves-effect waves-teal btn-flat secondary-content' %>
+    <%= link_to 'Play', [:edit, @game, session], class: 'waves-effect waves-teal btn-flat secondary-content' %>
+  </li>
+  <% end %>
+</ul>
 </div>

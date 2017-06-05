@@ -1,11 +1,25 @@
 <div class="games">
   <% @games.each do |game| %>
-      <section>
-        <h1><%= game.name %></h1>
-        <%= button_to 'New session', game_game_sessions_path(game_id: game.id), method: :post %>
-        <%= link_to 'View', game %>
-        <%= link_to 'Edit', edit_game_path(game) %>
-        <%= link_to 'Delete', game, method: :delete, data: { confirm: 'Are you sure?' } %>
-      </section>
+    <section class="card">
+      <div class="card-image">
+        <img src="https://cdn.pixabay.com/photo/2016/12/13/12/03/backgammon-1903935_960_720.jpg">
+        <%= link_to game, class: 'card-hover-overlay' do %>
+          <i class="material-icons">play_arrow</i>
+        <% end %>
+        <%= link_to edit_game_path(game), :class => "btn-floating halfway-fab waves-effect waves-light red" do %>
+          <i class="material-icons">edit</i>
+        <% end %>
+      </div>
+      <div class="card-content">
+        <span class="card-title grey-text text-darken-4"><%= truncate game.name, :length => 35 %></span>
+      </div>
+    </section>
   <% end %>
 </div>
+
+<%
+#<%= button_to 'New session', game_game_sessions_path(game_id: game.id), method: :post %
+#<%= link_to 'View', game %
+#<%= link_to 'Edit', edit_game_path(game) %
+#<%= link_to 'Delete', game, method: :delete, data: { confirm: 'Are you sure?' } %
+%>

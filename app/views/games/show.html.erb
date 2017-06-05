@@ -8,8 +8,15 @@
     </p>
     
     <p>
-      <strong>State:</strong>
-      <%= @game.state %>
+      <strong>Sessions:</strong>
+      <ul>
+        <% @game.game_session.each do |session| %>
+        <li><%= session.hash %>
+          <%= link_to 'View', [@game, session] %>
+          <%= link_to 'Play', [:edit, @game, session] %>
+        </li>
+        <% end %>
+      </ul>
     </p>
     
     <%= link_to 'Edit', edit_game_path(@game) %> |

@@ -3,7 +3,7 @@
     <p>
       Game is <%= @game_session.game.name %>.  Session hash is <%= @game_session.game_hash %>. Notice: <%= notice %>.
     </p>
-    <%= link_to 'Play', edit_game_session_path(@game_session) %>
+    <%= link_to 'Play', edit_game_game_session_path(@game, @game_session) %>
 </div>
 
 

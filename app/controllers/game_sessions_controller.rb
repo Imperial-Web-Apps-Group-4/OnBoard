@@ -1,32 +1,25 @@
 class GameSessionsController < ApplicationController
   include RandomHash
+  before_action :set_game
   before_action :set_game_session, only: [:show, :edit, :update, :destroy]
 
-  # GET /game_sessions
-  # GET /game_sessions.json
-  def index
-    @game_sessions = GameSession.all
-  end
-
-  # GET /game_sessions/1
-  # GET /game_sessions/1.json
+  # GET /game/:game_id/game_sessions/1
+  # GET /game/:game_id/game_sessions/1.json
   def show
   end
 
-  # GET /game_sessions/new
+  # GET /game/:game_id/game_sessions/new
   def new
     @game_session = GameSession.new
   end
 
-  # GET /game_sessions/1/edit
-  def edit
+  # GET /game/:game_id/game_sessions/1/play
+  def play
   end
 
-  # POST /game_sessions
-  # POST /game_sessions.json
+  # POST /game/:game_id/game_sessions
+  # POST /game/:game_id/game_sessions.json
   def create
-    params.require(:game_id)
-
     @game_session = GameSession.new do |session|
       session.game_id = params[:game_id]
       session.game_hash = random_hash
@@ -34,7 +27,7 @@ class GameSessionsController < ApplicationController
 
     respond_to do |format|
       if @game_session.save
-        format.html { redirect_to @game_session, notice: 'Game session was successfully created.' }
+        format.html { redirect_to edit_game_game_session_path(@game, @game_session), notice: 'Game session was successfully created.' }
         format.json { render :show, status: :created, location: @game_session }
       else
         format.html { render :new }
@@ -43,12 +36,12 @@ class GameSessionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /game_sessions/1
-  # PATCH/PUT /game_sessions/1.json
+  # PATCH/PUT /game/:game_id/game_sessions/1
+  # PATCH/PUT /game/:game_id/game_sessions/1.json
   def update
     respond_to do |format|
       if @game_session.update(game_session_params)
-        format.html { redirect_to @game_session, notice: 'Game session was successfully updated.' }
+        format.html { redirect_to games_url, notice: 'Game session was successfully updated.' }
         format.json { render :show, status: :ok, location: @game_session }
       else
         format.html { render :edit }
@@ -57,20 +50,24 @@ class GameSessionsController < ApplicationController
     end
   end
 
-  # DELETE /game_sessions/1
-  # DELETE /game_sessions/1.json
+  # DELETE /game/:game_id/game_sessions/1
+  # DELETE /game/:game_id/game_sessions/1.json
   def destroy
     @game_session.destroy
     respond_to do |format|
-      format.html { redirect_to game_sessions_url, notice: 'Game session was successfully destroyed.' }
+      format.html { redirect_to games_url, notice: 'Game session was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+    def set_game
+      @game = Game.find(params[:game_id])
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_game_session
-      @game_session = GameSession.find(params[:id])
+      @game_session = @game.game_session.find_by! game_hash: params[:game_hash]
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

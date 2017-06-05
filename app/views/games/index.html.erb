@@ -1,12 +1,11 @@
 <div class="games">
-
   <% @games.each do |game| %>
       <section>
         <h1><%= game.name %></h1>
-        <%= button_to 'New session', game_sessions_path(game_id: game.id), method: :post %>
+        <%= button_to 'New session', game_game_sessions_path(game_id: game.id), method: :post %>
+        <%= link_to 'View', game %>
         <%= link_to 'Edit', edit_game_path(game) %>
         <%= link_to 'Delete', game, method: :delete, data: { confirm: 'Are you sure?' } %>
       </section>
   <% end %>
-
 </div>

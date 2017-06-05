@@ -1,3 +1,5 @@
+/* exported Game Movement */
+
 class Game {
   constructor() {
     this.manifest = new Manifest();
@@ -18,7 +20,7 @@ class Game {
   }
 
   moveComponent(movement) {
-    var component = this.components[movement.componentID];
+    let component = this.components[movement.componentID];
     component.x = movement.newX;
     component.y = movement.newY;
   }
@@ -67,7 +69,7 @@ class Movement {
 
 function generateUniqueID(object) {
   const randomID = () => Math.random().toString(36).slice(2);
-  var id = randomID();
+  let id = randomID();
   while (object[id] !== undefined) id = randomID();
   return id;
 }

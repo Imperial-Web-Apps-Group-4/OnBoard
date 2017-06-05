@@ -16,4 +16,3 @@
 //= require interact.min
 //= require turbolinks
 //= require_tree .
-

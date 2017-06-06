@@ -1,4 +1,4 @@
-/* exported Game Movement deserialiseGame */
+/* exported Game deserialiseGame */
 
 class Game {
   constructor() {
@@ -53,14 +53,6 @@ class Component {
     this.componentID = componentID;
     this.posX = posX;
     this.posY = posY;
-  }
-}
-
-class Movement {
-  constructor(componentID, newX, newY) {
-    this.componentID = componentID;
-    this.newX = newX;
-    this.newY = newY;
   }
 }
 

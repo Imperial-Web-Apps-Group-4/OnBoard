@@ -1,10 +1,9 @@
 <div class="left-settings sidebar">
-  <h1>Editing <%= @game.name %></h1>
-
-  <%= render 'game_editor', game: @game %>
 </div>
 
 <div class="middle">
+  <h1>Editing <%= @game.name %></h1>
+
   <%= form_for(game) do |f| %>
     <% if game.errors.any? %>
       <div id="error_explanation">

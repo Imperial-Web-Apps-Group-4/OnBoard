@@ -14,6 +14,7 @@ class UsersController < ApplicationController
 
   # GET /users/login
   def login
+    redirect_to root_path if session[:logged_in_email]
     @user = User.new
   end
 

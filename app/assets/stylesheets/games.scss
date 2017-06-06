@@ -1,4 +1,7 @@
+@import '_variables.scss';
+
 .controller-games {
+  
   #images-display {
     img {
       width: 64px;
@@ -7,78 +10,64 @@
   }
 
   .games {
+    margin: 0 5px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-
-    .card-image {
-      position: relative;
-
-      .btn-floating {
-        z-index: 100;
-      }
-
-      .card-hover-overlay {
-        opacity: 0;
-        top: 0;
-        position: absolute;
-        line-height: 400px;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        z-index: 50;
-        background-color: rgba(255, 255, 255, 0.5);
-        transition: opacity 250ms linear;
-        color: black;
-
-        .material-icons {
-          font-size: 128px;
-        }
-
-        &:hover {
-          opacity: 1;
-          cursor: pointer;
-        }
-      }
-    }
-
-    .card-content {
-      z-index: 100;
-    }
-
-    section {
-      margin: 30px;
-      flex-basis: 500px;
-      flex-shrink: 50px;
-    }
-
-    .game {
+    flex-direction: row;
+    justify-content: space-around;
+    
+    .card {
       overflow: hidden;
-      background-color: white;
+      margin: 10px 0 0;
+      width: calc(1/4*100% - (1 - 1/4)*10px);;
+      box-sizing: border-box;
       border-radius: 3px;
-      text-align: center;
-      margin: 30px;
-      box-shadow: 0px 0px 40px 0px rgba(0,0,0,0.75);
-      position: relative;
-
+      box-shadow: 0 3px 10px rgba(0,0,0,.5);
+      line-height: 0;
+      
       img {
-        width: 100%;
-        height: 100%;
+        max-height: 200px;
       }
-
-      h1 {
-        background-color: rgba(255, 255, 255, 0.75);
-        border-top: 1px black;
-        font-size: 1.75em;
-        position: absolute;
-        width: 100%;
-        bottom: 0;
+      
+      .card-content {
+        background: $grey-blue;
+        padding: 10px;
+        line-height: normal;
       }
     }
   }
 }
 
 .controller-games.action-show {
+  .jumbotron {
+    background-color: #000;
+    position: relative;
+    overflow: hidden;
+    
+    .background-image {
+      position: absolute;
+      top: 0; left: -10%;
+      width: 120%;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: 1;
+      filter: blur(2px);
+      transform: translateY(-30%);
+    }
+    
+    .game-title {
+      background: red;
+      padding: 90px 10px 10px;
+      font-weight: bold;
+      font-size: 3.5em;
+      color: #fff;
+      position: relative;
+      z-index: 100;
+      background: linear-gradient(rgba(0,0,0,0) 40%, rgba(0,0,0,.8));
+      text-shadow: 0 0 2px rgba(0,0,0,.5);
+    }
+  }
+  
   .collection {
     max-width: 600px;
     margin: auto;

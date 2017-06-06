@@ -1,4 +1,4 @@
-/* exported Game Movement */
+/* exported Game Movement deserialiseGame */
 
 class Game {
   constructor() {
@@ -19,10 +19,15 @@ class Game {
     this.manifest.setBoard(name, imageID, width, height);
   }
 
-  moveComponent(movement) {
+  applyMovement(movement) {
     let component = this.components[movement.componentID];
-    component.x = movement.newX;
-    component.y = movement.newY;
+    component.posX = movement.newX;
+    component.posY = movement.newY;
+  }
+
+  getCoords(componentID) {
+    let comp = this.components[componentID];
+    return { x: comp.posX, y: comp.posY };
   }
 }
 
@@ -74,4 +79,8 @@ function generateUniqueID(object) {
   return id;
 }
 
-// module.exports = Game;
+function deserialiseGame(data) {
+  let game = new Game();
+  Object.assign(game, data);
+  return game;
+}

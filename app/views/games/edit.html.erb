@@ -1,10 +1,6 @@
 <div class="games">
+    <h1>Editing '<%= @game.name %>'</h1>
 
-    <h1>Editing Game</h1>
-    
-    <%= render 'form', game: @game %>
-    
-    <%= link_to 'Show', @game %> |
-    <%= link_to 'Back', games_path %>
+    <%= render 'game_editor', game: @game %>
 
 </div>

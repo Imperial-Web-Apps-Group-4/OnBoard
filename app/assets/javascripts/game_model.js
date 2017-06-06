@@ -15,10 +15,6 @@ class Game {
     this.components[id] = new Component(componentID, posX, posY);
   }
 
-  addBoard(name, imageID, width, height) {
-    this.manifest.setBoard(name, imageID, width, height);
-  }
-
   applyMovement(movement) {
     let component = this.components[movement.componentID];
     component.posX = movement.newX;
@@ -34,10 +30,6 @@ class Game {
 class Manifest {
   constructor() {
     this.componentClasses = {};
-  }
-
-  setBoard(name, imageID, width, height) {
-    this.boardID = this.addComponentClass(name, imageID, width, height);
   }
 
   addComponentClass(name, imageID, width, height) {

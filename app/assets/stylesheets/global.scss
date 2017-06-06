@@ -18,6 +18,7 @@ a {
 
 ::selection {
   background: $blue-highlight;
+  color: #fff;
 }
 
 .site-header {
@@ -26,6 +27,7 @@ a {
   background-image: linear-gradient(lighten($dark-blue, 2%), $dark-blue);
   border-bottom: 1px solid darken($dark-blue, 5%);
   box-shadow: 0 2px 5px rgba(0,0,0,.075);
+  box-sizing: border-box;
   z-index: 2;
 }
 
@@ -84,6 +86,8 @@ a {
   float: left;
   width: 250px;
   height: calc(100vh - 48px);
+  padding: 10px;
+  box-sizing: border-box;
   background-color: $dark-grey-blue;
 }
 
@@ -93,7 +97,7 @@ a {
 
 .middle {
   float: left;
-  width: calc(100vw - 502px);
+  width: calc(100vw - 500px);
   height: calc(100vh - 48px);
   overflow: hidden;
   position: relative;

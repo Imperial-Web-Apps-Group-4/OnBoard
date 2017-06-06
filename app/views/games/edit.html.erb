@@ -1,10 +1,14 @@
-<div class="thin-page">
+<div class="left-settings sidebar">  
   <h1>Editing Game</h1>
 
   <%= render 'form', game: @game %>
+</div>
 
-  <br/>
+<div class="middle">
+  
+</div>
 
-  <%= link_to 'Show', @game, class: 'btn btn-flat' %>
-  <%= link_to 'Back', games_path, class: 'btn btn-flat' %>
+<div class="right-settings sidebar">
+  <h2>Toolbox</h2>
+  <editor v-bind:game="game"></editor>
 </div>

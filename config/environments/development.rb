@@ -53,5 +53,5 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
 
-  # Vue.development_mode = true
+  Vue.development_mode = true
 end

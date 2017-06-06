@@ -19,7 +19,7 @@
     .card {
       overflow: hidden;
       margin: 10px 0 0;
-      width: calc(1/4*100% - (1 - 1/4)*10px);;
+      width: calc(1/4*100% - (1 - 1/4)*10px);
       box-sizing: border-box;
       border-radius: 3px;
       box-shadow: 0 3px 10px rgba(0,0,0,.5);
@@ -82,5 +82,34 @@
       }
     }
   }
+}
+
+.controller-games.action-edit {
+  
+  .toolbox {
+    
+    ul {
+      margin: 0 -5px;
+      display: flex;
+      li {
+        width: 25%;
+        line-height: 0;
+        .toolbox-item {
+          background-color: $grey-blue;
+          border-radius: 3px;
+          margin: 5px;
+          padding: 10px 0;
+          text-align: center;
+        }
+        
+        img {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+    
+  }
+  
 }
 

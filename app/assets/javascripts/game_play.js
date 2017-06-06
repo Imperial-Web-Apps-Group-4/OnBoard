@@ -1,7 +1,8 @@
 //= require vue
+//= require config
 //= require messaging
 //= require game_model
-/* global Vue GameMessage  deserialiseGame */
+/* global Vue config GameMessage  deserialiseGame */
 /* exported board */
 
 let board = new Vue({
@@ -10,7 +11,8 @@ let board = new Vue({
     let sessionID = window.location.pathname.match(/\w{26}/)[0];
     let game = this.game;
 
-    this.socket = new WebSocket('ws://onboard.fun:8080/session/' + sessionID);
+    this.socket = new WebSocket('ws://'+ config.gameServer +'/session/' +
+      sessionID);
     this.socket.onopen = function () {
       console.log(`Connected to game server. Session ID: ${sessionID}).`);
     };

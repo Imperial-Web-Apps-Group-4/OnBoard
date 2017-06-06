@@ -39,4 +39,8 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Local test game server?
+  # TODO verify this
+  config.game_server = 'localhost:8080'
 end

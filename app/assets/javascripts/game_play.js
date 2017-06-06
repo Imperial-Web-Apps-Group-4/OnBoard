@@ -2,94 +2,55 @@
 //= require config
 //= require messaging
 //= require game_model
-/* global Vue config GameMessage  deserialiseGame */
+/* global Vue config deserialiseGame GameMessage */
 /* exported board */
 
-let board = new Vue({
-  el: '#game-board',
-  mounted: function () {
-    let sessionID = window.location.pathname.match(/\w{26}/)[0];
-    let game = this.game;
+let sessionID = window.location.pathname.match(/\w{26}/)[0];
+let socket = new WebSocket('ws://'+ config.gameServer +'/session/' + sessionID);
+let gameplayVM;
 
-    this.socket = new WebSocket('ws://'+ config.gameServer +'/session/' +
-      sessionID);
-    this.socket.onopen = function () {
-      console.log(`Connected to game server. Session ID: ${sessionID}).`);
-    };
-    this.socket.onmessage = function (event) {
-      console.log('Received movement', JSON.parse(event.data));
-      game.applyMovement(JSON.parse(event.data).data);
-    };
-  },
-  data: {
-    game: deserialiseGame({
-      'manifest': {
-        'componentClasses': {
-          'qqazgairos': {
-            'name': 'Blue counter',
-            'imageID': 'blueC',
-            'width': 45,
-            'height': 45
-          },
-          'zz1bq57nmck': {
-            'name': 'Red counter',
-            'imageID': 'redC',
-            'width': 45,
-            'height': 45
-          },
-          '98l0utbgyn': {
-            'name': 'Checkers board',
-            'imageID': 'checkerboard',
-            'width': 500,
-            'height': 500
-          }
-        }
-      },
-      'components': {
-        '3jh45kjh34j': {
-          'id': '3jh45kjh34j',
-          'classID': '98l0utbgyn',
-          'posX': 0,
-          'posY': 0,
-          'locked': true
-        },
-        'kj34lk': {
-          'id': 'kj34lk',
-          'classID': 'qqazgairos',
-          'posX': 10,
-          'posY': 10
-        },
-        '234njn': {
-          'id': '234njn',
-          'classID': 'zz1bq57nmck',
-          'posX': 75,
-          'posY': 10
-        },
-        '234nj1n': {
-          'id': '234nj1n',
-          'classID': 'zz1bq57nmck',
-          'posX': 140,
-          'posY': 10
-        },
-        '234n1jn': {
-          'id': '234n1jn',
-          'classID': 'zz1bq57nmck',
-          'posX': 205,
-          'posY': 10
-        },
-        '2341njn': {
-          'id': '2341njn',
-          'classID': 'zz1bq57nmck',
-          'posX': 270,
-          'posY': 10
-        }
-      }
-    })
-  },
-  methods: {
-    componentMovedHandler: function (movement) {
-      let msg = new GameMessage(movement);
-      this.socket.send(msg.serialise());
-    }
+socket.onopen = function () {
+  console.log(`Connected to game server. Session ID: ${sessionID}).`);
+};
+
+socket.onmessage = function (event) {
+  // Process handshake message
+  let msg = JSON.parse(event.data);
+  if (msg.type !== 'init') {
+    alert('Game server handshake failed.');
+    return;
   }
-});
+  if (msg.version !== config.gameServerClientVersion) {
+    alert('Game server connection failed (version mismatch).');
+    return;
+  }
+  let initialState = deserialiseGame(msg.initalGameState);
+
+  // Create the Vue for the main screen
+  gameplayVM = new Vue({
+    el: '#game-board',
+    mounted: function () {
+      console.log('Board Vue loaded.');
+      this.$on('messageReceived', function (msg) {
+        if (msg.type !== 'game' || msg.action.type !== 'movement') {
+          console.error('Unrecognised message format. Full message:', msg);
+          return;
+        }
+        this.game.applyMovement(msg.action);
+      });
+    },
+    methods: {
+      componentMovedHandler: function (movement) {
+        socket.send(new GameMessage(movement).serialise());
+      }
+    },
+    data: {
+      game: initialState
+    }
+  });
+
+  // Register messages to be forwarded to the board
+  this.onmessage = function (event) {
+    gameplayVM.$emit('messageReceived', JSON.parse(event.data));
+  };
+};

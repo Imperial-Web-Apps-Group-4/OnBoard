@@ -1,6 +1,6 @@
 //= require vue
 //= require interact.min
-//= require game_model
+//= require messaging
 /* global Vue, interact, Movement */
 
 Vue.component('game-view', {

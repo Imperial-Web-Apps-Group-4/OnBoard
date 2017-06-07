@@ -3,6 +3,9 @@ require 'test_helper'
 class GamesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @game = games(:one)
+
+    # Login as a user
+    post login_users_url, params: { :email => users(:login_user).email, :password => 'password' }
   end
 
   test "should get index" do

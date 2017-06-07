@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
   MAX_FILE_SIZE = 10 * (2 ** 20)
   include RandomHash
+  before_action :authenticate_user!
   before_action :set_game, only: [:show, :edit, :update, :destroy]
 
   # GET /games

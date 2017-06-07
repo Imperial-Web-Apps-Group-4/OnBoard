@@ -10,4 +10,8 @@ class ApplicationController < ActionController::Base
     rescue ActiveRecord::RecordNotFound
       session[:logged_in_email] = nil
     end
+
+    def authenticate_user!
+      redirect_to login_users_path unless @current_user
+    end
 end

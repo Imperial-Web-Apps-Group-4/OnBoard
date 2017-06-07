@@ -11,3 +11,9 @@ two:
   email: two@example.com
   password_digest: MyString
   about: MyString
+
+login_user:
+  name: Test User
+  email: test@example.com
+  password_digest: <%= BCrypt::Password.create("password", cost: 4) %>
+  about: A testing user

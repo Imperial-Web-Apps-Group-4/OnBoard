@@ -7,7 +7,7 @@ class GamesController < ApplicationController
   # GET /games
   # GET /games.json
   def index
-    @games = Game.all
+    @games = Game.where(:user_id => @current_user.id).all
   end
 
   # GET /games/1

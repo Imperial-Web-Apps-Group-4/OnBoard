@@ -3,6 +3,7 @@ class GamesController < ApplicationController
   include RandomHash
   before_action :authenticate_user!
   before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :check_permission!, only: [:edit, :update, :destroy]
 
   # GET /games
   # GET /games.json
@@ -90,5 +91,9 @@ class GamesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
       params.require(:game).permit(:name, :state)
+    end
+
+    def check_permission!
+      redirect_to games_path unless @game.access_allowed @current_user
     end
 end

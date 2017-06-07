@@ -84,4 +84,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Production game server
+  config.game_server = 'onboard.fun:8080'
+
 end

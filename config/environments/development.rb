@@ -52,6 +52,8 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # Local development game server
+  config.game_server = 'localhost:8080'
 
   Vue.development_mode = true
 end

@@ -1,13 +1,1 @@
-<div class="left-settings sidebar">  
-  <h2>General</h2>
-
-  <%= render 'form', game: @game %>
-</div>
-
-<div class="middle">
-  
-</div>
-
-<div class="right-settings sidebar">
-  <editor v-bind:game="game"></editor>
-</div>
+<%= render 'game_editor', game: @game %>

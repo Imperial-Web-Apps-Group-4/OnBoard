@@ -2,8 +2,11 @@
 @import url('https://fonts.googleapis.com/css?family=Caveat');
 @import '_variables.scss';
 
-body {
+body, * {
   font: 14px 'Nunito Sans', Arial, sans-serif;
+}
+
+body {
   color: #fff;
   background-color: $background-col;
 }

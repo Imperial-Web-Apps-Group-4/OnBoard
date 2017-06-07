@@ -41,56 +41,6 @@
     display: block;
     color: $grey-blue;
   } 
-   
-}
-
-.controller-games.action-show {
-  .jumbotron {
-    background-color: #000;
-    position: relative;
-    overflow: hidden;
-    
-    .background-image {
-      position: absolute;
-      top: 0; left: -10%;
-      width: 120%;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: 1;
-      filter: blur(2px);
-      transform: translateY(-30%);
-    }
-    
-    .game-title {
-      background: red;
-      padding: 90px 10px 10px;
-      font-weight: bold;
-      font-size: 3.5em;
-      color: #fff;
-      position: relative;
-      z-index: 100;
-      background: linear-gradient(rgba(0,0,0,0) 40%, rgba(0,0,0,.8));
-      text-shadow: 0 0 2px rgba(0,0,0,.5);
-    }
-  }
-  
-  .collection {
-    max-width: 600px;
-    margin: auto;
-
-    /* TODO: Tidy this up */
-    .collection-item {
-      height: 48px;
-      line-height: 32px;
-
-      a {
-        margin-top: -4px;
-      }
-    }
-  }
-}
-
-.controller-games.action-edit {
   
   .sidebar {
     
@@ -113,6 +63,7 @@
       li {
         width: 25%;
         line-height: 0;
+        
         .toolbox-item {
           background-color: $background-col;
           border-radius: 3px;
@@ -129,6 +80,83 @@
     }
     
   }
+  
+  .jumbotron, .cover-photo {
+    background-color: #000;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .game-title, .cover-photo input {
+    font-weight: bold;
+    color: #fff;
+    position: relative;
+    z-index: 100;
+    background: linear-gradient(rgba(0,0,0,0) 40%, rgba(0,0,0,.8));
+    text-shadow: 0 0 2px rgba(0,0,0,.5);
+  }
+  
+  .background-image, .cover-photo img {
+    position: absolute;
+    top: 0; left: -10%;
+    width: 120%;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: 1;
+    filter: blur(2px);
+    transform: translateY(-30%);
+  }
+  
+  .cover-photo {
+    margin: -5px -10px 0;
+    height: 100px;
+    
+    input {
+      padding: 10px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 1.2em;
+      background-color: none;
+      border-width: 0;
+      transition: all 0.1s linear;
+      
+      &:focus {
+        outline: none;
+        border: 2px $blue-highlight dotted;
+        padding: 8px;
+      }
+    }
+  }
+   
+}
+
+.controller-games.action-show {
+  
+  .game-title {
+    padding: 90px 10px 10px;
+    font-size: 3.5em;
+  }
+  
+  .collection {
+    max-width: 600px;
+    margin: auto;
+
+    /* TODO: Tidy this up */
+    .collection-item {
+      height: 48px;
+      line-height: 32px;
+
+      a {
+        margin-top: -4px;
+      }
+    }
+  }
+}
+
+.controller-games.action-edit {
   
 }
 

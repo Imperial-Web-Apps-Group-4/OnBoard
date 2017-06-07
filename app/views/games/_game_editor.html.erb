@@ -36,8 +36,9 @@
       <%= f.hidden_field :state %>
     </div>
 
-    <game-editor></game-editor>
-
+    <div id='editor-div'>
+      <game-editor :game="game"></game-editor>
+    </div>
   </div>
 
     <div class="actions">

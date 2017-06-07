@@ -51,10 +51,16 @@ let bus = new Vue();
 interact('.comp-drag').draggable({
   restrict: {
     restriction: 'parent',
-    endOnly: true,
+    endOnly: false,
     elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
   },
   onmove: (event) => {
     bus.$emit('componentDragged', event.target.id, event.dx, event.dy);
+  },
+  onstart: (event) => {
+    event.target.classList.add("dragging");
+  },
+  onend: (event) => {
+    event.target.classList.remove("dragging");
   }
 });

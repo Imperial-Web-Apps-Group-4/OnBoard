@@ -1,18 +1,14 @@
 <ul class="games">
   <% @games.each do |game| %>
     <li class="card">
-      <div class="card-image">
-        <img src="http://40.media.tumblr.com/7fc1ec1d41f45923d2fe7729d5680722/tumblr_o0q5hyNrZ01uroz2uo2_1280.jpg">
-        <!--<%= link_to game, class: 'card-hover-overlay' do %>
-          <i class="material-icons">play_arrow</i>
-        <% end %>
-        <%= link_to edit_game_path(game), :class => "btn-floating halfway-fab waves-effect waves-light red" do %>
-          <i class="material-icons">edit</i>
-        <% end %>-->
-      </div>
-      <div class="card-content">
-        <%= truncate game.name, :length => 35 %></span>
-      </div>
+      <%= link_to game, class: 'card-hover-overlay' do %>
+        <div class="card-image">
+          <img src="http://40.media.tumblr.com/7fc1ec1d41f45923d2fe7729d5680722/tumblr_o0q5hyNrZ01uroz2uo2_1280.jpg">
+        </div>
+        <div class="card-content">
+          <%= truncate game.name, :length => 35 %></span>
+        </div>
+      <% end %>
     </li>
   <% end %>
 </ul>

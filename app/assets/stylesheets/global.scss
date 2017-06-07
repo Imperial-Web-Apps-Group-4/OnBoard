@@ -114,3 +114,24 @@ a {
   margin: auto;
   max-width: 600px;
 }
+
+.board-area {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  .component {
+    position: absolute;
+    transition: transform 0.1s linear;
+    
+    &.dragging {
+      transform: scale(1.02);
+      filter: url(#drop-shadow);
+    }
+  }
+  
+  .comp-drag {
+    cursor: move;
+  }
+
+}

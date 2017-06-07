@@ -54,18 +54,4 @@ border-radius: 0 0 2px 2px;
   height: calc(100vh - 48px);
 }
 
-.board-area {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
-
-.component {
-  position: absolute;
-}
-
-.comp-drag {
-  cursor: move;
-}
-
 }

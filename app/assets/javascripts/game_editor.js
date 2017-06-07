@@ -65,6 +65,11 @@ let editorVue = new Vue({
         }
       },
       "components" : {
+        "fwwefeeghwegweghj": {
+          classID: "98l0utbgyn",
+          posX: 0,
+          posY: 0
+        },
         "fweghwegweghj": {
           classID: "qqazgairos",
           posX: 40,
@@ -73,6 +78,35 @@ let editorVue = new Vue({
       }
     })
   }
+});
+
+interact('.toolbox-item').draggable({
+  restrict: {
+    restriction: 'parent',
+    endOnly: true,
+    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+  },
+  onmove: (event) => {
+    var target = event.target,
+        // keep the dragged position in the data-x/data-y attributes
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+    // translate the element
+    target.style.webkitTransform =
+    target.style.transform =
+      'translate(' + x + 'px, ' + y + 'px)';
+
+    // update the posiion attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+  }/*,
+  onstart: (event) => {
+    event.target.classList.add("dragging");
+  },
+  onend: (event) => {
+    event.target.classList.remove("dragging");
+  }*/
 });
 
 /*let app = new Vue({

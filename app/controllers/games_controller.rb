@@ -1,12 +1,13 @@
 class GamesController < ApplicationController
   MAX_FILE_SIZE = 10 * (2 ** 20)
   include RandomHash
-  before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_game, :check_permission!, only: [:show, :edit, :update, :destroy]
 
   # GET /games
   # GET /games.json
   def index
-    @games = Game.all
+    @games = Game.where(:user_id => @current_user.id).all
   end
 
   # GET /games/1
@@ -26,7 +27,9 @@ class GamesController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-    @game = Game.new(game_params)
+    @game = Game.new(game_params) do |game|
+      game.user_id = @current_user.id
+    end
 
     respond_to do |format|
       if @game.save
@@ -87,5 +90,9 @@ class GamesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
       params.require(:game).permit(:name, :state)
+    end
+
+    def check_permission!
+      redirect_to games_path unless @game.access_allowed @current_user
     end
 end

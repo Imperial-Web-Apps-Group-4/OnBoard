@@ -3,6 +3,10 @@ require 'test_helper'
 class GamesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @game = games(:one)
+    @other_game = games(:different_owner)
+
+    # Login as a user
+    post login_users_url, params: { :email => users(:login_user).email, :password => 'password' }
   end
 
   test "should get index" do
@@ -42,6 +46,12 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Game.count', -1) do
       delete game_url(@game)
     end
+
+    assert_redirected_to games_url
+  end
+
+  test "should be restricted to owner" do
+    get game_url(@other_game)
 
     assert_redirected_to games_url
   end

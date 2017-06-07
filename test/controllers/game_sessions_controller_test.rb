@@ -4,6 +4,9 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @game = games(:one)
     @game_session = @game.game_session.first
+
+    # Login as a user
+    post login_users_url, params: { :email => users(:login_user).email, :password => 'password' }
   end
 
   test "should get new" do

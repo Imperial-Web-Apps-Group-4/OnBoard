@@ -21,6 +21,13 @@ class Game {
     component.posY = movement.newY;
   }
 
+  resizeComponent(componentID, width, height) {
+    let component = this.components[componentID];
+    let compClass = this.manifest.componentClasses[component.classID];
+    compClass.width = width;
+    compClass.height = height;
+  }
+
   getCoords(componentID) {
     let comp = this.components[componentID];
     return { x: comp.posX, y: comp.posY };

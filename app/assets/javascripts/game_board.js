@@ -57,4 +57,5 @@ interact('.comp-drag').draggable({
   onmove: (event) => {
     bus.$emit('componentDragged', event.target.id, event.dx, event.dy);
   }
-});
+  }
+);

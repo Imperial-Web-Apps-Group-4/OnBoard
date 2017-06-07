@@ -13,6 +13,7 @@ two:
   about: MyString
 
 login_user:
+  id: 3
   name: Test User
   email: test@example.com
   password_digest: <%= BCrypt::Password.create("password", cost: 4) %>

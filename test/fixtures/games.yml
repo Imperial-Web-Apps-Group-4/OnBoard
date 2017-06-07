@@ -3,7 +3,9 @@
 one:
   name: MyString
   state: MyString
+  user_id: 3
 
 two:
   name: MyString
   state: MyString
+  user_id: 3

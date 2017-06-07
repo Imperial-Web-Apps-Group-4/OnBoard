@@ -7,6 +7,8 @@ class EmailValidator < ActiveModel::EachValidator
 end
 
 class User < ApplicationRecord
+  has_many :game, dependent: :destroy
+
   validates :name, length: { minimum: 3, maximum: 20 }
   validates :email, presence: true, uniqueness: true, confirmation: true, email: true, on: :create
   validates :email_confirmation, presence: true, on: :create

@@ -36,6 +36,12 @@
       }
     }
   }
+  
+  label {
+    display: block;
+    color: $grey-blue;
+  } 
+   
 }
 
 .controller-games.action-show {
@@ -86,6 +92,19 @@
 
 .controller-games.action-edit {
   
+  .sidebar {
+    
+    h2 {
+      margin: -10px -10px 5px;
+      padding: 10px;
+      border-bottom: 2px solid $blue-highlight;
+      background-color: $dark-blue;
+      background-image: linear-gradient(lighten($dark-blue, 2%), $dark-blue);
+      font-weight: bold;
+    }
+    
+  }
+  
   .toolbox {
     
     ul {
@@ -95,7 +114,7 @@
         width: 25%;
         line-height: 0;
         .toolbox-item {
-          background-color: $grey-blue;
+          background-color: $background-col;
           border-radius: 3px;
           margin: 5px;
           padding: 10px 0;

@@ -4,6 +4,7 @@ Vue.component('toolbox', {
   props: ['componentClasses'],
   template: `
   <div class="toolbox">
+    <h2>Toolbox</h2>
     <ul>
       <li class="component" v-for="componentClass in componentClasses">
         <div class="toolbox-item">

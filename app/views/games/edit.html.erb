@@ -1,5 +1,5 @@
 <div class="left-settings sidebar">  
-  <h1>Editing Game</h1>
+  <h2>General</h2>
 
   <%= render 'form', game: @game %>
 </div>
@@ -9,6 +9,5 @@
 </div>
 
 <div class="right-settings sidebar">
-  <h2>Toolbox</h2>
   <editor v-bind:game="game"></editor>
 </div>

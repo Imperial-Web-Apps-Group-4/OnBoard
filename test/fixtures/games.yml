@@ -9,3 +9,8 @@ two:
   name: MyString
   state: MyString
   user_id: 3
+
+different_owner:
+  name: A game
+  state: '{}'
+  user_id: 1

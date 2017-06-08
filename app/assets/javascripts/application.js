@@ -15,7 +15,7 @@
 //= require dmuploader.min
 //= require vue
 //= require interact.min
-//= require turbolinks
+//= xxxrequire turbolinks
 //= require materialize
 //= require dmuploader.min
 //= require_tree .

@@ -163,6 +163,7 @@
     height: 100px;
     
     input {
+      margin: 0;
       padding: 10px;
       position: absolute;
       bottom: 0;
@@ -170,14 +171,19 @@
       width: 100%;
       box-sizing: border-box;
       font-size: 1.2em;
-      background-color: none;
+      background-color: transparent;
       border-width: 0;
+      border-radius: 0;
       transition: all 0.1s linear;
       
-      &:focus {
+      &:focus, &:active {
         outline: none;
         border: 2px $blue-highlight dotted;
         padding: 8px;
+      }
+      
+      &:hover {
+        background-color: transparent;
       }
     }
   }

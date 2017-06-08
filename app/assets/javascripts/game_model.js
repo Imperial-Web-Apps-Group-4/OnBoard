@@ -6,13 +6,16 @@ class Game {
     this.components = {};
   }
 
-  addComponentClass(name, imageID, width, height) {
-    this.manifest.addComponentClass(name, imageID, width, height);
+  generateComponentClass(name, imageID, width, height) {
+    return this.manifest.generateComponentClass(name, imageID, width, height);
   }
 
-  addComponent(componentID, posX, posY) {
+  generateComponent(componentID, posX, posY) {
     const id = generateUniqueID(this.components);
-    return {id: id, component: new Component(componentID, posX, posY) };
+    return {
+      id: id,
+      component: new Component(componentID, posX, posY)
+    };
   }
 
   applyMovement(movement) {
@@ -40,10 +43,12 @@ class Manifest {
     this.componentClasses = {};
   }
 
-  addComponentClass(name, imageID, width, height) {
+  generateComponentClass(name, imageID, width, height) {
     const id = generateUniqueID(this.componentClasses);
-    this.componentClasses[id] = new ComponentClass(name, imageID, width, height);
-    return id;
+    return {
+      id: id,
+      compClass: new ComponentClass(name, imageID, width, height)
+    };
   }
 }
 

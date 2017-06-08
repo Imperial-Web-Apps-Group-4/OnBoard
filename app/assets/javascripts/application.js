@@ -17,5 +17,15 @@
 //= require interact.min
 //= xxxrequire turbolinks
 //= require materialize
-//= require dmuploader.min
 //= require_tree .
+
+function onAnyOfPages(pages) {
+  let found = false;
+  $.each(pages, (controller) => {
+    pages[controller].forEach((action) => {
+      if (action == '*') found = true;
+      if ($(`.controller-${controller}.action-${action}`).length) found = true;
+    });
+  });
+  return found;
+}

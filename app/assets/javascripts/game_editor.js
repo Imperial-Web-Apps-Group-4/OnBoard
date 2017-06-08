@@ -6,9 +6,12 @@
 /*global Vue deserialiseGame Game */
 /* exported editorVue */
 
-Vue.component('game-editor', {
-  props: ['game'],
-  template: `
+$(function() {
+  if (!onAnyOfPages({"games": ["new", "edit"]})) return;
+
+  Vue.component('game-editor', {
+    props: ['game'],
+    template: `
   <div>
     <div class="middle">
       <game-view :game="game"></game-view>
@@ -18,17 +21,17 @@ Vue.component('game-editor', {
     </div>
   </div>
   `,
-  methods: {
-    classClickedHandler: function(id) {
-      let compObj = this.game.generateComponent(id, 0, 0);
-      this.$set(this.game.components, compObj.id, compObj.component);
+    methods: {
+      classClickedHandler: function (id) {
+        let compObj = this.game.generateComponent(id, 0, 0);
+        this.$set(this.game.components, compObj.id, compObj.component);
+      }
     }
-  }
-});
+  });
 
-Vue.component('toolbox', {
-  props: ['componentClasses'],
-  template: `
+  Vue.component('toolbox', {
+    props: ['componentClasses'],
+    template: `
   <div class="toolbox">
     <h2>Toolbox</h2>
     <ul>
@@ -39,65 +42,66 @@ Vue.component('toolbox', {
       </li>
     </ul>
   </div>`,
-  methods: {
-    classClicked: function(classID) {
-      this.$emit('classClicked', classID);
+    methods: {
+      classClicked: function (classID) {
+        this.$emit('classClicked', classID);
+      }
     }
+  });
+
+  let uploadBus = new Vue();
+
+  let stateStr = document.getElementById('game_state').value;
+  let initialState;
+
+  if (!stateStr) {
+    initialState = new Game();
+  } else {
+    initialState = deserialiseGame(JSON.parse(stateStr));
   }
-});
 
-let uploadBus = new Vue();
-
-let stateStr = document.getElementById('game_state').value;
-let initialState;
-
-if (!stateStr) {
-  initialState = new Game();
-} else {
-  initialState = deserialiseGame(JSON.parse(stateStr));
-}
-
-let editorVue = new Vue({
-  el: '.editor-panel',
-  data: {
-    game: initialState
-  },
-  mounted: function () {
-    uploadBus.$on('newImage', (imageID, width, height) => {
-      let classObj = this.game.generateComponentClass('', imageID, width, height);
-      this.$set(this.game.manifest.componentClasses, classObj.id, classObj.compClass);
-    });
-  }
-});
-
-document.querySelector('input[type=submit]').addEventListener('click', function(){
-  document.getElementById('game_state').value = JSON.stringify(editorVue.game);
-});
-
-$('#image_upload').dmUploader({
-  url: '/games/new_image',
-  onUploadSuccess: function(id, data) {
-    if (data.error !== undefined) {
-      // TODO: Inform user in a nicer way
-      alert('Upload failed. Please check you are connected to the internet then try again.');
-    } else {
-      uploadBus.$emit('newImage', data.id, data.width, data.height);
+  let editorVue = new Vue({
+    el: '.editor-panel',
+    data: {
+      game: initialState
+    },
+    mounted: function () {
+      uploadBus.$on('newImage', (imageID, width, height) => {
+        let classObj = this.game.generateComponentClass('', imageID, width, height);
+        this.$set(this.game.manifest.componentClasses, classObj.id, classObj.compClass);
+      });
     }
-  },
-  onFallbackMode: function(msg) {
-    alert('Upload script cannot be initialised' + msg);
-  }
-});
+  });
 
-$('#cover_image_upload').dmUploader({
-  url: '/games/new_image',
-  onUploadSuccess: function(id, data){
-    if (data.error !== undefined) {
-      console.log("Upload failed!");
-    } else {
-      console.log('Succefully uploaded cover image; hash: ' + data.id);
-      $('#cover_image').attr('src', '/user_upload/game_images/' + data.id + '.png');
-      $('#user_image_hash').val(data.id);
+  document.querySelector('input[type=submit]').addEventListener('click', function () {
+    document.getElementById('game_state').value = JSON.stringify(editorVue.game);
+  });
+
+  $('#image_upload').dmUploader({
+    url: '/games/new_image',
+    onUploadSuccess: function (id, data) {
+      if (data.error !== undefined) {
+        // TODO: Inform user in a nicer way
+        alert('Upload failed. Please check you are connected to the internet then try again.');
+      } else {
+        uploadBus.$emit('newImage', data.id, data.width, data.height);
+      }
+    },
+    onFallbackMode: function (msg) {
+      alert('Upload script cannot be initialised' + msg);
     }
-  }
+  });
+
+  $('#cover_image_upload').dmUploader({
+    url: '/games/new_image',
+    onUploadSuccess: function (id, data) {
+      if (data.error !== undefined) {
+        console.log("Upload failed!");
+      } else {
+        console.log('Succefully uploaded cover image; hash: ' + data.id);
+        $('#cover_image').attr('src', '/user_upload/game_images/' + data.id + '.png');
+        $('#user_image_hash').val(data.id);
+      }
+    }
+  });
 });

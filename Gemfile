@@ -30,6 +30,8 @@ gem 'jquery-rails'
 # gem 'capistrano-rails', group: :development
 gem 'material_icons'
 gem 'materialize-sass'
+# FastImage for getting image dimensions on uploadBus
+gem 'fastimage'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

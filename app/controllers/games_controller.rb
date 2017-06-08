@@ -70,13 +70,15 @@ class GamesController < ApplicationController
   def new_image
     image_hash = random_hash
     respond_to do |format|
+      new_img_url = Rails.public_path.join("user_upload/game_images/#{image_hash}.png");
       if params[:file].size > MAX_FILE_SIZE
         format.json { render json: {'error': 'File too big'} }
       else
-        File.open(Rails.public_path.join("user_upload/game_images/#{image_hash}.png"), 'wb') { |file|
+        File.open(new_img_url, 'wb') { |file|
           file.write(params[:file].read)
         }
-        format.json { render json: {'id': image_hash} }
+        (width, height) = FastImage.size(new_img_url);
+        format.json { render json: {'id': image_hash, 'width': width, 'height': height} }
       end
     end
   end

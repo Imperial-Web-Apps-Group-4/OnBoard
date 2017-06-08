@@ -14,8 +14,6 @@ RUN gem install bindex -v '0.5.0'
 
 # Set up node
 RUN ln -s /usr/bin/nodejs /usr/bin/node
-# Install browserify
-RUN npm install -g browserify browserify-incremental
 
 # Set up directories
 RUN mkdir /onboard
@@ -26,6 +24,10 @@ WORKDIR /onboard
 COPY Gemfile /onboard/Gemfile
 COPY Gemfile.lock /onboard/Gemfile.lock
 RUN bundle install
+
+# Install NPM packages
+COPY package.json /onboard/package.json
+RUN npm install
 
 # Copy application files
 COPY . /onboard

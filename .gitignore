@@ -26,3 +26,4 @@ public/user_upload/
 
 # NPM files
 node_modules/
+npm-debug.log

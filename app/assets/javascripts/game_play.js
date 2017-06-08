@@ -1,9 +1,9 @@
 //= require vue
 //= require config
-//= require messaging
-//= require game_model
-/* global Vue config deserialiseGame GameMessage */
+/* global Vue config require */
 /* exported board */
+
+const Models = require('onboard-shared');
 
 let sessionID = window.location.pathname.match(/\w{26}/)[0];
 let socket = new WebSocket('ws://'+ config.gameServer +'/session/' + sessionID);
@@ -24,7 +24,7 @@ socket.onmessage = function (event) {
     alert('Game server connection failed (version mismatch).');
     return;
   }
-  let initialState = deserialiseGame(msg.initalGameState);
+  let initialState = Models.deserialiseGame(msg.initalState);
 
   // Create the Vue for the main screen
   gameplayVM = new Vue({
@@ -41,7 +41,7 @@ socket.onmessage = function (event) {
     },
     methods: {
       componentMovedHandler: function (movement) {
-        socket.send(new GameMessage(movement).serialise());
+        socket.send(new Models.GameMessage(movement).serialise());
       }
     },
     data: {

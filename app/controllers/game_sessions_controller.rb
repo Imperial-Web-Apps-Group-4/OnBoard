@@ -24,6 +24,7 @@ class GameSessionsController < ApplicationController
     @game_session = GameSession.new do |session|
       session.game_id = params[:game_id]
       session.game_hash = random_hash
+      session.state = @game.state
     end
 
     respond_to do |format|

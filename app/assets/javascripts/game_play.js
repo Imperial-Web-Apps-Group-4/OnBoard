@@ -1,12 +1,12 @@
 //= require vue
 //= require config
-//= require messaging
-//= require game_model
-/* global Vue config deserialiseGame GameMessage */
+/* global Vue config require */
 /* exported board */
 
 $(function() {
   if (!onAnyOfPages({"game_sessions": ["edit"]})) return;
+
+  const Models = require('onboard-shared');
 
   let gameID = window.location.pathname.match(/games\/(\d+)\//)[1];
   let sessionID = window.location.pathname.match(/\w{26}/)[0];
@@ -29,7 +29,7 @@ $(function() {
       return;
     }
 
-    let initialState = deserialiseGame(JSON.parse(msg.initialState));
+    let initialState = Models.deserialiseGame(JSON.parse(msg.initialState));
 
     // Create the Vue for the main screen
     gameplayVM = new Vue({
@@ -46,7 +46,7 @@ $(function() {
       },
       methods: {
         componentMovedHandler: function (movement) {
-          socket.send(new GameMessage(movement).serialise());
+          socket.send(new Models.GameMessage(movement).serialise());
         }
       },
       data: {
@@ -59,4 +59,5 @@ $(function() {
       gameplayVM.$emit('messageReceived', JSON.parse(event.data));
     };
   };
+
 });

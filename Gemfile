@@ -32,6 +32,8 @@ gem 'material_icons'
 gem 'materialize-sass'
 # FastImage for getting image dimensions on uploadBus
 gem 'fastimage'
+# Browserify for shared code & single file Vue components
+gem "browserify-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

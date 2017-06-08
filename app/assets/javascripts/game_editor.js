@@ -7,18 +7,32 @@ let resizeBus = new Vue();
 Vue.component('game-editor', {
   props: ['game'],
   template: `
-  <game-view :game="game"></game-view>
+  <div>
+    <div class="middle">
+      <game-view :game="game"></game-view>
+    </div>
+    <div class="right-settings sidebar">
+      <toolbox v-bind:componentClasses="game.manifest.componentClasses" v-on:componentClassClicked="componentClassClickedHandler"></toolbox>
+    </div>
+  </div>
   `,
   mounted: function () {
-    resizeBus.$on('componentResized', (componentID, width, height, dx, dy) => {
-      this.game.resizeComponent(componentID, width + dx, height + dy);
-      let coords = this.game.getCoords(componentID);
-      console.log("Cx:" + coords.x + " Cy:" + coords.y);
-      let movement = new Movement(componentID, coords.x + dx, coords.y + dy);
-      this.game.applyMovement(movement);
-    })
+      resizeBus.$on('componentResized', (componentID, width, height, dx, dy) => {
+        this.game.resizeComponent(componentID, width + dx, height + dy);
+        let coords = this.game.getCoords(componentID);
+        console.log("Cx:" + coords.x + " Cy:" + coords.y);
+        let movement = new Movement(componentID, coords.x + dx, coords.y + dy);
+        this.game.applyMovement(movement);
+      })
+    },
+  methods: {
+    componentClassClickedHandler: function(id) {
+      let compObj = this.game.addComponent(id, 0, 0);
+      this.$set(this.game.components, compObj.id, compObj.component);
+    }
   }
 });
+
 
 let editorVue = new Vue({
   el: '#editor-div',
@@ -81,10 +95,52 @@ let editorVue = new Vue({
    "classID": "zz1bq57nmck",
    "posX": 270,
    "posY": 10
+     }
+   }
+   })}
+   });
+
+Vue.component('toolbox', {
+  props: ['componentClasses'],
+  template: `
+  <div class="toolbox">
+    <h2>Toolbox</h2>
+    <ul>
+      <li class="component" v-for="(componentClass, key) in componentClasses">
+        <div class="toolbox-item" v-on:click="add(key)">
+          <img v-bind:src="\'/user_upload/game_images/\' + componentClass.imageID + \'.png\'">
+        </div>
+      </li>
+    </ul>
+  </div>`,
+  methods: {
+    add: function(id) {
+      console.log(id, "Toolbox item clicked, add triggered");
+      this.$emit('componentClassClicked', id);
+    }
   }
-}
-})}
 });
+
+let stateStr = document.getElementById('game_state').value;
+let initialState;
+
+if (!stateStr) {
+  initialState = new Game();
+} else {
+  initialState = deserialiseGame(JSON.parse(stateStr));
+}
+
+let editortwoVue = new Vue({
+  el: '.editor-panel',
+  data: {
+    game: initialState
+  }
+});
+
+document.querySelector('input[type=submit]').addEventListener("click", function(e){
+  document.getElementById('game_state').value = JSON.stringify(editorVue.game);
+});
+
 
 interact('.comp-drag')
 .resizable({

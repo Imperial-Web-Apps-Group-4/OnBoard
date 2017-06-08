@@ -12,7 +12,7 @@ class Game {
 
   addComponent(componentID, posX, posY) {
     const id = generateUniqueID(this.components);
-    this.components[id] = new Component(componentID, posX, posY);
+    return {id: id, component: new Component(componentID, posX, posY) };
   }
 
   applyMovement(movement) {
@@ -57,8 +57,8 @@ class ComponentClass {
 }
 
 class Component {
-  constructor(componentID, posX, posY) {
-    this.componentID = componentID;
+  constructor(classID, posX, posY) {
+    this.classID = classID;
     this.posX = posX;
     this.posY = posY;
   }

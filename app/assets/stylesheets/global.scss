@@ -162,7 +162,8 @@ a {
   display: none;
 }
 
-input[type=button], input[type=submit], input[type=text], input[type=password] {
+input[type=button], input[type=submit], input[type=text], input[type=password], .button {
+  display: block;
   width: 100%;
   padding: 10px !important;
   border-radius: 2px;
@@ -186,7 +187,7 @@ input[type=text], input[type=password] {
   }
 }
 
-input[type=button], input[type=submit] {
+input[type=button], input[type=submit], .button {
   text-align: center;
   background-color: $blue-highlight;
   border: 0 darken($blue-highlight, 10%) solid;

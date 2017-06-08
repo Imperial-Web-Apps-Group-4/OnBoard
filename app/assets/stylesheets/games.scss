@@ -193,6 +193,27 @@
     }
   }
 
+  .no-games {
+    text-shadow: 0 -1px 1px $dark-grey-blue;
+
+    i {
+      vertical-align: middle;
+    }
+
+    > i {
+      display: block;
+      text-align: center;
+      margin: 40px auto 0;
+      font-size: 5em;
+      color: $grey-blue;
+    }
+
+    p {
+      margin: 40px 0;
+      font-size: 1.5em;
+      text-align: center;
+    }
+  }
 }
 
 .controller-games.action-show {
@@ -221,4 +242,3 @@
 .controller-games.action-edit {
 
 }
-

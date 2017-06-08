@@ -27,7 +27,8 @@ $(function() {
       alert('Game server connection failed (version mismatch).');
       return;
     }
-    let initialState = deserialiseGame(msg.initalGameState);
+
+    let initialState = deserialiseGame(msg.initialState);
 
     // Create the Vue for the main screen
     gameplayVM = new Vue({

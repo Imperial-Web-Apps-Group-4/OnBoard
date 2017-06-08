@@ -42,5 +42,5 @@ Rails.application.configure do
 
   # Local test game server?
   # TODO verify this
-  config.game_server = 'localhost:8080'
+  config.game_server = 'window.location.hostname + \':8080\''
 end

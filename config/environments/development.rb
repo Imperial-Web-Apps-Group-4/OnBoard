@@ -53,7 +53,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Local development game server
-  config.game_server = 'localhost:8080'
+  config.game_server = 'window.location.hostname + \':8080\''
 
   # Use Vue development mode in development
   Vue.development_mode = true

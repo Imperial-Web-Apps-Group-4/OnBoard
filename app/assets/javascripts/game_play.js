@@ -8,8 +8,9 @@
 $(function() {
   if (!onAnyOfPages({"game_sessions": ["edit"]})) return;
 
+  let gameID = window.location.pathname.match(/games\/(\d+)\//)[1];
   let sessionID = window.location.pathname.match(/\w{26}/)[0];
-  let socket = new WebSocket('ws://' + config.gameServer + '/session/' + sessionID);
+  let socket = new WebSocket('ws://' + config.gameServer + '/game/' + gameID + '/session/' + sessionID);
   let gameplayVM;
 
   socket.onopen = function () {

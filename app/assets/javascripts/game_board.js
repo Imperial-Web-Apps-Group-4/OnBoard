@@ -1,7 +1,7 @@
 //= require vue
 //= require interact.min
-/* global Vue, interact, require */
-const Models = require('onboard-shared');
+//= require messaging
+/* global Vue, interact, Movement */
 
 Vue.component('game-view', {
   props: ['game'],
@@ -17,7 +17,7 @@ Vue.component('game-view', {
     bus.$on('componentDragged', (function (componentID, dx, dy) {
       if (dx == 0 && dy == 0) return;
       let coords = this.game.getCoords(componentID);
-      let movement = new Models.Movement(componentID, coords.x + dx, coords.y + dy);
+      let movement = new Movement(componentID, coords.x + dx, coords.y + dy);
       this.game.applyMovement(movement);
       this.$emit('component-moved', movement);
     }).bind(this));

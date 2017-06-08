@@ -1,9 +1,6 @@
 //= require vue
-//= require interact.min
-/*global Vue require interact */
-/*exported editorVue */
-
-const Models = require('onboard-shared');
+//= require game_model
+/*global Vue deserialiseGame*/
 
 Vue.component('game-editor', {
   props: ['game'],
@@ -38,43 +35,43 @@ Vue.component('toolbox', {
 let editorVue = new Vue({
   el: '.editor-panel',
   data: {
-    game: Models.deserialiseGame({
-      'manifest': {
-        'componentClasses': {
-          'qqazgairos': {
-            'name': 'Blue counter',
-            'imageID': 'blueC',
-            'width': 45,
-            'height': 45
+    game: deserialiseGame({
+      "manifest": {
+        "componentClasses": {
+          "qqazgairos": {
+            "name": "Blue counter",
+            "imageID": "blueC",
+            "width": 45,
+            "height": 45
           },
-          'zz1bq57nmck': {
-            'name': 'Red counter',
-            'imageID': 'redC',
-            'width': 45,
-            'height': 45
+          "zz1bq57nmck": {
+            "name": "Red counter",
+            "imageID": "redC",
+            "width": 45,
+            "height": 45
           },
-          '98l0utbgyn': {
-            'name': 'Checkers board',
-            'imageID': 'checkerboard',
-            'width': 500,
-            'height': 500
+          "98l0utbgyn": {
+            "name": "Checkers board",
+            "imageID": "checkerboard",
+            "width": 500,
+            "height": 500
           },
-          '3gg3gg1997': {
-            'name': 'Egg counter',
-            'imageID': 'egg',
-            'width': 256,
-            'height': 256
+          "3gg3gg1997": {
+            "name": "Egg counter",
+            "imageID": "egg",
+            "width": 256,
+            "height": 256
           }
         }
       },
-      'components' : {
-        'fwwefeeghwegweghj': {
-          classID: '98l0utbgyn',
+      "components" : {
+        "fwwefeeghwegweghj": {
+          classID: "98l0utbgyn",
           posX: 0,
           posY: 0
         },
-        'fweghwegweghj': {
-          classID: 'qqazgairos',
+        "fweghwegweghj": {
+          classID: "qqazgairos",
           posX: 40,
           posY: 200
         }
@@ -90,10 +87,10 @@ interact('.toolbox-item').draggable({
     elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
   },
   onmove: (event) => {
-    let target = event.target,
+    var target = event.target,
         // keep the dragged position in the data-x/data-y attributes
-      x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-      y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
     // translate the element
     target.style.webkitTransform =

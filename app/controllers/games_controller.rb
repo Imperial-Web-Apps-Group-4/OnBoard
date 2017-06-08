@@ -29,6 +29,7 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params) do |game|
       game.user_id = @current_user.id
+      game.user_image_id = UserImage.find_by_hash_id(params[:user_image_hash])&.id
     end
 
     respond_to do |format|
@@ -47,6 +48,11 @@ class GamesController < ApplicationController
   def update
     respond_to do |format|
       if @game.update(game_params)
+        if params[:user_image_hash]
+          @game.user_image_id = UserImage.find_by_hash_id(params[:user_image_hash])&.id
+          @game.save
+        end
+
         format.html { redirect_to @game, notice: 'Game was successfully updated.' }
         format.json { render :show, status: :ok, location: @game }
       else
@@ -70,14 +76,16 @@ class GamesController < ApplicationController
   def new_image
     image_hash = random_hash
     respond_to do |format|
-      new_img_url = Rails.public_path.join("user_upload/game_images/#{image_hash}.png");
       if params[:file].size > MAX_FILE_SIZE
         format.json { render json: {'error': 'File too big'} }
       else
+        UserImage.create(:user_id => @current_user.id, :hash_id => image_hash)
+
+        new_img_url = Rails.public_path.join("user_upload/game_images/#{image_hash}.png")
         File.open(new_img_url, 'wb') { |file|
           file.write(params[:file].read)
         }
-        (width, height) = FastImage.size(new_img_url);
+        (width, height) = FastImage.size(new_img_url)
         format.json { render json: {'id': image_hash, 'width': width, 'height': height} }
       end
     end
@@ -91,7 +99,7 @@ class GamesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.require(:game).permit(:name, :state)
+      params.require(:game).permit(:name, :state, :user_image_hash)
     end
 
     def check_permission!

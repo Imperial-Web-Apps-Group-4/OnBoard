@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require dmuploader.min
 //= require vue
 //= require interact.min
 //= require turbolinks

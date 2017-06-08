@@ -2,6 +2,7 @@
 //= require jquery
 //= require dmuploader.min
 //= require game_model
+//= require dmuploader.min
 /*global Vue deserialiseGame Game */
 /* exported editorVue */
 
@@ -75,7 +76,7 @@ document.querySelector('input[type=submit]').addEventListener('click', function(
 
 $('#image_upload').dmUploader({
   url: '/games/new_image',
-  onUploadSuccess: function(id, data){
+  onUploadSuccess: function(id, data) {
     if (data.error !== undefined) {
       // TODO: Inform user in a nicer way
       alert('Upload failed. Please check you are connected to the internet then try again.');
@@ -83,7 +84,20 @@ $('#image_upload').dmUploader({
       uploadBus.$emit('newImage', data.id, data.width, data.height);
     }
   },
-  onFallbackMode: (msg) => {
+  onFallbackMode: function(msg) {
     alert('Upload script cannot be initialised' + msg);
+  }
+});
+
+$('#cover_image_upload').dmUploader({
+  url: '/games/new_image',
+  onUploadSuccess: function(id, data){
+    if (data.error !== undefined) {
+      console.log("Upload failed!");
+    } else {
+      console.log('Succefully uploaded cover image; hash: ' + data.id);
+      $('#cover_image').attr('src', '/user_upload/game_images/' + data.id + '.png');
+      $('#user_image_hash').val(data.id);
+    }
   }
 });

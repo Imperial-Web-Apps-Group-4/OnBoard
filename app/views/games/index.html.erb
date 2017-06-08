@@ -3,7 +3,8 @@
     <li class="card">
       <%= link_to game, class: 'card-hover-overlay' do %>
         <div class="card-image">
-          <img src="http://40.media.tumblr.com/7fc1ec1d41f45923d2fe7729d5680722/tumblr_o0q5hyNrZ01uroz2uo2_1280.jpg">
+          <img src="<%= game.picture ? '/user_upload/game_images/' + game.picture.hash_id + '.png'
+                                     : 'http://40.media.tumblr.com/7fc1ec1d41f45923d2fe7729d5680722/tumblr_o0q5hyNrZ01uroz2uo2_1280.jpg'%>">
         </div>
         <div class="card-content">
           <%= truncate game.name, :length => 35 %></span>

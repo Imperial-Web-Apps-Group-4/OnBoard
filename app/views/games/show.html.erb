@@ -1,7 +1,9 @@
 <!--<p id="notice"><%= notice %></p>-->
 <div class="jumbotron">
   <h2 class="game-title"><%= truncate @game.name, :length => 35 %></h2>
-  <img src="http://40.media.tumblr.com/7fc1ec1d41f45923d2fe7729d5680722/tumblr_o0q5hyNrZ01uroz2uo2_1280.jpg" class="background-image" alt="Board Game Cover Art" draggable="false" />
+  <img src="<%= @game.picture ? '/user_upload/game_images/' + @game.picture.hash_id + '.png'
+                              : 'http://40.media.tumblr.com/7fc1ec1d41f45923d2fe7729d5680722/tumblr_o0q5hyNrZ01uroz2uo2_1280.jpg'%>"
+       class="background-image" alt="Board Game Cover Art" draggable="false" />
 </div>
 
 <%= link_to game_game_sessions_path(game_id: @game.id), method: :post, class: 'btn waves-affect waves-light', 'data-turbolinks' => false do %>

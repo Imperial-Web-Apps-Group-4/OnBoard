@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170607175915) do
+ActiveRecord::Schema.define(version: 20170608164531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,10 +26,22 @@ ActiveRecord::Schema.define(version: 20170607175915) do
   create_table "games", force: :cascade do |t|
     t.string   "name"
     t.string   "state"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "user_id"
+    t.integer  "user_image_id"
+    t.index ["user_id"], name: "index_games_on_user_id", using: :btree
+    t.index ["user_image_id"], name: "index_games_on_user_image_id", using: :btree
+  end
+
+  create_table "user_images", force: :cascade do |t|
+    t.string   "hash_id"
+    t.integer  "user_id"
+    t.integer  "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "user_id"
-    t.index ["user_id"], name: "index_games_on_user_id", using: :btree
+    t.index ["game_id"], name: "index_user_images_on_game_id", using: :btree
+    t.index ["user_id"], name: "index_user_images_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -42,5 +54,8 @@ ActiveRecord::Schema.define(version: 20170607175915) do
   end
 
   add_foreign_key "game_sessions", "games"
+  add_foreign_key "games", "user_images"
   add_foreign_key "games", "users"
+  add_foreign_key "user_images", "games"
+  add_foreign_key "user_images", "users"
 end

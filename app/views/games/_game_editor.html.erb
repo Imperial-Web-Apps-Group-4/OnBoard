@@ -16,7 +16,11 @@
     <% end %>
 
     <div class="input-field cover-photo">
-      <img src="http://40.media.tumblr.com/7fc1ec1d41f45923d2fe7729d5680722/tumblr_o0q5hyNrZ01uroz2uo2_1280.jpg" alt="Game Cover Photo" draggable="false" />
+      <a class="floating-edit-button"><i class="material-icons">edit</i></a>
+      <div class="floating-edit-button-input" id="cover_image_upload"><%= file_field_tag :cover_image_upload %></div>
+      <img src="<%= game.picture ? '/user_upload/game_images/' + game.picture.hash_id + '.png'
+                                 : 'http://40.media.tumblr.com/7fc1ec1d41f45923d2fe7729d5680722/tumblr_o0q5hyNrZ01uroz2uo2_1280.jpg'%>"
+           id="cover_image" alt="Game Cover Photo" draggable="false" />
       <%= f.label :name %>
       <%= f.text_field :name, placeholder: :name %>
     </div>
@@ -24,8 +28,12 @@
     <div class="field" id="image_upload">
       <%= label_tag :image, 'Add image: ' %>
       <%= file_field_tag :image %>
-    </div>
       <p class="grey-text text-darken-4">Max size 10MB</p>
+    </div>
+
+    <div class="field">
+      <%= hidden_field_tag :user_image_hash, game.picture&.hash_id %>
+    </div>
 
     <div class="field">
       <%= f.hidden_field :state %>

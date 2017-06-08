@@ -113,7 +113,7 @@ a {
 .thin-page {
   margin: auto;
   max-width: 600px;
-  
+
   h2 {
     margin: 10px 0;
     font-size: 2em;
@@ -128,17 +128,34 @@ a {
   .component {
     position: absolute;
     transition: transform 0.1s linear;
-    
+
     &.dragging {
       transform: scale(1.02);
       filter: url(#drop-shadow);
     }
   }
-  
+
   .comp-drag {
     cursor: move;
   }
+}
 
+.floating-edit-button, .floating-edit-button-input {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  z-index: 50;
+  margin: 5px;
+  color: rgba(255, 255, 255, 0);
+  transition: color linear 100ms;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
+.floating-edit-button-input {
+  z-index: 100;
+  opacity: 0;
 }
 
 .hidden {
@@ -159,11 +176,11 @@ input[type=button], input[type=submit], input[type=text], input[type=password] {
 input[type=text], input[type=password] {
   border: 1px solid $grey-blue;
   background-color: rgba(255,255,255,.02);
-  
+
   &:hover {
     background-color: rgba(255,255,255,.1);
   }
-  
+
   &:active, &:focus {
     background-color: rgba(255,255,255,.05);
   }
@@ -178,13 +195,13 @@ input[type=button], input[type=submit] {
   color: #fff;
   text-shadow: 0 -1px 0 darken($blue-highlight, 10%);
   outline: none;
-  
+
   &:hover, &:focus {
     transform: translateY(-1px);
     border-bottom-width: 3px;
     background-color: lighten($blue-highlight, 5%);
   }
-  
+
   &:active {
     transform: translateY(2px);
     border-bottom-width: 0;

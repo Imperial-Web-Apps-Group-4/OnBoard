@@ -69,7 +69,7 @@ function generateUniqueID(object) {
 }
 
 function deserialiseGame(data) {
-  let game = new Game();
-  Object.assign(game, data);
+  let game = Object.assign(new Game(), data);
+  game.manifest = Object.assign(new Manifest(), data.manifest);
   return game;
 }

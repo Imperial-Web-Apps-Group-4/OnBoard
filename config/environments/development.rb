@@ -55,5 +55,6 @@ Rails.application.configure do
   # Local development game server
   config.game_server = 'localhost:8080'
 
+  # Use Vue development mode in development
   Vue.development_mode = true
 end

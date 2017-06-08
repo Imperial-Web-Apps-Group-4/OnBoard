@@ -6,50 +6,59 @@
 /*global Vue deserialiseGame Game */
 /* exported editorVue */
 
+
 $(function() {
   if (!onAnyOfPages({"games": ["new", "edit"]})) return;
+
+  let resizeBus = new Vue();
+  let uploadBus = new Vue();
 
   Vue.component('game-editor', {
     props: ['game'],
     template: `
-  <div>
-    <div class="middle">
-      <game-view :game="game"></game-view>
-    </div>
-    <div class="right-settings sidebar">
-      <toolbox v-bind:componentClasses="game.manifest.componentClasses" v-on:classClicked="classClickedHandler"></toolbox>
-    </div>
-  </div>
-  `,
+    <div>
+      <div class="middle">
+        <game-view :game="game"></game-view>
+      </div>
+      <div class="right-settings sidebar">
+        <toolbox v-bind:componentClasses="game.manifest.componentClasses" v-on:classClicked="classClickedHandler"></toolbox>
+      </div>
+    </div>`,
     methods: {
       classClickedHandler: function (id) {
         let compObj = this.game.generateComponent(id, 0, 0);
         this.$set(this.game.components, compObj.id, compObj.component);
       }
+    },
+    mounted: function () {
+      resizeBus.$on('componentResized', (componentID, width, height, dx, dy) => {
+        this.game.resizeComponent(componentID, width, height);
+        let coords = this.game.getCoords(componentID);
+        let movement = new Movement(componentID, coords.x + dx, coords.y + dy);
+        this.game.applyMovement(movement);
+      });
     }
   });
 
   Vue.component('toolbox', {
     props: ['componentClasses'],
     template: `
-  <div class="toolbox">
-    <h2>Toolbox</h2>
-    <ul>
-      <li class="component" v-for="(componentClass, classID) in componentClasses">
-        <div class="toolbox-item" v-on:click="classClicked(classID)">
-          <img v-bind:src="\'/user_upload/game_images/\' + componentClass.imageID + \'.png\'">
-        </div>
-      </li>
-    </ul>
-  </div>`,
+    <div class="toolbox">
+      <h2>Toolbox</h2>
+      <ul>
+        <li class="component" v-for="(componentClass, classID) in componentClasses">
+          <div class="toolbox-item" v-on:click="classClicked(classID)">
+            <img v-bind:src="\'/user_upload/game_images/\' + componentClass.imageID + \'.png\'">
+          </div>
+        </li>
+      </ul>
+    </div>`,
     methods: {
       classClicked: function (classID) {
         this.$emit('classClicked', classID);
       }
     }
   });
-
-  let uploadBus = new Vue();
 
   let stateStr = document.getElementById('game_state').value;
   let initialState;
@@ -104,4 +113,21 @@ $(function() {
       }
     }
   });
+
+
+  interact('.comp-drag')
+  .resizable({
+    onmove : function (event) {
+      resizeBus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
+    },
+
+    edges: { top: true, left: true, bottom: true, right: true },
+    // Aspect ratio resize disabled (buggy)
+    preserveAspectRatio: false,
+    // Flip component when resized past 0x0
+    invert: 'reposition',
+    // Limit multiple resizes per element
+    maxPerElement: 1
+  });
+
 });

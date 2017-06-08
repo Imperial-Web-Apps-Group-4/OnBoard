@@ -63,4 +63,5 @@ interact('.comp-drag').draggable({
   onend: (event) => {
     event.target.classList.remove("dragging");
   }
-});
+  }
+);

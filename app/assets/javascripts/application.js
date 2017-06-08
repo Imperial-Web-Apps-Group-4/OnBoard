@@ -16,4 +16,5 @@
 //= require interact.min
 //= require turbolinks
 //= require materialize
+//= require dmuploader.min
 //= require_tree .

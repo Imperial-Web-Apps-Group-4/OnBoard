@@ -10,10 +10,16 @@ Vue.component('game-editor', {
       <game-view :game="game"></game-view>
     </div>
     <div class="right-settings sidebar">
-      <toolbox v-bind:componentClasses="game.manifest.componentClasses"></toolbox>
+      <toolbox v-bind:componentClasses="game.manifest.componentClasses" v-on:componentClassClicked="componentClassClickedHandler"></toolbox>
     </div>
   </div>
-  `
+  `,
+  methods: {
+    componentClassClickedHandler: function(id) {
+      let compObj = this.game.addComponent(id, 0, 0);
+      this.$set(this.game.components, compObj.id, compObj.component);
+    }
+  }
 });
 
 Vue.component('toolbox', {
@@ -22,61 +28,26 @@ Vue.component('toolbox', {
   <div class="toolbox">
     <h2>Toolbox</h2>
     <ul>
-      <li class="component" v-for="componentClass in componentClasses">
-        <div class="toolbox-item">
+      <li class="component" v-for="(componentClass, key) in componentClasses">
+        <div class="toolbox-item" v-on:click="add(key)">
           <img v-bind:src="\'/user_upload/game_images/\' + componentClass.imageID + \'.png\'">
         </div>
       </li>
     </ul>
-  </div>`
+  </div>`,
+  methods: {
+    add: function(id) {
+      console.log(id, "Toolbox item clicked, add triggered");
+      this.$emit('componentClassClicked', id);
+    }
+  }
 });
 
 
 let editorVue = new Vue({
   el: '.editor-panel',
   data: {
-    game: deserialiseGame({
-      "manifest": {
-        "componentClasses": {
-          "qqazgairos": {
-            "name": "Blue counter",
-            "imageID": "blueC",
-            "width": 45,
-            "height": 45
-          },
-          "zz1bq57nmck": {
-            "name": "Red counter",
-            "imageID": "redC",
-            "width": 45,
-            "height": 45
-          },
-          "98l0utbgyn": {
-            "name": "Checkers board",
-            "imageID": "checkerboard",
-            "width": 500,
-            "height": 500
-          },
-          "3gg3gg1997": {
-            "name": "Egg counter",
-            "imageID": "egg",
-            "width": 256,
-            "height": 256
-          }
-        }
-      },
-      "components" : {
-        "fwwefeeghwegweghj": {
-          classID: "98l0utbgyn",
-          posX: 0,
-          posY: 0
-        },
-        "fweghwegweghj": {
-          classID: "qqazgairos",
-          posX: 40,
-          posY: 200
-        }
-      }
-    })
+    game: deserialiseGame(JSON.parse(document.getElementById('game_state').value))
   }
 });
 
@@ -87,7 +58,7 @@ interact('.toolbox-item').draggable({
     elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
   },
   onmove: (event) => {
-    var target = event.target,
+    let target = event.target,
         // keep the dragged position in the data-x/data-y attributes
         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
@@ -100,30 +71,9 @@ interact('.toolbox-item').draggable({
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
-  }/*,
-  onstart: (event) => {
-    event.target.classList.add("dragging");
-  },
-  onend: (event) => {
-    event.target.classList.remove("dragging");
-  }*/
-});
-
-/*let app = new Vue({
-  el: '#images-display',
-  data: {
-    images: []
   }
 });
 
-$('#image_upload').dmUploader({
-  url: '/games/new_image',
-  onUploadSuccess: function(id, data){
-    if (data.error !== undefined) {
-      console.log("Upload failed!");
-    } else {
-      console.log('Succefully uploaded image ' + id + ' to hash: ' + data.id);
-      app.images.push('/user_upload/game_images/' + data.id + '.png');
-    }
-  }
-});*/
+document.querySelector('input[type=submit]').addEventListener("click", function(e){
+  document.getElementById('game_state').value = JSON.stringify(editorVue.game);
+});

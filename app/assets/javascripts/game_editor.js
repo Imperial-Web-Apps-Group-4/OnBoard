@@ -21,9 +21,8 @@ Vue.component('game-editor', {
   `,
   mounted: function () {
       resizeBus.$on('componentResized', (componentID, width, height, dx, dy) => {
-        this.game.resizeComponent(componentID, width + dx, height + dy);
+        this.game.resizeComponent(componentID, width, height);
         let coords = this.game.getCoords(componentID);
-        console.log("Cx:" + coords.x + " Cy:" + coords.y);
         let movement = new Movement(componentID, coords.x + dx, coords.y + dy);
         this.game.applyMovement(movement);
       })
@@ -105,9 +104,21 @@ $('#image_upload').dmUploader({
 
 interact('.comp-drag')
 .resizable({
-  preserveAspectRatio: true ,
-  edges: { left: true, right: true, bottom: true, top: true },
-})
-.on('resizemove', (event) => {
-  resizeBus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top)
+  onmove : function (event) {
+    resizeBus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
+  },
+
+  edges: {
+    top   : true,
+    left  : true,
+    bottom: true,
+    right : true
+  },
+
+  // Aspect ratio resize disabled (buggy)
+  preserveAspectRatio: false,
+  // Flip component when resized past 0x0
+  invert: 'reposition',
+  // Limit multiple resizes
+  maxPerElement: 1
 });

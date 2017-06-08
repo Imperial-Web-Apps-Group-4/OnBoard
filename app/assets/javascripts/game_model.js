@@ -27,7 +27,6 @@ class Game {
   resizeComponent(componentID, width, height) {
     let component = this.components[componentID];
     let compClass = this.manifest.componentClasses[component.classID];
-    console.log(width + ", " + height);
     compClass.width = width;
     compClass.height = height;
   }

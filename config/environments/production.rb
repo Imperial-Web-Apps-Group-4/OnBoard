@@ -86,6 +86,6 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Production game server
-  config.game_server = 'onboard.fun:8080'
+  config.game_server = '\'onboard.fun:8080\''
 
 end

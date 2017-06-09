@@ -1,12 +1,15 @@
 //= require vue
 //= require jquery
 //= require dmuploader.min
-/*global Vue deserialiseGame Game */
+//= require interact.min
+/*global Vue require interact onAnyOfPages */
 /* exported editorVue */
 
 
 $(function() {
-  if (!onAnyOfPages({"games": ["new", "edit"]})) return;
+  if (!onAnyOfPages({'games': ['new', 'edit']})) return;
+
+  const Models = require('onboard-shared');
 
   let resizeBus = new Vue();
   let uploadBus = new Vue();
@@ -30,9 +33,10 @@ $(function() {
     },
     mounted: function () {
       resizeBus.$on('componentResized', (componentID, width, height, dx, dy) => {
-        this.game.resizeComponent(componentID, width, height);
+        let classID = this.game.components[componentID].classID;
+        this.game.resizeComponentClass(classID, width, height);
         let coords = this.game.getCoords(componentID);
-        let movement = new Movement(componentID, coords.x + dx, coords.y + dy);
+        let movement = new Models.Movement(componentID, coords.x + dx, coords.y + dy);
         this.game.applyMovement(movement);
       });
     }
@@ -62,9 +66,9 @@ $(function() {
   let initialState;
 
   if (!stateStr) {
-    initialState = new Game();
+    initialState = new Models.Game();
   } else {
-    initialState = deserialiseGame(JSON.parse(stateStr));
+    initialState = Models.deserialiseGame(JSON.parse(stateStr));
   }
 
   let editorVue = new Vue({
@@ -103,7 +107,7 @@ $(function() {
     url: '/games/new_image',
     onUploadSuccess: function (id, data) {
       if (data.error !== undefined) {
-        console.log("Upload failed!");
+        console.log('Upload failed!');
       } else {
         console.log('Succefully uploaded cover image; hash: ' + data.id);
         $('#cover_image').attr('src', '/user_upload/game_images/' + data.id + '.png');

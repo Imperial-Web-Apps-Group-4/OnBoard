@@ -35,10 +35,6 @@
       <%= hidden_field_tag :user_image_hash, game.picture&.hash_id %>
     </div>
 
-    <div id="images-display">
-      <img v-for="image in images" v-bind:src="image" />
-    </div>
-
     <div class="field">
       <%= f.hidden_field :state %>
     </div>

@@ -1,0 +1,39 @@
+{
+  "name": "onboard-app",
+  "version": "1.0.0",
+  "description": "A Rails webapp for playing your board games online.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "dependencies": {
+    "browserify": "^14.4.0",
+    "browserify-incremental": "^3.1.1",
+    "onboard-shared": "^1.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Imperial-Web-Apps-Group-4/OnBoard-App.git"
+  },
+  "keywords": [
+    "onboard",
+    "board",
+    "games",
+    "fun",
+    "web",
+    "app",
+    "rails"
+  ],
+  "author": "Kian Mayne, Ashley Davies, Tom Bower, Bálint Babik",
+  "license": "UNLICENCED",
+  "bugs": {
+    "url": "https://github.com/Imperial-Web-Apps-Group-4/OnBoard-App/issues"
+  },
+  "homepage": "https://github.com/Imperial-Web-Apps-Group-4/OnBoard-App#readme",
+  "false": {}
+}

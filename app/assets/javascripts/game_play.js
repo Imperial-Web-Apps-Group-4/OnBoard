@@ -10,11 +10,11 @@ $(function() {
 
   let gameID = window.location.pathname.match(/games\/(\d+)\//)[1];
   let sessionID = window.location.pathname.match(/\w{26}/)[0];
-  let socket = new WebSocket('ws://' + config.gameServer + '/game/' + gameID + '/session/' + sessionID);
+  let socket = new WebSocket('ws://' + config.gameServer + '/games/' + gameID + '/session/' + sessionID);
   let gameplayVM;
 
   socket.onopen = function () {
-    console.log(`Connected to game server. Session ID: ${sessionID}).`);
+    console.log(`Connected to game server. Session ID: ${sessionID}.`);
   };
 
   socket.onmessage = function (event) {
@@ -29,7 +29,7 @@ $(function() {
       return;
     }
 
-    let initialState = deserialiseGame(msg.initialState);
+    let initialState = deserialiseGame(JSON.parse(msg.initialState));
 
     // Create the Vue for the main screen
     gameplayVM = new Vue({

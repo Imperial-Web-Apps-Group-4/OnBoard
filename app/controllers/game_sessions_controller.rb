@@ -1,6 +1,7 @@
 class GameSessionsController < ApplicationController
   include RandomHash
-  before_action :authenticate_user!
+  # TODO: Lock down public access to show to game server only
+  before_action :authenticate_user!, except: [:show]
   before_action :set_game
   before_action :set_game_session, only: [:show, :edit, :update, :destroy]
 

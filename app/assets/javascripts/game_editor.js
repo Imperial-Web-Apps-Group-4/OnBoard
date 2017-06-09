@@ -1,8 +1,6 @@
 //= require vue
 //= require jquery
 //= require dmuploader.min
-//= require game_model
-//= require dmuploader.min
 /*global Vue deserialiseGame Game */
 /* exported editorVue */
 

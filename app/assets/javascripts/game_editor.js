@@ -23,6 +23,12 @@ Vue.component('game-editor', {
       let compObj = this.game.generateComponent(id, 0, 0);
       this.$set(this.game.components, compObj.id, compObj.component);
     }
+  },
+  mounted: function () {
+    eventBus.$on('componentDeleted', (id) => {
+      this.$delete(this.game.components, id);
+      console.log("deleted " + id);
+    })
   }
 });
 
@@ -46,7 +52,7 @@ Vue.component('toolbox', {
   }
 });
 
-let uploadBus = new Vue();
+let eventBus = new Vue();
 
 let stateStr = document.getElementById('game_state').value;
 let initialState;
@@ -63,7 +69,7 @@ let editorVue = new Vue({
     game: initialState
   },
   mounted: function () {
-    uploadBus.$on('newImage', (imageID, width, height) => {
+    eventBus.$on('newImage', (imageID, width, height) => {
       let classObj = this.game.generateComponentClass('', imageID, width, height);
       this.$set(this.game.manifest.componentClasses, classObj.id, classObj.compClass);
     });
@@ -74,6 +80,37 @@ document.querySelector('input[type=submit]').addEventListener('click', function(
   document.getElementById('game_state').value = JSON.stringify(editorVue.game);
 });
 
+/*document.querySelector('.recycle-bin').addEventListener('mouseenter', function(event){
+  event.target.classList.add('hover');
+});
+
+document.querySelector('.recycle-bin').addEventListener('mouseleave', function(event){
+  event.target.classList.remove('hover');
+});*/
+
+interact('.recycle-bin').dropzone({
+  accept: '.comp-drag',
+  overlap: 0.0000000001,
+  ondropactivate: function (event) {
+    document.querySelector('.board-area').classList.add('show-bin');
+  },
+  ondragenter: function (event) {
+    event.target.classList.add('hover');
+  },
+  ondragleave: function (event) {
+    event.target.classList.remove('hover');
+  },
+  ondrop: function (event) {
+    // Remove it from the manifest and delete the element
+    /* temporary */
+    eventBus.$emit('componentDeleted', event.relatedTarget.id);
+    event.target.classList.remove('hover');
+  },
+  ondropdeactivate: function (event) {
+    document.querySelector('.board-area').classList.remove('show-bin');
+  }
+});
+
 $('#image_upload').dmUploader({
   url: '/games/new_image',
   onUploadSuccess: function(id, data) {
@@ -81,7 +118,7 @@ $('#image_upload').dmUploader({
       // TODO: Inform user in a nicer way
       alert('Upload failed. Please check you are connected to the internet then try again.');
     } else {
-      uploadBus.$emit('newImage', data.id, data.width, data.height);
+      eventBus.$emit('newImage', data.id, data.width, data.height);
     }
   },
   onFallbackMode: function(msg) {

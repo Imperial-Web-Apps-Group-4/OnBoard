@@ -132,6 +132,9 @@ a {
     &.dragging {
       transform: scale(1.02);
       filter: url(#drop-shadow);
+      z-index: 100;
+      pointer-events: none;
+      opacity: 0.9;
     }
   }
 

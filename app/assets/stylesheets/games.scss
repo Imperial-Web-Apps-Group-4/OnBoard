@@ -214,6 +214,54 @@
       text-align: center;
     }
   }
+
+  .recycle-bin {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    margin-left: -50px;
+    z-index: 40;
+    transition: transform 0.1s ease-in-out;
+    
+    &, &::before {
+      width: 100px;
+      height: 100px;
+      background: $blue-highlight;
+      border-radius: 50px;
+      cursor: default;
+    }
+    
+    i {
+      text-shadow: 0 -1px 0 darken($blue-highlight, 10%);
+      margin: 0 auto;
+      display: block;
+      line-height: 50px;
+      user-select: none;
+    }
+    
+    &::before {
+      content: '';
+      position: absolute;
+      opacity: 0.5;
+      z-index: -1;
+      transition: transform 0.1s ease-in-out;
+      transform-origin: 50px 50px;
+    }
+
+  }
+  
+  .show-bin {
+    .recycle-bin {
+      transform: translateY(-50px);
+      
+      &:hover::before, &.hover::before {
+        transform: scale(1.5);
+      }
+    }
+  }
+
+
+
 }
 
 .controller-games.action-show {

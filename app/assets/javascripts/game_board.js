@@ -12,6 +12,9 @@ Vue.component('game-view', {
       :componentClass="game.manifest.componentClasses[component.classID]"
       :key="compID">
     </game-component>
+    <div class="recycle-bin">
+      <i class="material-icons">delete</i>
+    </div>
 </figure>`,
   mounted: function () {
     bus.$on('componentDragged', (function (componentID, dx, dy) {
@@ -58,9 +61,9 @@ interact('.comp-drag').draggable({
     bus.$emit('componentDragged', event.target.id, event.dx, event.dy);
   },
   onstart: (event) => {
-    event.target.classList.add("dragging");
+    event.target.classList.add('dragging');
   },
   onend: (event) => {
-    event.target.classList.remove("dragging");
+    event.target.classList.remove('dragging');
   }
 });

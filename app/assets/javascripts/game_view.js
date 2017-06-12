@@ -58,10 +58,10 @@ interact('.comp-drag').draggable({
     bus.$emit('componentDragged', event.target.id, event.dx, event.dy);
   },
   onstart: (event) => {
-    event.target.classList.add("dragging");
+    event.target.classList.add('dragging');
   },
   onend: (event) => {
-    event.target.classList.remove("dragging");
+    event.target.classList.remove('dragging');
   }
-  }
+}
 );

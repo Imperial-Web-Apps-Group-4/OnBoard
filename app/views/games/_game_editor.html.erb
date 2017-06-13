@@ -1,6 +1,8 @@
 <div class="left-settings sidebar">
 
-  <h2>General</h2>
+  <header>
+    <h2>General</h2>
+  </header>
 
   <%= form_for(game) do |f| %>
     <% if game.errors.any? %>
@@ -23,12 +25,6 @@
            id="cover_image" alt="Game Cover Photo" draggable="false" />
       <%= f.label :name %>
       <%= f.text_field :name, placeholder: :name %>
-    </div>
-
-    <div class="field" id="image_upload">
-      <%= label_tag :image, 'Add image: ' %>
-      <%= file_field_tag :image %>
-      <p class="grey-text text-darken-4">Max size 10MB</p>
     </div>
 
     <div class="field">

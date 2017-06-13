@@ -95,13 +95,52 @@
 
   .sidebar {
 
-    h2 {
+    header {
+      height: 40px;
       margin: -10px -10px 5px;
-      padding: 10px;
       border-bottom: 2px solid $blue-highlight;
       background-color: $dark-blue;
       background-image: linear-gradient(lighten($dark-blue, 2%), $dark-blue);
-      font-weight: bold;
+
+      @include clearfix;
+
+      h2 {
+        float: left;
+        padding: 0 10px;
+        line-height: 40px;
+        font-weight: bold;
+      }
+
+      .field {
+        position: relative;
+        float: right;
+        width: 24px;
+        height: 24px;
+        margin: 8px 10px;
+        background-color: $dark-grey-blue;
+        border-radius: 2px;
+        text-align: center;
+        transition: background-color 0.1s linear;
+
+        &:hover {
+          background-color: lighten($dark-grey-blue, 50%);
+        }
+
+        input {
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          opacity: 0;
+        }
+
+        i {
+          pointer-events: none;
+          user-select: none;
+          font-size: 20px;
+          line-height: 24px;
+          color: lighten($dark-grey-blue, 15%);
+        }
+      }
     }
 
   }
@@ -222,7 +261,7 @@
     margin-left: -50px;
     z-index: 40;
     transition: transform 0.1s ease-in-out;
-    
+
     &, &::before {
       width: 100px;
       height: 100px;
@@ -230,7 +269,7 @@
       border-radius: 50px;
       cursor: default;
     }
-    
+
     i {
       text-shadow: 0 -1px 0 darken($blue-highlight, 10%);
       margin: 0 auto;
@@ -238,7 +277,7 @@
       line-height: 50px;
       user-select: none;
     }
-    
+
     &::before {
       content: '';
       position: absolute;
@@ -249,11 +288,11 @@
     }
 
   }
-  
+
   .show-bin {
     .recycle-bin {
       transform: translateY(-50px);
-      
+
       &:hover::before, &.hover::before {
         transform: scale(1.5);
       }

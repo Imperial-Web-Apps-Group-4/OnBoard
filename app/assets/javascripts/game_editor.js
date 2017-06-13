@@ -48,7 +48,13 @@ $(function() {
     props: ['componentClasses'],
     template: `
     <div class="toolbox">
-      <h2>Toolbox</h2>
+      <header>
+        <h2>Toolbox</h2>
+        <div class="field" id="image_upload">
+          <i class="material-icons">file_upload</i>
+          <input type="file" name="image" id="image" />
+        </div>
+      </header>
       <ul>
         <li class="component" v-for="(componentClass, classID) in componentClasses">
           <div class="toolbox-item" v-on:click="classClicked(classID)">

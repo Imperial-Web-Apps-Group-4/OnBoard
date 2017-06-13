@@ -13,6 +13,14 @@ class UsersController < ApplicationController
   def show
   end
 
+  # POST /guest_login
+  def guest_login
+    params.require([:guest_name, :game_id, :game_hash])
+
+    session[:guest_name] = params[:guest_name]
+    redirect_to edit_game_game_session_path params[:game_id], params[:game_hash]
+  end
+
   # GET /
   def login_session
     params.require([:game_id, :game_hash])

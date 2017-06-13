@@ -17,7 +17,8 @@ class GameSessionsController < ApplicationController
 
   # GET /game/:game_id/game_sessions/1/play
   def edit
-    redirect_to "/users/login_session/#{params[:game_id]}/#{params[:game_hash]}" unless @current_user
+    redirect_to "/users/login_session/#{params[:game_id]}/#{params[:game_hash]}" \
+                unless @current_user or session[:guest_name]
   end
 
   # POST /game/:game_id/game_sessions

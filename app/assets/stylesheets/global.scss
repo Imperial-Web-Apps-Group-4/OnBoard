@@ -214,6 +214,12 @@ input[type=button], input[type=submit], .button {
   }
 }
 
+hr {
+  margin: 30px;
+  border: 1px solid lighten($blue-highlight, 5%);
+  border-bottom: none;
+}
+
 label {
   color: $grey-blue;
 }

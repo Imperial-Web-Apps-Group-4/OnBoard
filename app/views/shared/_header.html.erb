@@ -10,7 +10,7 @@
       <li><%= link_to "Browse", "/games" %></li>
     </ul>
     <div class="user-info">
-      <%= @current_user ? (render 'shared/logged_in_header') : (render 'shared/not_logged_in_header') %>
+      <%= render @header_user_data %>
     </div>
   </nav>
 </header>

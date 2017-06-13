@@ -4,4 +4,19 @@
                         width: '40%' %></figure>
   <h2>Log in to play <em><%= @session.game.name %></em> by <em><%= @session.game.user.name %></em></h2>
   <%= render 'login_form', :session_hidden_tags => true %>
+  <hr/>
+  <h2>Or play as a <em>guest</em></h2>
+  <%= form_tag guest_login_users_url, method: "post" do %>
+      <div class="field">
+        <%= label_tag :guest_name %>
+        <%= text_field_tag :guest_name %>
+      </div>
+
+      <%= hidden_field_tag :game_id, @session.game.id %>
+      <%= hidden_field_tag :game_hash, @session.game_hash %>
+
+      <div class="actions">
+        <%= submit_tag 'Play' %>
+      </div>
+  <% end %>
 </div>

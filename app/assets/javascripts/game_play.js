@@ -29,7 +29,7 @@ $(function() {
       return;
     }
 
-    let initialState = Models.deserialiseGame(JSON.parse(msg.initialState));
+    let initialState = Models.deserialiseGame(msg.initialState);
 
     // Create the Vue for the main screen
     gameplayVue = new Vue({

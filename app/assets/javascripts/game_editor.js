@@ -2,7 +2,7 @@
 //= require jquery
 //= require dmuploader.min
 //= require interact.min
-/*global Vue require interact onAnyOfPages deserialiseGame */
+/*global Vue require interact onAnyOfPages */
 /* exported editorVue */
 
 
@@ -70,7 +70,7 @@ $(function() {
   if (!stateStr) {
     initialState = new Models.Game();
   } else {
-    initialState = deserialiseGame(JSON.parse(stateStr));
+    initialState = Models.deserialiseGame(JSON.parse(stateStr));
   }
 
   let editorVue = new Vue({

@@ -1,14 +1,11 @@
 sudo: required
 
-language: ruby
-rvm:
-  - 2.4
+language: generic
 services:
   - docker
 
 env:
   DOCKER_COMPOSE_VERSION: 1.13.0
-  NOKOGIRI_USE_SYSTEM_LIBRARIES: true
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -25,7 +22,7 @@ install:
   - docker-compose run web rake db:create
 
 script:
-  - docker-compose run web rake db:migrate
+  - docker-compose run web rake db:schema:load
   - docker-compose run web rake test
 
 

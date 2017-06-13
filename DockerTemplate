@@ -14,7 +14,3 @@ WORKDIR /tmp
 COPY Gemfile /tmp/Gemfile
 COPY Gemfile.lock /tmp/Gemfile.lock
 RUN bundle install
-
-# Install NPM packages
-COPY package.json /tmp/package.json
-RUN npm install

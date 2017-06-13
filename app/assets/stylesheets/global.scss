@@ -11,6 +11,10 @@ body {
   background-color: $background-col;
 }
 
+em {
+  color: lighten($background-col, 50);
+}
+
 figure {
   margin: 0;
 }
@@ -212,4 +216,15 @@ input[type=button], input[type=submit], .button {
 
 label {
   color: $grey-blue;
+}
+
+.action-login_session, .action-login_attempt {
+  figure {
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  h2 {
+    text-align: center;
+  }
 }

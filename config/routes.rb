@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resources :users, :path_names => { :new => 'register' } do
     collection do
       get 'login' => 'users#login'
+      get 'login_session/:game_id/:game_hash' => 'users#login_session'
+      post 'login_session/:game_id/:game_hash' => 'users#login_attempt'
       post 'login' => 'users#login_attempt'
       get 'logout' => 'users#logout'
     end

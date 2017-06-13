@@ -1,7 +1,7 @@
 class GameSessionsController < ApplicationController
   include RandomHash
   # TODO: Lock down public access to show to game server only
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [:show, :edit]
   before_action :set_game
   before_action :set_game_session, only: [:show, :edit, :update, :destroy]
 
@@ -16,7 +16,8 @@ class GameSessionsController < ApplicationController
   end
 
   # GET /game/:game_id/game_sessions/1/play
-  def play
+  def edit
+    redirect_to "/users/login_session/#{params[:game_id]}/#{params[:game_hash]}" unless @current_user
   end
 
   # POST /game/:game_id/game_sessions

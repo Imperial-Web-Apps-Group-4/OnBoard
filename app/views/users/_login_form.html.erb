@@ -1,0 +1,21 @@
+<%= form_tag(method: "post") do %>
+    <div class="field">
+      <%= label_tag :email %>
+      <%= text_field_tag :email %>
+    </div>
+
+    <div class="field">
+      <%= label_tag :password %>
+      <%= password_field_tag :password %>
+    </div>
+
+    <% if defined? session_hidden_tags %>
+      <%= hidden_field_tag :game_id, @session.game.id %>
+      <%= hidden_field_tag :game_hash, @session.game_hash %>
+    <% end %>
+
+    <%= 'Login unsuccessful, try again' if @failed %>
+    <div class="actions">
+      <%= submit_tag 'Login' %>
+    </div>
+<% end %>

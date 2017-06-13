@@ -26,6 +26,7 @@ COPY Gemfile.lock /onboard/Gemfile.lock
 RUN bundle install
 
 # Install NPM packages
+COPY package-lock.json /onboard/package-lock.json
 COPY package.json /onboard/package.json
 RUN npm install
 

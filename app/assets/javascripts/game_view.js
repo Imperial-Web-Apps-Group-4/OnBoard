@@ -12,6 +12,9 @@ Vue.component('game-view', {
       :componentClass="game.manifest.componentClasses[component.classID]"
       :key="compID">
     </game-component>
+    <div class="recycle-bin">
+      <i class="material-icons">delete</i>
+    </div>
 </figure>`,
   mounted: function () {
     bus.$on('componentDragged', (function (componentID, dx, dy) {
@@ -28,7 +31,7 @@ Vue.component('game-component', {
   props: ['id', 'component', 'componentClass'],
   template: `
 <div v-bind:id="id" class="component" v-bind:class="{ 'comp-drag': !component.locked }" v-bind:style="position">
-  <img v-bind:style="size" v-bind:src="\'/user_upload/game_images/\' + componentClass.imageID + \'.png\'">
+  <img v-bind:style="size" v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
 </div>`,
   computed: {
     position: function () {

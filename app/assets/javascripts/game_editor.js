@@ -2,7 +2,7 @@
 //= require jquery
 //= require dmuploader.min
 //= require interact.min
-/*global Vue require interact onAnyOfPages */
+/*global Vue require interact onAnyOfPages deserialiseGame */
 /* exported editorVue */
 
 
@@ -11,8 +11,7 @@ $(function() {
 
   const Models = require('onboard-shared');
 
-  let resizeBus = new Vue();
-  let uploadBus = new Vue();
+  let eventBus = new Vue();
 
   Vue.component('game-editor', {
     props: ['game'],
@@ -32,12 +31,15 @@ $(function() {
       }
     },
     mounted: function () {
-      resizeBus.$on('componentResized', (componentID, width, height, dx, dy) => {
+      eventBus.$on('componentResized', (componentID, width, height, dx, dy) => {
         let classID = this.game.components[componentID].classID;
         this.game.resizeComponentClass(classID, width, height);
         let coords = this.game.getCoords(componentID);
         let movement = new Models.Movement(componentID, coords.x + dx, coords.y + dy);
         this.game.applyMovement(movement);
+      });
+      eventBus.$on('componentDeleted', (id) => {
+        this.$delete(this.game.components, id);
       });
     }
   });
@@ -50,7 +52,7 @@ $(function() {
       <ul>
         <li class="component" v-for="(componentClass, classID) in componentClasses">
           <div class="toolbox-item" v-on:click="classClicked(classID)">
-            <img v-bind:src="\'/user_upload/game_images/\' + componentClass.imageID + \'.png\'">
+            <img v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
           </div>
         </li>
       </ul>
@@ -68,7 +70,7 @@ $(function() {
   if (!stateStr) {
     initialState = new Models.Game();
   } else {
-    initialState = Models.deserialiseGame(JSON.parse(stateStr));
+    initialState = deserialiseGame(JSON.parse(stateStr));
   }
 
   let editorVue = new Vue({
@@ -77,7 +79,7 @@ $(function() {
       game: initialState
     },
     mounted: function () {
-      uploadBus.$on('newImage', (imageID, width, height) => {
+      eventBus.$on('newImage', (imageID, width, height) => {
         let classObj = this.game.generateComponentClass('', imageID, width, height);
         this.$set(this.game.manifest.componentClasses, classObj.id, classObj.compClass);
       });
@@ -95,11 +97,34 @@ $(function() {
         // TODO: Inform user in a nicer way
         alert('Upload failed. Please check you are connected to the internet then try again.');
       } else {
-        uploadBus.$emit('newImage', data.id, data.width, data.height);
+        eventBus.$emit('newImage', data.id, data.width, data.height);
       }
     },
     onFallbackMode: function (msg) {
       alert('Upload script cannot be initialised' + msg);
+    }
+  });
+
+  interact('.recycle-bin').dropzone({
+    accept: '.comp-drag',
+    overlap: 0.0000000001,
+    ondropactivate: function () {
+      document.querySelector('.board-area').classList.add('show-bin');
+    },
+    ondragenter: function (event) {
+      event.target.classList.add('hover');
+    },
+    ondragleave: function (event) {
+      event.target.classList.remove('hover');
+    },
+    ondrop: function (event) {
+      // Remove it from the manifest and delete the element
+      /* temporary */
+      eventBus.$emit('componentDeleted', event.relatedTarget.id);
+      event.target.classList.remove('hover');
+    },
+    ondropdeactivate: function () {
+      document.querySelector('.board-area').classList.remove('show-bin');
     }
   });
 
@@ -117,12 +142,10 @@ $(function() {
   });
 
 
-  interact('.comp-drag')
-  .resizable({
+  interact('.comp-drag').resizable({
     onmove : function (event) {
-      resizeBus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
+      eventBus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
     },
-
     edges: { top: true, left: true, bottom: true, right: true },
     // Aspect ratio resize disabled (buggy)
     preserveAspectRatio: false,

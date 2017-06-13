@@ -13,23 +13,37 @@ class UsersController < ApplicationController
   def show
   end
 
-  # GET /users/login
-  def login
-    @user = User.new
+  # GET /
+  def login_session
+    params.require([:game_id, :game_hash])
+
+    @session = Game.find(params[:game_id]).game_session.find_by! game_hash: params[:game_hash]
   end
 
   # POST /users/login
   def login_attempt
     params.require([:email, :password])
+    params.permit([:game_id, :game_hash])
 
     @user = User.find_by_email(params[:email])
 
     if not @user.nil? and @user.authenticate params[:password]
       session[:logged_in_email] = @user.email
-      redirect_to root_path, notice: 'Login successful'
+
+      if params[:game_id]
+        redirect_to edit_game_game_session_path(params[:game_id], params[:game_hash])
+      else
+        redirect_to root_path, notice: 'Login successful'
+      end
     else
       @failed = true
-      render :login
+
+      if params[:game_id]
+        @session = Game.find(params[:game_id]).game_session.find_by! game_hash: params[:game_hash]
+        render :login_session
+      else
+        render :login
+      end
     end
   end
 

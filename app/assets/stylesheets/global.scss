@@ -191,6 +191,7 @@ input[type=text], input[type=password] {
 }
 
 input[type=button], input[type=submit], .button {
+  margin-top: 10px;
   text-align: center;
   background-color: $blue-highlight;
   border: 0 darken($blue-highlight, 10%) solid;

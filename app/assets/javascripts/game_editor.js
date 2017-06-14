@@ -52,7 +52,7 @@ $(function() {
         <h2>Toolbox</h2>
         <div class="field" id="image_upload">
           <i class="material-icons">file_upload</i>
-          <input type="file" name="image" id="image" />
+          <input type="file" multiple="multiple" name="image" id="image" />
         </div>
       </header>
       <ul>

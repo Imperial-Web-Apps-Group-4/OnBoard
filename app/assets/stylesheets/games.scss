@@ -1,6 +1,9 @@
 @import '_variables.scss';
 
 .controller-games {
+  &.action-edit, &.action-new {
+    overflow: hidden;
+  }
 
   #images-display {
     img {

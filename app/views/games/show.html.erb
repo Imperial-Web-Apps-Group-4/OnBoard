@@ -6,18 +6,24 @@
        class="background-image" alt="Board Game Cover Art" draggable="false" />
 </div>
 
-<%= link_to game_game_sessions_path(game_id: @game.id), method: :post, class: 'btn waves-affect waves-light', 'data-turbolinks' => false do %>
-  New Game<i class="material-icons right">play_arrow</i>
-<% end %>
-&nbsp;
-<%= link_to 'Edit', edit_game_path(@game), class: 'btn waves-affect waves-light', 'data-turbolinks' => false  %>
-<h2>Saves:</h2>
-<ul class="collection">
-  <% @game.game_session.each do |session| %>
-  <li class="collection-item">
-    <%= session.created_at %>
-    <%= link_to 'View', [@game, session], class: 'waves-effect waves-teal btn-flat secondary-content', 'data-turbolinks' => false  %>
-    <%= link_to 'Play', [:edit, @game, session], class: 'waves-effect waves-teal btn-flat secondary-content', 'data-turbolinks' => false  %>
-  </li>
-  <% end %>
-</ul>
+<div class="thin-page">
+  <div class="button-horizontal-container">
+    <%= link_to game_game_sessions_path(game_id: @game.id), method: :post, class: 'button button-left-half' do %>
+      New Game
+    <% end %>
+
+    <%= link_to 'Edit', edit_game_path(@game), class: 'button button-right-half' %>
+  </div>
+
+  <h2>Saves:</h2>
+  <ul class="collection">
+    <% @game.game_session.each do |session| %>
+    <li>
+      <%= link_to raw("<i class='material-icons'>play_arrow</i>"), [:edit, @game, session], class: 'button inline-button', 'data-turbolinks' => false  %>
+      &nbsp;
+      <%= session.created_at.to_formatted_s(:long_ordinal) %>
+    </li>
+    <% end %>
+  </ul>
+</div>
+

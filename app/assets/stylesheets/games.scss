@@ -310,20 +310,6 @@
     font-size: 3.5em;
   }
 
-  .collection {
-    max-width: 600px;
-    margin: auto;
-
-    /* TODO: Tidy this up */
-    .collection-item {
-      height: 48px;
-      line-height: 32px;
-
-      a {
-        margin-top: -4px;
-      }
-    }
-  }
 }
 
 .controller-games.action-edit {

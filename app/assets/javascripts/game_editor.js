@@ -20,16 +20,27 @@ $(function() {
     template: `
     <div>
       <div class="middle">
-        <game-view :game="game"></game-view>
+        <game-view :game="game" v-bind:selectedComponentID="selectedComponentID"
+        v-on:componentClicked="componentClickedHandler"></game-view>
       </div>
       <div class="right-settings sidebar">
-        <toolbox v-bind:componentClasses="game.manifest.componentClasses" v-on:classClicked="classClickedHandler"></toolbox>
+        <toolbox v-bind:game="game"
+                 v-bind:selectedComponentID="selectedComponentID"
+                 v-on:componentPropertyChanged="componentPropertyChangedHander"
+                 v-on:classClicked="classClickedHandler"></toolbox>
       </div>
     </div>`,
     methods: {
       classClickedHandler: function (id) {
         let compObj = this.game.generateComponent(id, 0, 0);
         this.$set(this.game.components, compObj.id, compObj.component);
+      },
+      componentClickedHandler: function(componentID) {
+        this.selectedComponent = this.game.components[componentID];
+        this.selectedComponentID = componentID;
+      },
+      componentPropertyChangedHander: function(id, property, value) {
+        this.game.components[id][property] = value;
       }
     },
     mounted: function () {
@@ -43,27 +54,47 @@ $(function() {
       eventBus.$on('componentDeleted', (id) => {
         this.$delete(this.game.components, id);
       });
+    },
+    data: function () {
+      return {
+        selectedComponent: null,
+        selectedComponentID: null
+      };
     }
   });
 
   Vue.component('toolbox', {
-    props: ['componentClasses'],
+    props: ['game', 'selectedComponentID'],
     template: `
     <div class="toolbox">
+
+      <template v-if="selectedComponentID !== null">
+        <header>
+          <h2>Edit Item {{selectedComponentID}}</h2>
+        </header>
+
+
+        <label> Position </label>
+        <input type="text" v-for="(property, key) in game.components[selectedComponentID]"
+                           v-bind:value="property"
+                           v-on:input="componentPropertyChanged(selectedComponentID, key, $event.target.value)" />
+
+        <br/>
+      </template>
       <header>
         <h2>Toolbox</h2>
-        <div class="field" v-bind:class="{'no-component-glow': Object.entries(componentClasses).length === 0}" id="image_upload">
+        <div class="field" v-bind:class="{'no-component-glow': Object.entries(game.manifest.componentClasses).length === 0}" id="image_upload">
           <i class="material-icons">file_upload</i>
           <input type="file" multiple="multiple" name="image" id="image" />
         </div>
       </header>
       <ul>
-        <li class="component" v-for="(componentClass, classID) in componentClasses">
+        <li class="component" v-for="(componentClass, classID) in game.manifest.componentClasses">
           <div class="toolbox-item" v-on:click="classClicked(classID)">
             <img v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
           </div>
         </li>
-        <li class="no-component-text" v-if="Object.entries(componentClasses).length === 0">
+        <li class="no-component-text" v-if="Object.entries(game.manifest.componentClasses).length === 0">
           Upload new images with the button above
         </li>
       </ul>
@@ -71,6 +102,9 @@ $(function() {
     methods: {
       classClicked: function (classID) {
         this.$emit('classClicked', classID);
+      },
+      componentPropertyChanged: function (id, property, value) {
+        this.$emit('componentPropertyChanged', id, property, value);
       }
     }
   });
@@ -145,7 +179,7 @@ $(function() {
       if (data.error !== undefined) {
         console.log('Upload failed!');
       } else {
-        console.log('Succefully uploaded cover image; hash: ' + data.id);
+        console.log('Successfully uploaded cover image; hash: ' + data.id);
         $('#cover_image').attr('src', '/user_upload/game_images/' + data.id + '.png');
         $('#user_image_hash').val(data.id);
       }

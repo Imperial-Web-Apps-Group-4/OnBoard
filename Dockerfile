@@ -1,4 +1,4 @@
-FROM kianm/onboard-template
+FROM kianm/onboard-template@sha256:03137c5b6df97f74310ca5d10b9f683795df495b055c6e87f5c1dcbc71139f04
 
 # Set up directories
 RUN mkdir /onboard

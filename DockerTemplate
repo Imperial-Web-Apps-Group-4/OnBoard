@@ -2,10 +2,11 @@ FROM ruby:2.4
 
 # Install prereqs
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev \
-  libxml2-dev libxslt1-dev nodejs postgresql-client npm
+  libxml2-dev libxslt1-dev nodejs postgresql-client
 
-# Set up Node
-RUN ln -s /usr/bin/nodejs /usr/bin/node
+# Set up node
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN apt-get install -y nodejs
 
 RUN mkdir -p /tmp
 WORKDIR /tmp

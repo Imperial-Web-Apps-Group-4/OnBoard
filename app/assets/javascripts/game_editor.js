@@ -9,7 +9,9 @@
 $(function() {
   if (!onAnyOfPages({'games': ['new', 'edit']})) return;
 
-  const Models = require('onboard-shared');
+  const Shared = require('onboard-shared');
+  const Action = Shared.Action;
+  const Game = Shared.Game;
 
   let eventBus = new Vue();
 
@@ -35,7 +37,7 @@ $(function() {
         let classID = this.game.components[componentID].classID;
         this.game.resizeComponentClass(classID, width, height);
         let coords = this.game.getCoords(componentID);
-        let movement = new Models.Movement(componentID, coords.x + dx, coords.y + dy);
+        let movement = new Action.Movement(componentID, coords.x + dx, coords.y + dy);
         this.game.applyMovement(movement);
       });
       eventBus.$on('componentDeleted', (id) => {
@@ -74,9 +76,9 @@ $(function() {
   let initialState;
 
   if (!stateStr) {
-    initialState = new Models.Game();
+    initialState = new Game();
   } else {
-    initialState = Models.deserialiseGame(JSON.parse(stateStr));
+    initialState = Shared.deserialiseGame(JSON.parse(stateStr));
   }
 
   let editorVue = new Vue({

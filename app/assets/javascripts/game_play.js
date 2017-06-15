@@ -6,7 +6,8 @@
 $(function() {
   if (!onAnyOfPages({'game_sessions': ['edit']})) return;
 
-  const Models = require('onboard-shared');
+  const Shared = require('onboard-shared');
+  const Message = Shared.Message;
 
   let gameID = window.location.pathname.match(/games\/(\d+)\//)[1];
   let sessionID = window.location.pathname.match(/\w{26}/)[0];
@@ -29,7 +30,7 @@ $(function() {
       return;
     }
 
-    let initialState = Models.deserialiseGame(msg.initialState);
+    let initialState = Shared.deserialiseGame(msg.initialState);
 
     // Create the Vue for the main screen
     gameplayVue = new Vue({
@@ -41,12 +42,12 @@ $(function() {
             console.error('Unrecognised message format. Full message:', msg);
             return;
           }
-          this.game.applyMovement(msg.action);
+          this.game.applyAction(msg.action);
         });
       },
       methods: {
         componentMovedHandler: function (movement) {
-          socket.send(new Models.GameMessage(movement).serialise());
+          socket.send(new Message.GameMessage(movement).serialise());
         }
       },
       data: {

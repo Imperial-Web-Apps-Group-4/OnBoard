@@ -38,7 +38,7 @@ $(function() {
         this.game.resizeComponentClass(classID, width, height);
         let coords = this.game.getCoords(componentID);
         let movement = new Action.Movement(componentID, coords.x + dx, coords.y + dy);
-        this.game.applyMovement(movement);
+        this.game.applyAction(movement);
       });
       eventBus.$on('componentDeleted', (id) => {
         this.$delete(this.game.components, id);

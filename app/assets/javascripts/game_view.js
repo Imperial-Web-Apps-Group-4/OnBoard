@@ -42,8 +42,8 @@ Vue.component('game-component', {
     },
     size: function() {
       return {
-        width: this.componentClass.width + 'px',
-        height: this.componentClass.height + 'px'
+        width: this.componentClass.defaultWidth + 'px',
+        height: this.componentClass.defaultWidth + 'px'
       };
     }
   }

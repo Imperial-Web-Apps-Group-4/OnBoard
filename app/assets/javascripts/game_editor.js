@@ -38,7 +38,7 @@ $(function() {
         this.game.resizeComponentClass(classID, width, height);
         let coords = this.game.getCoords(componentID);
         let movement = new Action.Movement(componentID, coords.x + dx, coords.y + dy);
-        this.game.applyMovement(movement);
+        this.game.applyAction(movement);
       });
       eventBus.$on('componentDeleted', (id) => {
         this.$delete(this.game.components, id);
@@ -52,7 +52,7 @@ $(function() {
     <div class="toolbox">
       <header>
         <h2>Toolbox</h2>
-        <div class="field" id="image_upload">
+        <div class="field" v-bind:class="{'no-component-glow': Object.entries(componentClasses).length === 0}" id="image_upload">
           <i class="material-icons">file_upload</i>
           <input type="file" multiple="multiple" name="image" id="image" />
         </div>
@@ -62,6 +62,9 @@ $(function() {
           <div class="toolbox-item" v-on:click="classClicked(classID)">
             <img v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
           </div>
+        </li>
+        <li class="no-component-text" v-if="Object.entries(componentClasses).length === 0">
+          Upload new images with the button above
         </li>
       </ul>
     </div>`,

@@ -17,7 +17,7 @@
 
   <h2>Saves:</h2>
   <ul class="collection">
-    <% @game.game_session.each do |session| %>
+    <% @game.game_session.reverse.each do |session| %>
     <li>
       <%= link_to raw("<i class='material-icons'>play_arrow</i>"), [:edit, @game, session], class: 'button inline-button', 'data-turbolinks' => false  %>
       &nbsp;

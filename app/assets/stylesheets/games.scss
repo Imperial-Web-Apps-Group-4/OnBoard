@@ -153,6 +153,8 @@
     ul {
       margin: 0 -5px;
       display: flex;
+      flex-wrap: wrap;
+      
       li {
         width: 25%;
         line-height: 0;

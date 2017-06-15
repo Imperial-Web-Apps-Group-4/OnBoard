@@ -48,7 +48,7 @@ $(function() {
         let classID = this.game.components[componentID].classID;
         this.game.resizeComponentClass(classID, width, height);
         let coords = this.game.getCoords(componentID);
-        let movement = new Action.Movement(componentID, coords.x + dx, coords.y + dy);
+        let movement = new Action.Movement(componentID, parseInt(coords.x) + parseInt(dx), parseInt(coords.y) + parseInt(dy));
         this.game.applyAction(movement);
       });
       eventBus.$on('componentDeleted', (id) => {
@@ -73,13 +73,18 @@ $(function() {
           <h2>Edit Item {{selectedComponentID}}</h2>
         </header>
 
+        <label for="position-x-selection"> Position X </label>
+        <input type="number" v-bind:value="game.components[selectedComponentID].posX" min="0" id="position-x-selection"
+                             v-on:input="componentPropertyChanged(selectedComponentID, 'posX', $event.target.value)" />
 
-        <label> Position </label>
-        <input type="text" v-for="(property, key) in game.components[selectedComponentID]"
-                           v-bind:value="property"
-                           v-on:input="componentPropertyChanged(selectedComponentID, key, $event.target.value)" />
+        <label for="position-y-selection"> Position Y </label>
+        <input type="number" v-bind:value="game.components[selectedComponentID].posY" min="0" id="position-y-selection"
+                             v-on:input="componentPropertyChanged(selectedComponentID, 'posY', $event.target.value)" />
 
-        <br/>
+       <input type="checkbox" v-bind:checked="game.components[selectedComponentID].locked" id="position-y-locked"
+                            v-on:click="componentPropertyChanged(selectedComponentID, 'locked', $event.target.checked)" />
+       <label for="position-y-locked"> Locked </label>
+
       </template>
       <header>
         <h2>Toolbox</h2>
@@ -153,7 +158,8 @@ $(function() {
   interact('.recycle-bin').dropzone({
     accept: '.comp-drag',
     overlap: 0.0000000001,
-    ondropactivate: function () {
+    ondropactivate: function (event) {
+      if ($(event.relatedTarget).hasClass('locked')) return;
       document.querySelector('.board-area').classList.add('show-bin');
     },
     ondragenter: function (event) {
@@ -189,6 +195,8 @@ $(function() {
 
   interact('.comp-drag').resizable({
     onmove : function (event) {
+      console.log($(event.target));
+      if ($(event.target).hasClass('locked')) return;
       eventBus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
     },
     edges: { top: true, left: true, bottom: true, right: true },

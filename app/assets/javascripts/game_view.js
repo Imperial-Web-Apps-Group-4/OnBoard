@@ -35,7 +35,7 @@ Vue.component('game-view', {
 Vue.component('game-component', {
   props: ['id', 'component', 'componentClass', 'selected'],
   template: `
-<div v-bind:id="id" class="component" v-bind:class="{ 'comp-drag': !component.locked, 'comp-selected': selected }" v-bind:style="position">
+<div v-bind:id="id" class="component comp-drag" v-bind:class="{ 'locked': component.locked, 'comp-selected': selected }" v-bind:style="position">
   <img v-bind:style="size" v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
 </div>`,
   computed: {
@@ -63,9 +63,11 @@ interact('.comp-drag').draggable({
     elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
   },
   onmove: (event) => {
+    if ($(event.target).hasClass('locked')) return;
     bus.$emit('componentDragged', event.target.id, event.dx, event.dy);
   },
   onstart: (event) => {
+    if ($(event.target).hasClass('locked')) return;
     event.target.classList.add('dragging');
   },
   onend: (event) => {

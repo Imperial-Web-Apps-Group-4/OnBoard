@@ -29,6 +29,22 @@ a {
   color: #fff;
 }
 
+.material-icons {
+    direction: ltr;
+    display: inline-block;
+    font-family: 'Material Icons';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    line-height: 1;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
 .site-header {
   height: 48px;
   background-color: $dark-blue;
@@ -166,10 +182,11 @@ a {
   display: none;
 }
 
-input[type=button], input[type=submit], input[type=text], input[type=password], .button {
+input[type=button], input[type=submit], input[type=text], input[type=password],
+input[type=number], input[type=checkbox], button, .button {
   display: block;
   width: 100%;
-  padding: 10px !important;
+  padding: 10px;
   border-radius: 2px;
   color: #fff;
   transition: all 0.05s linear;
@@ -178,7 +195,7 @@ input[type=button], input[type=submit], input[type=text], input[type=password], 
   margin: 5px 0;
 }
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=number], input[type=checkbox] {
   border: 1px solid $grey-blue;
   background-color: rgba(255,255,255,.02);
 
@@ -188,6 +205,31 @@ input[type=text], input[type=password] {
 
   &:active, &:focus {
     background-color: rgba(255,255,255,.05);
+  }
+}
+
+input[type=checkbox] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  float: left;
+
+  &:checked::before {
+    @extend .material-icons;
+    content: 'check';
+    width: 100%;
+    line-height: 30px;
+    text-align: center;
+    color: $grey-blue;
+  }
+
+  & + label {
+    margin: 10px 0 0 44px;
+    height: 34px;
+    line-height: 34px;
   }
 }
 

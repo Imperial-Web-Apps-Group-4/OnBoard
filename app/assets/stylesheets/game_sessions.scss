@@ -1,6 +1,11 @@
 @import '_variables.scss';
 
+$chat-box-size: 200px;
+
 .controller-game_sessions {
+  &.action-edit {
+    overflow: hidden;
+  }
 
 .board {
   position: relative;
@@ -53,5 +58,100 @@ border-radius: 0 0 2px 2px;
 .game-table {
   height: calc(100vh - 48px);
 }
+
+.game-table-chat-enabled {
+  height: calc(100vh - 48px - #{$chat-box-size});
+}
+
+.chatbox {
+  .official-chat {
+    font-weight: bold;
+    em {
+      color: lighten($blue-highlight, 25%);
+    }
+  }
+
+  width: 100%;
+  height: $chat-box-size;
+  background-color: $dark-grey-blue;
+
+  .chatbox-content {
+    height: calc(#{$chat-box-size} - 40px);
+    #messages-display {
+      height: calc(#{$chat-box-size} - 40px - 32px - 10px);
+      overflow: scroll;
+      overflow-x: hidden;
+    }
+  }
+
+  #messages-display {
+    padding: 5px;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  input[type="text"] {
+    border-radius: 0;
+    margin: 0;
+    height: 32px;
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  header {
+    height: 40px;
+    border-bottom: 2px solid $blue-highlight;
+    background-color: $dark-blue;
+    background-image: linear-gradient(lighten($dark-blue, 2%), $dark-blue);
+
+    @include clearfix;
+
+    h2 {
+      float: left;
+      padding: 0 10px;
+      line-height: 40px;
+      font-weight: bold;
+    }
+
+    .field {
+      position: relative;
+      float: right;
+      width: 24px;
+      height: 24px;
+      margin: 8px 10px;
+      background-color: $dark-grey-blue;
+      border-radius: 2px;
+      text-align: center;
+      transition: background-color 0.1s linear;
+
+      &:hover {
+        background-color: lighten($dark-grey-blue, 50%);
+      }
+
+      input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+      }
+
+      i {
+        pointer-events: none;
+        user-select: none;
+        font-size: 20px;
+        line-height: 24px;
+        color: lighten($dark-grey-blue, 15%);
+      }
+    }
+  }
+
+  .messages {
+    padding: 5px;
+  }
+}
+
 
 }

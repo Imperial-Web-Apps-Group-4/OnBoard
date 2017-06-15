@@ -60,4 +60,11 @@ $(function() {
     };
   };
 
+  new Vue({
+    el: '#messages-display',
+    data: {
+        messages: [{name: "Greta", content: "Hi Timmy!"},{name: "Timothy", content: "Hi Greta!"},{name: "OnBoard", content: "Welcome to OnBoard!", official: true}]
+    }
+  });
+
 });

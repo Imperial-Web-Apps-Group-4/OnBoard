@@ -1,6 +1,6 @@
 //= require vue
 //= require config
-/* global Vue config require */
+/* global Vue config require NAME onAnyOfPages */
 /* exported board */
 
 $(function() {
@@ -13,6 +13,40 @@ $(function() {
   let sessionID = window.location.pathname.match(/\w{26}/)[0];
   let socket = new WebSocket('ws://' + config.gameServer + '/games/' + gameID + '/session/' + sessionID);
   let gameplayVue;
+
+  Vue.component('chat-area', {
+    props: ['messages'],
+    template: `
+    <div class="chatbox-content" id="chatbox-message-area">
+      <div id="messages-display">
+        <div v-for="msg in messages">
+            <span v-bind:class="{'official-chat': msg.official}">
+              <em>{{msg.name}}:</em>
+              {{msg.content}}
+            </span>
+        </div>
+      </div>
+      <input v-model="typingMessage" v-on:keyup.enter="sendChat" type="text"/>
+    </div>`,
+    mounted: function () {
+      const WelcomeMessage = new Message.ChatMessage('OnBoard', 'Welcome to OnBoard!', true);
+      this.addMessage(WelcomeMessage);
+    },
+    methods: {
+      addMessage: function(msg) {
+        this.messages.unshift(msg);
+      },
+      sendChat: function() {
+        let msg = new Message.ChatMessage(NAME, this.typingMessage);
+        this.addMessage(msg);
+        this.$emit('message-sent', msg);
+        this.typingMessage = '';
+      }
+    },
+    data: function () {
+      return { typingMessage: '' };
+    }
+  });
 
   socket.onopen = function () {
     console.log(`Connected to game server. Session ID: ${sessionID}.`);
@@ -38,20 +72,34 @@ $(function() {
       mounted: function () {
         console.log('Board Vue loaded.');
         this.$on('messageReceived', function (msg) {
-          if (msg.type !== 'game' || msg.action.type !== 'movement') {
+          switch (msg.type) {
+          case 'game':
+            if (msg.action.type !== 'movement') {
+              console.error('Unrecognised action format. Full message:', msg);
+              return;
+            }
+            this.game.applyAction(msg.action);
+            break;
+          case 'chat':
+            this.chatMessages.unshift(msg);
+            break;
+          default:
             console.error('Unrecognised message format. Full message:', msg);
-            return;
           }
-          this.game.applyAction(msg.action);
+
         });
       },
       methods: {
         componentMovedHandler: function (movement) {
           socket.send(new Message.GameMessage(movement).serialise());
+        },
+        msgSentHandler: function (msg) {
+          socket.send(msg.serialise());
         }
       },
       data: {
-        game: initialState
+        game: initialState,
+        chatMessages: []
       }
     });
 
@@ -60,19 +108,4 @@ $(function() {
       gameplayVue.$emit('messageReceived', JSON.parse(event.data));
     };
   };
-
-  new Vue({
-    el: '#chatbox-message-area',
-    data: {
-        chatmessages: [{name: "OnBoard", content: "Welcome to OnBoard!", official: true}],
-        typingMessage: ''
-    },
-    methods: {
-        sendChat: function(event) {
-            this.chatmessages.unshift({name: NAME, content: this.typingMessage});
-            this.typingMessage = '';
-        }
-    }
-  });
-
 });

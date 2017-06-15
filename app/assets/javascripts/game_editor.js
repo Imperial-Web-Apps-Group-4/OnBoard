@@ -23,13 +23,16 @@ $(function() {
         <game-view :game="game"></game-view>
       </div>
       <div class="right-settings sidebar">
-        <toolbox v-bind:componentClasses="game.manifest.componentClasses" v-on:classClicked="classClickedHandler"></toolbox>
+        <toolbox v-bind:componentClasses="game.manifest.componentClasses" v-on:deckCreated="deckCreationHandler" v-on:classClicked="classClickedHandler"></toolbox>
       </div>
     </div>`,
     methods: {
       classClickedHandler: function (id) {
         let compObj = this.game.generateComponent(id, 0, 0);
         this.$set(this.game.components, compObj.id, compObj.component);
+      },
+      deckCreationHandler: function(backID, cardIDs) {
+        console.log("Creating a deck!");
       }
     },
     mounted: function () {
@@ -46,6 +49,12 @@ $(function() {
     }
   });
 
+  var DeckCreationStages = {
+    NOT_CREATING: 0,
+    CHOOSING_CARDS: 1,
+    CHOOSING_BACK: 2
+  };
+
   Vue.component('toolbox', {
     props: ['componentClasses'],
     template: `
@@ -57,7 +66,7 @@ $(function() {
           <input type="file" multiple="multiple" name="image" id="image" />
         </div>
       </header>
-      <ul>
+      <ul v-bind:class="{'creating-deck-component-list': deckCreationStage !== DeckCreationStages.NOT_CREATING}">
         <li class="component" v-for="(componentClass, classID) in componentClasses">
           <div class="toolbox-item" v-on:click="classClicked(classID)">
             <img v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
@@ -67,10 +76,85 @@ $(function() {
           Upload new images with the button above
         </li>
       </ul>
+      <header>
+        <h2>Card Decks</h2>
+        <div class="field" v-bind:class="{'no-component-glow': Object.entries(componentClasses).length === 0}">
+          <i class="material-icons">add</i>
+          <button @click="newCardDeck">Add card deck</button>
+        </div>
+      </header>
+      <section v-if="deckCreationStage === DeckCreationStages.CHOOSING_CARDS">
+        <ul>
+          <li class="component" v-for="classID in newDeckComponentClasses">
+            <div class="toolbox-item" v-on:click="deckClassClicked(classID)">
+              <img v-bind:src="'/user_upload/game_images/' + componentClasses[classID].imageID + '.png'">
+            </div>
+          </li>
+          <li class="no-component-text" v-if="Object.entries(newDeckComponentClasses).length === 0">
+            Click cards above to add to deck. You may upload new ones if necessary.
+          </li>
+        </ul>
+        <div class="button-horizontal-container" v-if="Object.entries(newDeckComponentClasses).length > 0">
+          <button @click="acceptDeckCards" class="button button-left-half">Accept</button>
+          <button @click="cancelNewDeck" class="button button-left-half">Cancel</button>
+        </div>
+      </section>
+      <section v-if="deckCreationStage === DeckCreationStages.CHOOSING_BACK">
+        <ul>
+          <li class="component" v-if="newDeckComponentClassBack !== undefined">
+            <div class="toolbox-item">
+              <img v-bind:src="'/user_upload/game_images/' + componentClasses[newDeckComponentClassBack].imageID + '.png'">
+            </div>
+          </li>
+          <li class="no-component-text" v-if="newDeckComponentClassBack === undefined">
+            Now choose an image for the back of your cards. You may upload a one if necessary.
+          </li>
+        </ul>
+        <div class="button-horizontal-container" v-if="newDeckComponentClassBack !== undefined">
+          <button @click="acceptDeck" class="button button-left-half">Accept</button>
+          <button @click="cancelNewDeck" class="button button-left-half">Cancel</button>
+        </div>
+      </section>
     </div>`,
+    data: function() {
+      return {
+        DeckCreationStages: DeckCreationStages,
+        deckCreationStage: DeckCreationStages.NOT_CREATING,
+        newDeckComponentClasses: [],
+        newDeckComponentClassBack: undefined
+      }
+    },
     methods: {
       classClicked: function (classID) {
-        this.$emit('classClicked', classID);
+        switch (this.deckCreationStage) {
+          case DeckCreationStages.NOT_CREATING:
+            this.$emit('classClicked', classID);
+            break;
+          case DeckCreationStages.CHOOSING_CARDS:
+            this.newDeckComponentClasses.push(classID);
+            break;
+          case DeckCreationStages.CHOOSING_BACK:
+            this.newDeckComponentClassBack = classID;
+            break;
+        }
+      },
+      newCardDeck: function() {
+        this.deckCreationStage = DeckCreationStages.CHOOSING_CARDS;
+      },
+      deckClassClicked: function(classID) {
+        this.newDeckComponentClasses.splice(this.newDeckComponentClasses.indexOf(classID), 1);
+      },
+      acceptDeckCards: function() {
+        this.deckCreationStage = DeckCreationStages.CHOOSING_BACK;
+      },
+      acceptDeck: function() {
+        this.$emit('deckCreated', this.newDeckComponentClassBack, this.newDeckComponentClasses);
+        this.cancelNewDeck();
+      },
+      cancelNewDeck: function() {
+        this.newDeckComponentClassBack = undefined;
+        this.newDeckComponentClasses = [];
+        this.deckCreationStage = DeckCreationStages.NOT_CREATING;
       }
     }
   });

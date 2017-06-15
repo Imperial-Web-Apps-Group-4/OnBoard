@@ -96,27 +96,30 @@
     color: $grey-blue;
   }
 
-  .sidebar {
+  @keyframes new-user-glow {
+    from { box-shadow:0px 0px 2px 1px $blue-highlight; }
+    to { box-shadow:0px 0px 0px 0px $blue-highlight; }
+  }
 
+  .sidebar {
     header {
       height: 40px;
-      margin: -10px -10px 5px;
+      margin: 5px -10px;
       border-bottom: 2px solid $blue-highlight;
       background-color: $dark-blue;
       background-image: linear-gradient(lighten($dark-blue, 2%), $dark-blue);
 
       @include clearfix;
 
+      &:first-of-type {
+        margin-top: -10px;
+      }
+
       h2 {
         float: left;
         padding: 0 10px;
         line-height: 40px;
         font-weight: bold;
-      }
-
-      @keyframes new-user-glow {
-        from { box-shadow:0px 0px 2px 1px $blue-highlight; }
-        to { box-shadow:0px 0px 0px 0px $blue-highlight; }
       }
 
       .field {
@@ -138,9 +141,10 @@
           background-color: lighten($dark-grey-blue, 50%);
         }
 
-        input {
+        input, button {
           position: absolute;
           top: 0; left: 0;
+          cursor: pointer;
           width: 100%; height: 100%;
           opacity: 0;
         }
@@ -157,7 +161,7 @@
 
     .no-component-text {
       margin: 10px;
-      width: 300px;
+      width: 100%;
       text-shadow: 0 -1px 1px #2e3244;
       font-size: 16px;
       color: white;
@@ -172,6 +176,14 @@
       margin: 0 -5px;
       display: flex;
       flex-wrap: wrap;
+
+      &.creating-deck-component-list {
+        li {
+          .toolbox-item {
+            animation: new-user-glow 1s infinite alternate;
+          }
+        }
+      }
 
       li {
         width: 25%;

@@ -4,13 +4,14 @@
 const Action = require('onboard-shared').Action;
 
 Vue.component('game-view', {
-  props: ['game'],
+  props: ['game', 'selectedComponentID'],
   template: `
 <figure class="board-area">
     <game-component v-for="(component, compID) in game.components"
       :id="compID" :component="component"
       :componentClass="game.manifest.componentClasses[component.classID]"
-      :key="compID">
+      :key="compID"
+      v-bind:selected="compID == selectedComponentID">
     </game-component>
     <div class="recycle-bin">
       <i class="material-icons">delete</i>
@@ -20,17 +21,21 @@ Vue.component('game-view', {
     bus.$on('componentDragged', (function (componentID, dx, dy) {
       if (dx == 0 && dy == 0) return;
       let coords = this.game.getCoords(componentID);
-      let movement = new Action.Movement(componentID, coords.x + dx, coords.y + dy);
+      let movement = new Action.Movement(componentID, parseInt(coords.x) + dx, parseInt(coords.y) + dy);
       this.game.applyAction(movement);
       this.$emit('component-moved', movement);
     }).bind(this));
+
+    bus.$on('componentClicked', (componentID) => {
+      this.$emit('componentClicked', componentID);
+    });
   }
 });
 
 Vue.component('game-component', {
-  props: ['id', 'component', 'componentClass'],
+  props: ['id', 'component', 'componentClass', 'selected'],
   template: `
-<div v-bind:id="id" class="component" v-bind:class="{ 'comp-drag': !component.locked }" v-bind:style="position">
+<div v-bind:id="id" class="component" v-bind:class="{ 'comp-drag': !component.locked, 'comp-selected': selected }" v-bind:style="position">
   <img v-bind:style="size" v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
 </div>`,
   computed: {
@@ -66,5 +71,6 @@ interact('.comp-drag').draggable({
   onend: (event) => {
     event.target.classList.remove('dragging');
   }
-}
-);
+}).on('tap', function(event) {
+  bus.$emit('componentClicked', event.currentTarget.id);
+});

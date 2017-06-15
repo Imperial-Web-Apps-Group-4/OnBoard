@@ -1,14 +1,19 @@
 <section class="game-table game-table-chat-enabled" id="game-board">
   <game-view v-bind:game="game" v-on:component-moved="componentMovedHandler"></game-view>
-  <div class="chatbox">
-    <header>
-      <h2>Chat</h2>
-    </header>
-    <div class="chatbox-content">
-      <div id="messages-display">
-        <div v-for="message in messages"><span v-bind:class="{'official-chat': message.official}"><em>{{message.name}}:</em> {{message.content}}</span></div>
-      </div>
-      <input type="text"/>
-    </div>
-  </div>
 </section>
+<div class="chatbox">
+  <header>
+    <h2>Chat</h2>
+  </header>
+  <div class="chatbox-content" id="chatbox-message-area">
+    <div id="messages-display">
+      <div v-for="chatmessage in chatmessages">
+          <span v-bind:class="{'official-chat': chatmessage.official}">
+            <em>{{chatmessage.name}}:</em>
+            {{chatmessage.content}}
+          </span>
+      </div>
+    </div>
+    <input v-model="typingMessage" v-on:keyup.enter="sendChat" type="text"/>
+  </div>
+</div>

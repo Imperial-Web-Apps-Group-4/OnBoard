@@ -61,9 +61,16 @@ $(function() {
   };
 
   new Vue({
-    el: '#messages-display',
+    el: '#chatbox-message-area',
     data: {
-        messages: [{name: "Greta", content: "Hi Timmy!"},{name: "Timothy", content: "Hi Greta!"},{name: "OnBoard", content: "Welcome to OnBoard!", official: true}]
+        chatmessages: [{name: "OnBoard", content: "Welcome to OnBoard!", official: true}],
+        typingMessage: ''
+    },
+    methods: {
+        sendChat: function(event) {
+            this.chatmessages.unshift({name: NAME, content: this.typingMessage});
+            this.typingMessage = '';
+        }
     }
   });
 

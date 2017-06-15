@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- TODO: Put this somewhere more permanent, fix XSS injection -->
+    <script>
+      const NAME = '<%= @username %>';
+    </script>
     <title>OnBoard</title>
     <%= csrf_meta_tags %>
 

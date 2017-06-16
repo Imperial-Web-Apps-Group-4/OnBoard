@@ -52,6 +52,7 @@ $(function() {
         this.game.applyAction(movement);
       });
       eventBus.$on('componentDeleted', (id) => {
+        if (this.selectedComponentID === id) this.componentClickedHandler(null);
         this.$delete(this.game.components, id);
       });
     },

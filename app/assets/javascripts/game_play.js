@@ -30,7 +30,9 @@ $(function() {
     </div>`,
     mounted: function () {
       const WelcomeMessage = new Message.ChatMessage('OnBoard', 'Welcome to OnBoard!', true);
+      const ShareMessage = new Message.ChatMessage('OnBoard', `Share this link to your friends to play together: ${window.location.href}`, true);
       this.addMessage(WelcomeMessage);
+      this.addMessage(ShareMessage);
     },
     methods: {
       addMessage: function(msg) {

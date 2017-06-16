@@ -69,23 +69,26 @@ $(function() {
     <div class="toolbox">
 
       <template v-if="selectedComponentID !== null">
-        <header>
-          <h2>Edit Item {{selectedComponentID}}</h2>
-        </header>
+        <section class="panel">
+          <header>
+            <h2>Editing Item <mark>{{selectedComponentID}}</mark></h2>
+          </header>
+          <form class="item-attrs">
+            <label for="position-x-selection"> Position X </label>
+            <input type="number" v-bind:value="game.components[selectedComponentID].posX" min="0" id="position-x-selection"
+                                 v-on:input="componentPropertyChanged(selectedComponentID, 'posX', $event.target.value)" />
 
-        <label for="position-x-selection"> Position X </label>
-        <input type="number" v-bind:value="game.components[selectedComponentID].posX" min="0" id="position-x-selection"
-                             v-on:input="componentPropertyChanged(selectedComponentID, 'posX', $event.target.value)" />
+            <label for="position-y-selection"> Position Y </label>
+            <input type="number" v-bind:value="game.components[selectedComponentID].posY" min="0" id="position-y-selection"
+                                 v-on:input="componentPropertyChanged(selectedComponentID, 'posY', $event.target.value)" />
 
-        <label for="position-y-selection"> Position Y </label>
-        <input type="number" v-bind:value="game.components[selectedComponentID].posY" min="0" id="position-y-selection"
-                             v-on:input="componentPropertyChanged(selectedComponentID, 'posY', $event.target.value)" />
-
-       <input type="checkbox" v-bind:checked="game.components[selectedComponentID].locked" id="position-y-locked"
-                            v-on:click="componentPropertyChanged(selectedComponentID, 'locked', $event.target.checked)" />
-       <label for="position-y-locked"> Locked </label>
-
+           <input type="checkbox" v-bind:checked="game.components[selectedComponentID].locked" id="position-y-locked"
+                                v-on:click="componentPropertyChanged(selectedComponentID, 'locked', $event.target.checked)" />
+           <label for="position-y-locked">Locked </label>
+         </form>
+        </section>
       </template>
+      <section class="panel">
       <header>
         <h2>Toolbox</h2>
         <div class="field" v-bind:class="{'no-component-glow': Object.entries(game.manifest.componentClasses).length === 0}" id="image_upload">
@@ -103,6 +106,7 @@ $(function() {
           Upload new images with the button above
         </li>
       </ul>
+      </section>
     </div>`,
     methods: {
       classClicked: function (classID) {
@@ -195,7 +199,6 @@ $(function() {
 
   interact('.comp-drag').resizable({
     onmove : function (event) {
-      console.log($(event.target));
       if ($(event.target).hasClass('locked')) return;
       eventBus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
     },

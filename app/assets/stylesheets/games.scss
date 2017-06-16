@@ -100,7 +100,7 @@
 
     header {
       height: 40px;
-      margin: -10px -10px 5px;
+      margin: 0 0 5px;
       border-bottom: 2px solid $blue-highlight;
       background-color: $dark-blue;
       background-image: linear-gradient(lighten($dark-blue, 2%), $dark-blue);
@@ -155,6 +155,10 @@
       }
     }
 
+    .item-attrs, .general-settings {
+      margin: 0 10px 10px;
+    }
+
     .no-component-text {
       margin: 10px;
       width: 300px;
@@ -164,12 +168,13 @@
       text-align: center;
       line-height: 1.5;
     }
+
   }
 
   .toolbox {
 
     ul {
-      margin: 0 -5px;
+      margin: 0 5px;
       display: flex;
       flex-wrap: wrap;
 
@@ -226,7 +231,7 @@
   }
 
   .cover-photo {
-    margin: -5px -10px 5px;
+    margin-top: -5px;
     height: 100px;
 
     input {

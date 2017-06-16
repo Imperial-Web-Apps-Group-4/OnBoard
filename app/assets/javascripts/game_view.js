@@ -6,7 +6,7 @@ const Action = require('onboard-shared').Action;
 Vue.component('game-view', {
   props: ['game', 'selectedComponentID'],
   template: `
-<figure class="board-area">
+<figure class="board-area" v-bind:class="{ 'focus': selectedComponentID !== null }">
     <game-component v-for="(component, compID) in game.components"
       :id="compID" :component="component"
       :componentClass="game.manifest.componentClasses[component.classID]"
@@ -75,4 +75,9 @@ interact('.comp-drag').draggable({
   }
 }).on('tap', function(event) {
   bus.$emit('componentClicked', event.currentTarget.id);
+});
+
+interact('.board-area').on('click', function (event){
+  if (!$(event.target).hasClass('board-area')) return;
+  bus.$emit('componentClicked', null);
 });

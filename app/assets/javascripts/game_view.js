@@ -6,7 +6,7 @@ const Action = require('onboard-shared').Action;
 Vue.component('game-view', {
   props: ['game', 'selectedComponentID'],
   template: `
-<figure class="board-area" v-bind:class="{ 'focus': selectedComponentID !== null }">
+<figure class="board-area" v-bind:class="{ 'focus': selectedComponentID != undefined }">
     <game-component v-for="(component, compID) in game.components"
       :id="compID" :component="component"
       :componentClass="game.manifest.componentClasses[component.classID]"

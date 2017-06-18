@@ -2,7 +2,7 @@
 <div class="jumbotron">
   <h2 class="game-title"><%= truncate @game.name, :length => 35 %></h2>
   <img src="<%= @game.picture ? '/user_upload/game_images/' + @game.picture.hash_id + '.png'
-                              : 'http://40.media.tumblr.com/7fc1ec1d41f45923d2fe7729d5680722/tumblr_o0q5hyNrZ01uroz2uo2_1280.jpg'%>"
+                              : root_path + 'no-thumbnail.png'%>"
        class="background-image" alt="Board Game Cover Art" draggable="false" />
 </div>
 
@@ -26,4 +26,3 @@
     <% end %>
   </ul>
 </div>
-

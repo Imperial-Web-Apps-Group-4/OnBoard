@@ -1,15 +1,15 @@
 <% if @games.empty? %>
 
 <div class="no-games thin-page">
-  
+
   <i class="material-icons">info_outline</i>
-  
+
   <p>
     You haven't created any games yet.
     <br />
     It's easy and takes just a few seconds to get started.
   </p>
-  
+
   <%= link_to new_game_path, 'data-turbolinks' => false, class: 'button' do %>
     <i class="material-icons">add</i> Create a new Game
   <% end %>
@@ -24,7 +24,7 @@
       <%= link_to game, class: 'card-hover-overlay' do %>
         <div class="card-image">
           <img src="<%= game.picture ? '/user_upload/game_images/' + game.picture.hash_id + '.png'
-                                     : 'http://40.media.tumblr.com/7fc1ec1d41f45923d2fe7729d5680722/tumblr_o0q5hyNrZ01uroz2uo2_1280.jpg'%>">
+                                     : root_path + 'no-thumbnail.png'%>">
         </div>
         <div class="card-content">
           <%= truncate game.name, :length => 35 %></span>

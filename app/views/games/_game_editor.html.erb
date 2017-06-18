@@ -21,7 +21,7 @@
       <a class="floating-edit-button"><i class="material-icons">edit</i></a>
       <div class="floating-edit-button-input" id="cover_image_upload"><%= file_field_tag :cover_image_upload %></div>
       <img src="<%= game.picture ? '/user_upload/game_images/' + game.picture.hash_id + '.png'
-                                 : 'http://40.media.tumblr.com/7fc1ec1d41f45923d2fe7729d5680722/tumblr_o0q5hyNrZ01uroz2uo2_1280.jpg'%>"
+                                 : root_path + 'no-thumbnail.png'%>"
            id="cover_image" alt="Game Cover Photo" draggable="false" />
       <%= f.label :name %>
       <%= f.text_field :name, placeholder: :name %>

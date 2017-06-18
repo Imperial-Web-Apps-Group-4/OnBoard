@@ -3,17 +3,17 @@ Vue.component('toolbox', {
   template: `
   <div class="toolbox">
 
-    <toolbox-panel v-if="selectedComponentID !== null" :title="'Editing Item <mark>' + selectedComponentID + '</mark>'">
+    <toolbox-panel v-if="selectedComponent !== undefined" :title="'Editing Item <mark>' + selectedComponentID + '</mark>'">
       <form class="item-attrs">
         <label for="position-x-selection"> Position X </label>
-        <input type="number" v-bind:value="game.components[selectedComponentID].posX" min="0" id="position-x-selection"
+        <input type="number" v-bind:value="selectedComponent.posX" min="0" id="position-x-selection"
                              v-on:input="componentPropertyChanged(selectedComponentID, 'posX', $event.target.value)" />
 
         <label for="position-y-selection"> Position Y </label>
-        <input type="number" v-bind:value="game.components[selectedComponentID].posY" min="0" id="position-y-selection"
+        <input type="number" v-bind:value="selectedComponent.posY" min="0" id="position-y-selection"
                              v-on:input="componentPropertyChanged(selectedComponentID, 'posY', $event.target.value)" />
 
-       <input type="checkbox" v-bind:checked="game.components[selectedComponentID].locked" id="position-y-locked"
+       <input type="checkbox" v-bind:checked="selectedComponent.locked" id="position-y-locked"
                             v-on:click="componentPropertyChanged(selectedComponentID, 'locked', $event.target.checked)" />
        <label for="position-y-locked">Locked </label>
      </form>
@@ -45,6 +45,11 @@ Vue.component('toolbox', {
     },
     componentPropertyChanged: function (id, property, value) {
       this.$emit('componentPropertyChanged', id, property, value);
+    }
+  },
+  computed: {
+    selectedComponent: function () {
+      return this.game.components[this.selectedComponentID];
     }
   }
 });

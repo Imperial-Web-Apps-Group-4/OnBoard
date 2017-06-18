@@ -27,7 +27,6 @@ Vue.component('game-editor', {
       makeReactive(this.game.components, compSpawn.componentID);
     },
     componentClickedHandler: function(componentID) {
-      this.selectedComponent = this.game.components[componentID];
       this.selectedComponentID = componentID;
     },
     componentPropertyChangedHander: function(id, property, value) {
@@ -44,7 +43,6 @@ Vue.component('game-editor', {
   },
   data: function () {
     return {
-      selectedComponent: null,
       selectedComponentID: null
     };
   }

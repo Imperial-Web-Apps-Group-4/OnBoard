@@ -168,6 +168,11 @@ a {
       opacity: 1;
     }
   }
+
+  .comp-drag {
+    -ms-touch-action: none;
+    touch-action: none;
+  }
 }
 
 .floating-edit-button, .floating-edit-button-input {

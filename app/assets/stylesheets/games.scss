@@ -29,6 +29,11 @@
       line-height: 0;
       transition: transform 0.1s linear, box-shadow 0.1s linear;
 
+      .card-image {
+        height: 200px;
+        position: relative;
+      }
+
       &:hover {
         transform: scale(1.05);
         box-shadow: 0 3px 20px rgba(0,0,0,.5);
@@ -220,14 +225,23 @@
     text-shadow: 0 0 2px rgba(0,0,0,.5);
   }
 
-  .background-image, .cover-photo img {
+  .background-image, .cover-photo img, .card-image img {
     position: absolute;
-    top: 0; left: -10%;
-    width: 120%;
+    top: 0;
     min-width: 100%;
     min-height: 100%;
+  }
+
+  .card-image img {
+    left: 0;
+    width: 100%;
+  }
+
+  .background-image, .cover-photo img {
     filter: blur(2px);
     transform: translateY(-30%);
+    left: -10%;
+    width: 120%;
   }
 
   .cover-photo {

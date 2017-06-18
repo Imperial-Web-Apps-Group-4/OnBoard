@@ -14,5 +14,7 @@ module Onboard
 
     # Produce source map for development environments for Browserified scripts
     config.browserify_rails.source_map_environments << "development"
+    # Avoid having to clear the cache when updating onboard-shared
+    config.browserify_rails.evaluate_node_modules = true
   end
 end

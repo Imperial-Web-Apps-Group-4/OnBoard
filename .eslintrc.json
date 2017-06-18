@@ -1,36 +1,44 @@
 {
-    "env": {
-        "browser": true,
-        "es6": true,
-        "jquery": true
-    },
-    "plugins": [
-      "eslint-plugin-html"
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jquery": true
+  },
+  "plugins": [
+    "eslint-plugin-html"
+  ],
+  "globals": {
+    "Vue": false,
+    "interact": false,
+    "require": false,
+    "onAnyOfPages": true,
+    "makeReactive": true,
+    "vueDelete": true
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "indent": [
+      "error",
+      2,
+      {"SwitchCase": 1}
     ],
-    "extends": "eslint:recommended",
-    "rules": {
-        "indent": [
-            "error",
-            2,
-            {"SwitchCase": 1}
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
-        "no-console": [
-          "off"
-        ],
-        "no-var": [
-          "error"
-        ]
-    }
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-console": [
+      "off"
+    ],
+    "no-var": [
+      "error"
+    ]
+  }
 }

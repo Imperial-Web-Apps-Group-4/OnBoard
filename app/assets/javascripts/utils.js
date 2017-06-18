@@ -1,5 +1,4 @@
 //= require vue
-/* global Vue */
 /* exported onAnyOfPages, makeReactive, vueDelete */
 
 function onAnyOfPages(pages) {

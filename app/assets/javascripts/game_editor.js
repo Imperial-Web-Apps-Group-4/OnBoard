@@ -12,117 +12,9 @@ $(function() {
   const Shared = require('onboard-shared');
   const Action = Shared.Action;
   const Game = Shared.Game;
-  const Component = Shared.Component;
   const ComponentClass = Shared.ComponentClass;
 
   let eventBus = new Vue();
-
-  Vue.component('game-editor', {
-    props: ['game'],
-    template: `
-    <div>
-      <div class="middle">
-        <game-view :game="game" v-bind:selectedComponentID="selectedComponentID"
-        v-on:componentClicked="componentClickedHandler"></game-view>
-      </div>
-      <div class="right-settings sidebar">
-        <toolbox v-bind:game="game"
-                 v-bind:selectedComponentID="selectedComponentID"
-                 v-on:componentPropertyChanged="componentPropertyChangedHander"
-                 v-on:classClicked="classClickedHandler"></toolbox>
-      </div>
-    </div>`,
-    methods: {
-      classClickedHandler: function (id) {
-        let component = Component.fromClass(id, this.game.getClass(id));
-        let compSpawn = new Action.ComponentSpawn(null, component);
-        compSpawn = this.game.applyAction(compSpawn);
-        makeReactive(this.game.components, compSpawn.componentID);
-      },
-      componentClickedHandler: function(componentID) {
-        this.selectedComponent = this.game.components[componentID];
-        this.selectedComponentID = componentID;
-      },
-      componentPropertyChangedHander: function(id, property, value) {
-        this.game.components[id][property] = value;
-      }
-    },
-    mounted: function () {
-      eventBus.$on('componentResized', (componentID, width, height, dx, dy) => {
-        let resize = new Action.Resize(componentID, width, height);
-        let coords = this.game.getCoords(componentID);
-        let movement = new Action.Movement(componentID, parseInt(coords.x) + parseInt(dx), parseInt(coords.y) + parseInt(dy));
-        this.game.applyActions(resize, movement);
-      });
-      eventBus.$on('componentDeleted', (id) => {
-        if (this.selectedComponentID === id) this.componentClickedHandler(null);
-        let compDelete = new Action.ComponentDelete(id);
-        this.game.applyAction(compDelete);
-        vueDelete(this.game.components, id);
-      });
-    },
-    data: function () {
-      return {
-        selectedComponent: null,
-        selectedComponentID: null
-      };
-    }
-  });
-
-  Vue.component('toolbox', {
-    props: ['game', 'selectedComponentID'],
-    template: `
-    <div class="toolbox">
-
-      <template v-if="selectedComponentID !== null">
-        <section class="panel">
-          <header>
-            <h2>Editing Item <mark>{{selectedComponentID}}</mark></h2>
-          </header>
-          <form class="item-attrs">
-            <label for="position-x-selection"> Position X </label>
-            <input type="number" v-bind:value="game.components[selectedComponentID].posX" min="0" id="position-x-selection"
-                                 v-on:input="componentPropertyChanged(selectedComponentID, 'posX', $event.target.value)" />
-
-            <label for="position-y-selection"> Position Y </label>
-            <input type="number" v-bind:value="game.components[selectedComponentID].posY" min="0" id="position-y-selection"
-                                 v-on:input="componentPropertyChanged(selectedComponentID, 'posY', $event.target.value)" />
-
-           <input type="checkbox" v-bind:checked="game.components[selectedComponentID].locked" id="position-y-locked"
-                                v-on:click="componentPropertyChanged(selectedComponentID, 'locked', $event.target.checked)" />
-           <label for="position-y-locked">Locked </label>
-         </form>
-        </section>
-      </template>
-      <section class="panel">
-      <header>
-        <h2>Toolbox</h2>
-        <div class="field" v-bind:class="{'no-component-glow': Object.entries(game.manifest.componentClasses).length === 0}" id="image_upload">
-          <i class="material-icons">file_upload</i>
-          <input type="file" multiple="multiple" name="image" id="image" />
-        </div>
-      </header>
-      <ul>
-        <li class="component" v-for="(componentClass, classID) in game.manifest.componentClasses">
-          <div class="toolbox-item" v-on:click="classClicked(classID)">
-            <img v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
-          </div>
-        </li>
-        <li class="no-component-text" v-if="Object.entries(game.manifest.componentClasses).length === 0">
-          Upload new images with the button above
-        </li>
-      </ul>
-      </section>
-    </div>`,
-    methods: {
-      classClicked: function (classID) {
-        this.$emit('classClicked', classID);
-      },
-      componentPropertyChanged: function (id, property, value) {
-        this.$emit('componentPropertyChanged', id, property, value);
-      }
-    }
-  });
 
   let stateStr = document.getElementById('game_state').value;
   let initialState;
@@ -205,18 +97,6 @@ $(function() {
   });
 
 
-  interact('.comp-drag').resizable({
-    onmove : function (event) {
-      if ($(event.target).hasClass('locked')) return;
-      eventBus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
-    },
-    edges: { top: true, left: true, bottom: true, right: true },
-    // Aspect ratio resize disabled (buggy)
-    preserveAspectRatio: false,
-    // Flip component when resized past 0x0
-    invert: 'reposition',
-    // Limit multiple resizes per element
-    maxPerElement: 1
-  });
+
 
 });

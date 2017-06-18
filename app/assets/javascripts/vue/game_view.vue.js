@@ -1,23 +1,19 @@
-//= require vue
-//= require interact.min
-/* global Vue, interact, require */
 const Action = require('onboard-shared').Action;
-const Component = require('onboard-shared').Component;
 
 Vue.component('game-view', {
   props: ['game', 'selectedComponentID'],
   template: `
-<figure class="board-area" v-bind:class="{ 'focus': selectedComponentID != undefined }">
-    <game-component v-for="(component, compID) in game.components"
-      :id="compID" :component="component"
-      :componentClass="game.manifest.componentClasses[component.classID]"
-      :key="compID"
-      v-bind:selected="compID == selectedComponentID">
-    </game-component>
-    <div class="recycle-bin">
-      <i class="material-icons">delete</i>
-    </div>
-</figure>`,
+  <figure class="board-area" v-bind:class="{ 'focus': selectedComponentID != undefined }">
+      <game-component v-for="(component, compID) in game.components"
+        :id="compID" :component="component"
+        :componentClass="game.manifest.componentClasses[component.classID]"
+        :key="compID"
+        v-bind:selected="compID == selectedComponentID">
+      </game-component>
+      <div class="recycle-bin">
+        <i class="material-icons">delete</i>
+      </div>
+  </figure>`,
   mounted: function () {
     bus.$on('componentDragged', (function (componentID, dx, dy) {
       if (dx == 0 && dy == 0) return;
@@ -30,32 +26,6 @@ Vue.component('game-view', {
     bus.$on('componentClicked', (componentID) => {
       this.$emit('componentClicked', componentID);
     });
-  }
-});
-
-Vue.component('game-component', {
-  props: ['id', 'component', 'componentClass', 'selected'],
-  template: `
-<div v-bind:id="id" class="component comp-drag" v-bind:class="{ 'locked': component.locked, 'comp-selected': selected }" v-bind:style="position">
-  <img v-bind:style="size" v-bind:src="imageURL">
-</div>`,
-  computed: {
-    position: function () {
-      return {
-        left: this.component.posX + 'px',
-        top: this.component.posY + 'px'
-      };
-    },
-    size: function () {
-      return {
-        width: this.component.width + 'px',
-        height: this.component.height + 'px'
-      };
-    },
-    imageURL: function () {
-      let imageID = Component.getImageID(this.component, this.componentClass);
-      return `/user_upload/game_images/${imageID}.png`;
-    }
   }
 });
 

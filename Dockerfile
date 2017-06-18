@@ -1,4 +1,4 @@
-FROM kianm/onboard-template@sha256:03137c5b6df97f74310ca5d10b9f683795df495b055c6e87f5c1dcbc71139f04
+FROM kianm/onboard-template@sha256:046f3cf8422d692dee08a459a728cca937d9530247cbcacc032602ea0655ae62
 
 # Set up directories
 RUN mkdir /onboard
@@ -9,11 +9,6 @@ WORKDIR /onboard
 COPY Gemfile /onboard/Gemfile
 COPY Gemfile.lock /onboard/Gemfile.lock
 RUN bundle install
-
-# Install NPM packages
-COPY package-lock.json /onboard/package-lock.json
-COPY package.json /onboard/package.json
-RUN npm install
 
 # Copy application files
 COPY . /onboard

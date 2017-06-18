@@ -75,19 +75,19 @@ $(function() {
         console.log('Board Vue loaded.');
         this.$on('messageReceived', function (msg) {
           switch (msg.type) {
-          case 'game':
-            this.game.applyAction(msg.action);
-            if (msg.action.type === 'componentSpawn') {
-              makeReactive(this.game.components, msg.action.componentID);
-            } else if (msg.action.type === 'componentDelete') {
-              vueDelete(this.game.components, msg.action.componentID);
-            }
-            break;
-          case 'chat':
-            this.chatMessages.unshift(msg);
-            break;
-          default:
-            console.error('Unrecognised message format. Full message:', msg);
+            case 'game':
+              this.game.applyAction(msg.action);
+              if (msg.action.type === 'componentSpawn') {
+                makeReactive(this.game.components, msg.action.componentID);
+              } else if (msg.action.type === 'componentDelete') {
+                vueDelete(this.game.components, msg.action.componentID);
+              }
+              break;
+            case 'chat':
+              this.chatMessages.unshift(msg);
+              break;
+            default:
+              console.error('Unrecognised message format. Full message:', msg);
           }
         });
       },

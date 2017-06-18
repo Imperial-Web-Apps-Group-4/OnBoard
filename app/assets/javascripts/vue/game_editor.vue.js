@@ -41,12 +41,6 @@ Vue.component('game-editor', {
       let movement = new Action.Movement(componentID, parseInt(coords.x) + parseInt(dx), parseInt(coords.y) + parseInt(dy));
       this.game.applyActions(resize, movement);
     });
-    resizeBus.$on('componentDeleted', (id) => {
-      if (this.selectedComponentID === id) this.componentClickedHandler(null);
-      let compDelete = new Action.ComponentDelete(id);
-      this.game.applyAction(compDelete);
-      vueDelete(this.game.components, id);
-    });
   },
   data: function () {
     return {

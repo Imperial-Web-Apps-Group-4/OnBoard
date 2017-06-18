@@ -37,6 +37,12 @@ $(function() {
         classCreate = this.game.applyAction(classCreate);
         makeReactive(this.game.manifest.componentClasses, classCreate.classID);
       });
+      eventBus.$on('componentDeleted', (id) => {
+        if (this.selectedComponentID === id) this.componentClickedHandler(null);
+        let compDelete = new Action.ComponentDelete(id);
+        this.game.applyAction(compDelete);
+        vueDelete(this.game.components, id);
+      });
     }
   });
 

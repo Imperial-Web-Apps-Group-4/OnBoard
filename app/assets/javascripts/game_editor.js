@@ -2,7 +2,7 @@
 //= require jquery
 //= require dmuploader.min
 //= require interact.min
-/*global Vue require interact onAnyOfPages */
+/*global Vue require interact onAnyOfPages makeReactive vueDelete */
 /* exported editorVue */
 
 
@@ -12,6 +12,8 @@ $(function() {
   const Shared = require('onboard-shared');
   const Action = Shared.Action;
   const Game = Shared.Game;
+  const Component = Shared.Component;
+  const ComponentClass = Shared.ComponentClass;
 
   let eventBus = new Vue();
 
@@ -32,8 +34,10 @@ $(function() {
     </div>`,
     methods: {
       classClickedHandler: function (id) {
-        let compObj = this.game.generateComponent(id, 0, 0);
-        this.$set(this.game.components, compObj.id, compObj.component);
+        let component = Component.fromClass(id, this.game.getClass(id));
+        let compSpawn = new Action.ComponentSpawn(null, component);
+        compSpawn = this.game.applyAction(compSpawn);
+        makeReactive(this.game.components, compSpawn.componentID);
       },
       componentClickedHandler: function(componentID) {
         this.selectedComponent = this.game.components[componentID];
@@ -45,15 +49,16 @@ $(function() {
     },
     mounted: function () {
       eventBus.$on('componentResized', (componentID, width, height, dx, dy) => {
-        let classID = this.game.components[componentID].classID;
-        this.game.resizeComponentClass(classID, width, height);
+        let resize = new Action.Resize(componentID, width, height);
         let coords = this.game.getCoords(componentID);
         let movement = new Action.Movement(componentID, parseInt(coords.x) + parseInt(dx), parseInt(coords.y) + parseInt(dy));
-        this.game.applyAction(movement);
+        this.game.applyActions(resize, movement);
       });
       eventBus.$on('componentDeleted', (id) => {
         if (this.selectedComponentID === id) this.componentClickedHandler(null);
-        this.$delete(this.game.components, id);
+        let compDelete = new Action.ComponentDelete(id);
+        this.game.applyAction(compDelete);
+        vueDelete(this.game.components, id);
       });
     },
     data: function () {
@@ -135,8 +140,10 @@ $(function() {
     },
     mounted: function () {
       eventBus.$on('newImage', (imageID, width, height) => {
-        let classObj = this.game.generateComponentClass('', imageID, width, height);
-        this.$set(this.game.manifest.componentClasses, classObj.id, classObj.compClass);
+        let newClass = new ComponentClass.GenericClass('', imageID, width, height);
+        let classCreate = new Action.ClassCreate(null, newClass);
+        classCreate = this.game.applyAction(classCreate);
+        makeReactive(this.game.manifest.componentClasses, classCreate.classID);
       });
     }
   });

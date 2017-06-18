@@ -2,6 +2,7 @@
 //= require interact.min
 /* global Vue, interact, require */
 const Action = require('onboard-shared').Action;
+const Component = require('onboard-shared').Component;
 
 Vue.component('game-view', {
   props: ['game', 'selectedComponentID'],
@@ -36,7 +37,7 @@ Vue.component('game-component', {
   props: ['id', 'component', 'componentClass', 'selected'],
   template: `
 <div v-bind:id="id" class="component comp-drag" v-bind:class="{ 'locked': component.locked, 'comp-selected': selected }" v-bind:style="position">
-  <img v-bind:style="size" v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
+  <img v-bind:style="size" v-bind:src="imageURL">
 </div>`,
   computed: {
     position: function () {
@@ -45,11 +46,15 @@ Vue.component('game-component', {
         top: this.component.posY + 'px'
       };
     },
-    size: function() {
+    size: function () {
       return {
-        width: this.componentClass.defaultWidth + 'px',
-        height: this.componentClass.defaultHeight + 'px'
+        width: this.component.width + 'px',
+        height: this.component.height + 'px'
       };
+    },
+    imageURL: function () {
+      let imageID = Component.getImageID(this.component, this.componentClass);
+      return `/user_upload/game_images/${imageID}.png`;
     }
   }
 });

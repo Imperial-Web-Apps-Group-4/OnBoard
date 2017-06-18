@@ -1,6 +1,6 @@
 //= require vue
 //= require config
-/* global Vue config require NAME onAnyOfPages */
+/* global Vue config require NAME onAnyOfPages makeReactive vueDelete */
 /* exported board */
 
 $(function() {
@@ -76,11 +76,12 @@ $(function() {
         this.$on('messageReceived', function (msg) {
           switch (msg.type) {
           case 'game':
-            if (msg.action.type !== 'movement') {
-              console.error('Unrecognised action format. Full message:', msg);
-              return;
-            }
             this.game.applyAction(msg.action);
+            if (msg.action.type === 'componentSpawn') {
+              makeReactive(this.game.components, msg.action.componentID);
+            } else if (msg.action.type === 'componentDelete') {
+              vueDelete(this.game.components, msg.action.componentID);
+            }
             break;
           case 'chat':
             this.chatMessages.unshift(msg);
@@ -88,7 +89,6 @@ $(function() {
           default:
             console.error('Unrecognised message format. Full message:', msg);
           }
-
         });
       },
       methods: {

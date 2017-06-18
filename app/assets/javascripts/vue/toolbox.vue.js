@@ -28,8 +28,8 @@ Vue.component('toolbox', {
       </template>
       <ul>
         <li class="component" v-for="(componentClass, classID) in game.manifest.componentClasses">
-          <div class="toolbox-item" v-on:click="classClicked(classID)">
-            <img v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
+          <div class="toolbox-item" draggable="true" @dragstart="e => handleDrag(e, classID)" v-on:click="classClicked(classID)">
+            <img v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'" draggable="false">
           </div>
         </li>
         <li class="no-component-text" v-if="Object.entries(game.manifest.componentClasses).length === 0">
@@ -45,6 +45,10 @@ Vue.component('toolbox', {
     },
     componentPropertyChanged: function (id, property, value) {
       this.$emit('componentPropertyChanged', id, property, value);
+    },
+    handleDrag: function (event, classID) {
+      event.dataTransfer.setData('text/plain', classID);
+      event.dataTransfer.dropEffect = 'none';
     }
   },
   computed: {

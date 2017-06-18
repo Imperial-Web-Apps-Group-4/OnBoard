@@ -8,7 +8,7 @@ Vue.component('game-editor', {
   props: ['game'],
   template: `
   <div>
-    <div class="middle">
+    <div class="middle" @drop="dropHandler" @dragover="e => e.dataTransfer.dropEffect = 'copy'">
       <game-view :game="game" v-bind:selectedComponentID="selectedComponentID"
       v-on:componentClicked="componentClickedHandler"></game-view>
     </div>
@@ -16,12 +16,14 @@ Vue.component('game-editor', {
       <toolbox v-bind:game="game"
                v-bind:selectedComponentID="selectedComponentID"
                v-on:componentPropertyChanged="componentPropertyChangedHander"
-               v-on:classClicked="classClickedHandler"></toolbox>
+               v-on:classClicked="newComponent"></toolbox>
     </div>
   </div>`,
   methods: {
-    classClickedHandler: function (id) {
+    newComponent: function (id, posX = 0, posY = 0) {
       let component = Component.fromClass(id, this.game.getClass(id));
+      component.posX = posX;
+      component.posY = posY;
       let compSpawn = new Action.ComponentSpawn(null, component);
       compSpawn = this.game.applyAction(compSpawn);
       makeReactive(this.game.components, compSpawn.componentID);
@@ -31,6 +33,20 @@ Vue.component('game-editor', {
     },
     componentPropertyChangedHander: function(id, property, value) {
       this.game.components[id][property] = value;
+    },
+    dropHandler: function (event) {
+      event.preventDefault();
+      let classID = event.dataTransfer.getData('text');
+      let compClass = this.game.getClass(classID);
+      // Fail if text is not a valid class ID
+      if (compClass === undefined) {
+        console.warn('No component class with ID "' + classID + '" exists in the game. Aborting drop.');
+        return;
+      }
+
+      let posX = (event.offsetX - compClass.defaultWidth / 2) || 0;
+      let posY = (event.offsetY - compClass.defaultHeight / 2) || 0;
+      this.newComponent(classID, posX, posY);
     }
   },
   mounted: function () {

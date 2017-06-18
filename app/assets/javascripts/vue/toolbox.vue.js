@@ -13,9 +13,17 @@ Vue.component('toolbox', {
         <input type="number" v-bind:value="selectedComponent.posY" min="0" id="position-y-selection"
                              v-on:input="componentPropertyChanged(selectedComponentID, 'posY', $event.target.value)" />
 
-       <input type="checkbox" v-bind:checked="selectedComponent.locked" id="position-y-locked"
+       <input type="checkbox" v-bind:checked="selectedComponent.locked" id="position-locked"
                             v-on:click="componentPropertyChanged(selectedComponentID, 'locked', $event.target.checked)" />
-       <label for="position-y-locked">Locked </label>
+       <label for="position-locked">Locked </label>
+
+       <label for="width-selection"> Width </label>
+       <input type="number" v-bind:value="selectedComponent.width" min="0" id="width-selection"
+                            v-on:input="componentPropertyChanged(selectedComponentID, 'width', $event.target.value)" />
+
+       <label for="height-selection"> Height </label>
+       <input type="number" v-bind:value="selectedComponent.height" min="0" id="height-selection"
+                            v-on:input="componentPropertyChanged(selectedComponentID, 'height', $event.target.value)" />
      </form>
     </toolbox-panel>
 

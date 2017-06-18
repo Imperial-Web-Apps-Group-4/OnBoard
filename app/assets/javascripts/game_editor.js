@@ -15,7 +15,6 @@ $(function() {
   const ComponentClass = Shared.ComponentClass;
 
   let eventBus = new Vue();
-  
   let stateStr = document.getElementById('game_state').value;
   let initialState;
 

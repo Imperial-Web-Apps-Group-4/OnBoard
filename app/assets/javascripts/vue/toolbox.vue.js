@@ -23,7 +23,7 @@ Vue.component('toolbox', {
       <template slot="header">
         <div class="field" v-bind:class="{'no-component-glow': Object.entries(game.manifest.componentClasses).length === 0}" id="image_upload">
           <i class="material-icons">file_upload</i>
-          <input type="file" multiple="multiple" name="image" id="image" />
+          <input type="file" multiple="multiple" name="image" id="image" :accept="acceptedFormats"/>
         </div>
       </template>
       <ul>
@@ -54,6 +54,11 @@ Vue.component('toolbox', {
   computed: {
     selectedComponent: function () {
       return this.game.components[this.selectedComponentID];
+    },
+    acceptedFormats: function () {
+      let formats = ['gif', 'jpg', 'jpeg', 'png'];
+      let mimeTypes = ['image/gif', 'image/jpeg', 'image/png'];
+      return formats.map((item) => '.' + item).concat(mimeTypes).join(',');
     }
   }
 });

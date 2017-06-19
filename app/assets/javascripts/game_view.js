@@ -11,7 +11,8 @@ Vue.component('game-view', {
       :id="compID" :component="component"
       :componentClass="game.manifest.componentClasses[component.classID]"
       :key="compID"
-      v-bind:selected="compID == selectedComponentID">
+      v-bind:selected="compID == selectedComponentID"
+      v-on:component-right-clicked="(id, component) => $emit('component-right-clicked', id, component)">
     </game-component>
     <div class="recycle-bin">
       <i class="material-icons">delete</i>
@@ -35,9 +36,17 @@ Vue.component('game-view', {
 Vue.component('game-component', {
   props: ['id', 'component', 'componentClass', 'selected'],
   template: `
-<div v-bind:id="id" class="component comp-drag" v-bind:class="{ 'locked': component.locked, 'comp-selected': selected }" v-bind:style="position">
+<div v-bind:id="id" class="component comp-drag" v-bind:class="{ 'locked': component.locked, 'comp-selected': selected, 'comp-owned': component.owned }" v-bind:style="position" @contextmenu.prevent="rightClick">
   <img v-bind:style="size" v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
 </div>`,
+  methods: {
+    rightClick: function() {
+      this.$emit('component-right-clicked', this.id, this.component);
+    }
+  },
+  mounted: function () {
+    this.$set(this.component, 'owned', false);
+  },
   computed: {
     position: function () {
       return {

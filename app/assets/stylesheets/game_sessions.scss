@@ -3,18 +3,13 @@
 $chat-box-size: 200px;
 
 .controller-game_sessions {
-  &.action-edit {
-    overflow: hidden;
-  }
+&.action-edit {
+  overflow: hidden;
+}
 
-.board {
-  position: relative;
-  width: 5000px;
-  height: 5000px;
-  background-image: url('http://nextbaltic.com/wp-content/uploads/2015/09/wooden-table-texture-dark-wood-floor-texture-seamless-inspiration-design-catalog-wood-image.jpg');
-  background-color: #fff;
-  background-position: center top;
-  transform-origin: top left;
+.comp-owned {
+  filter: url(#owned-shadow);
+  border: 3px solid $blue-highlight;
 }
 
 .recycle-bin {

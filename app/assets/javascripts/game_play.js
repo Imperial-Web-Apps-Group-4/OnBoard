@@ -55,14 +55,18 @@ $(function() {
   socket.onmessage = function (event) {
     // Process handshake message
     let msg = JSON.parse(event.data);
+
     if (msg.type !== 'init') {
       alert('Game server handshake failed.');
       return;
     }
+
     if (msg.version !== config.gameServerClientVersion) {
       alert('Game server connection failed (version mismatch).');
       return;
     }
+
+    socket.send(new Message.InitMessage('v3', {'name': NAME}).serialise());
 
     let initialState = Shared.deserialiseGame(msg.initialState);
 
@@ -95,6 +99,10 @@ $(function() {
         },
         msgSentHandler: function (msg) {
           socket.send(msg.serialise());
+        },
+        componentRightClicked: function (componentID, component) {
+          component.owned = !component.owned;
+          console.log("Toggling ownership of " + componentID + " (" + component.owned + ")");
         }
       },
       data: {

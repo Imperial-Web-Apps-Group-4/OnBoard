@@ -8,6 +8,7 @@ $(function() {
 
   const Shared = require('onboard-shared');
   const Message = Shared.Message;
+  const Action = Shared.Action;
 
   let gameID = window.location.pathname.match(/games\/(\d+)\//)[1];
   let sessionID = window.location.pathname.match(/\w{26}/)[0];
@@ -69,7 +70,6 @@ $(function() {
     socket.send(new Message.InitMessage('v3', {'name': NAME}).serialise());
 
     let initialState = Shared.deserialiseGame(msg.initialState);
-
     // Create the Vue for the main screen
     gameplayVue = new Vue({
       el: '#game-board',
@@ -78,10 +78,6 @@ $(function() {
         this.$on('messageReceived', function (msg) {
           switch (msg.type) {
           case 'game':
-            if (msg.action.type !== 'movement') {
-              console.error('Unrecognised action format. Full message:', msg);
-              return;
-            }
             this.game.applyAction(msg.action);
             break;
           case 'chat':
@@ -101,7 +97,14 @@ $(function() {
           socket.send(msg.serialise());
         },
         componentRightClicked: function (componentID, component) {
-          component.owned = !component.owned;
+          let action;
+          if (!component.owned) {
+            action = new Action.TakeOwnership(componentID, USERIDENTIFICATION);
+          } else {
+            action = new Action.RemoveOwnership(componentID, USERIDENTIFICATION);
+          }
+          this.game.applyAction(action);
+          socket.send((new Message.GameMessage(action)).serialise());
           console.log("Toggling ownership of " + componentID + " (" + component.owned + ")");
         }
       },
@@ -110,7 +113,6 @@ $(function() {
         chatMessages: []
       }
     });
-
     // Register messages to be forwarded to the board
     this.onmessage = function (event) {
       gameplayVue.$emit('messageReceived', JSON.parse(event.data));

@@ -9,7 +9,13 @@ $chat-box-size: 200px;
 
 .comp-owned {
   filter: url(#owned-shadow);
-  border: 3px solid $blue-highlight;
+  border: 4px solid $blue-highlight;
+  margin-top: -4px;
+  margin-left: -4px;
+}
+
+.comp-hidden {
+  display: none;
 }
 
 .recycle-bin {

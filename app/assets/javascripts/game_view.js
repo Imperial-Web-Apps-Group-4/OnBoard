@@ -36,16 +36,17 @@ Vue.component('game-view', {
 Vue.component('game-component', {
   props: ['id', 'component', 'componentClass', 'selected'],
   template: `
-<div v-bind:id="id" class="component comp-drag" v-bind:class="{ 'locked': component.locked, 'comp-selected': selected, 'comp-owned': component.owned }" v-bind:style="position" @contextmenu.prevent="rightClick">
+<div v-bind:id="id" class="component comp-drag" v-bind:class="{ 'locked': component.locked, 'comp-selected': selected, 'comp-owned': component.owned, 'comp-hidden': (component.owned && component.owner !== USERIDENTIFICATION) }"
+    v-bind:style="position" @contextmenu.prevent="rightClick">
   <img v-bind:style="size" v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
 </div>`,
   methods: {
     rightClick: function() {
       this.$emit('component-right-clicked', this.id, this.component);
+
+      console.log(this.component.owner !== USERIDENTIFICATION);
+      console.log(this.component.owned);
     }
-  },
-  mounted: function () {
-    this.$set(this.component, 'owned', false);
   },
   computed: {
     position: function () {
@@ -60,7 +61,10 @@ Vue.component('game-component', {
         height: this.componentClass.defaultHeight + 'px'
       };
     }
-  }
+  },
+  data: function() { return {
+    USERIDENTIFICATION: USERIDENTIFICATION
+  }}
 });
 
 let bus = new Vue();

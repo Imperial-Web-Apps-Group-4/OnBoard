@@ -1,0 +1,24 @@
+@import '_variables.scss';
+
+body.accessible {
+
+  font-size: 120%;
+  background-color: #000;
+
+  header, .sidebar header, .chatbox *, .chatbox header, .sidebar, button, input[type=button], input[type=submit], .button {
+    background-image: none;
+    background-color: #000;
+    border-color: $accessible-yellow;
+  }
+
+  input[type=button], input[type=submit], button, .button, .chatbox header {
+    border-width: 3px;
+  }
+
+  * {
+    color: $accessible-yellow !important;
+    border-radius: 0 !important;
+    text-shadow: none !important;
+  }
+
+}

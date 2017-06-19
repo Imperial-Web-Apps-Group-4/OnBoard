@@ -153,6 +153,7 @@ a {
   .component {
     position: absolute;
     transition: transform 0.1s linear, opacity 0.1s linear;
+    line-height: 0;
 
     &.dragging {
       transform: scale(1.02);

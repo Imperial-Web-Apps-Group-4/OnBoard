@@ -64,13 +64,26 @@ Vue.component('game-editor', {
   }
 });
 
-interact('.comp-drag').resizable({
+interact('.comp-drag.maintain-aspect').resizable({
   onmove : function (event) {
     if ($(event.target).hasClass('locked')) return;
     resizeBus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
   },
   edges: { top: true, left: true, bottom: true, right: true },
-  // Aspect ratio resize disabled (buggy)
+  // Aspect ratio resize
+  preserveAspectRatio: true,
+  // Flip component when resized past 0x0
+  invert: 'reposition',
+  // Limit multiple resizes per element
+  maxPerElement: 1
+});
+
+interact('.comp-drag:not(.maintain-aspect)').resizable({
+  onmove : function (event) {
+    if ($(event.target).hasClass('locked')) return;
+    resizeBus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
+  },
+  edges: { top: true, left: true, bottom: true, right: true },
   preserveAspectRatio: false,
   // Flip component when resized past 0x0
   invert: 'reposition',

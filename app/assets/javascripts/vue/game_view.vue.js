@@ -3,17 +3,17 @@ const Action = require('onboard-shared').Action;
 Vue.component('game-view', {
   props: ['game', 'selectedComponentID', 'maintainAspectRatio'],
   template: `
-  <figure class="board-area" v-bind:class="{ 'focus': game.components[selectedComponentID] !== undefined}">
-      <game-component v-for="(component, compID) in game.components"
-        :id="compID" :component="component"
-        :componentClass="game.manifest.componentClasses[component.classID]"
-        :key="compID"
-        v-bind:selected="compID == selectedComponentID">
-      </game-component>
-      <div class="recycle-bin">
-        <i class="material-icons">delete</i>
-      </div>
-  </figure>`,
+<figure class="board-area"v-bind:class="{ 'focus': game.components[selectedComponentID] !== undefined}">
+    <game-component v-for="(component, compID) in game.components"
+      :id="compID" :component="component"
+      :componentClass="game.manifest.componentClasses[component.classID]"
+      :key="compID"
+      v-bind:selected="compID == selectedComponentID"
+    v-on:component-right-clicked="(id, component) => $emit('component-right-clicked', id, component)"></game-component>
+    <div class="recycle-bin">
+      <i class="material-icons">delete</i>
+    </div>
+</figure>`,
   mounted: function () {
     bus.$on('componentDragged', (function (componentID, dx, dy) {
       if (dx == 0 && dy == 0) return;
@@ -27,6 +27,9 @@ Vue.component('game-view', {
       this.$emit('componentClicked', componentID);
     });
 
+    bus.$on('componentHeld', (componentID) => {
+      this.$emit('component-right-clicked', componentID, this.game.components[componentID]);
+    });
   }
 });
 
@@ -49,8 +52,10 @@ interact('.comp-drag').draggable({
   onend: (event) => {
     event.target.classList.remove('dragging');
   }
-}).on('tap', function(event) {
+}).on('tap', function (event) {
   bus.$emit('componentClicked', event.currentTarget.id);
+}).on('hold', function (event) {
+  bus.$emit('componentHeld', event.currentTarget.id);
 });
 
 interact('.board-area').on('click', function (event){

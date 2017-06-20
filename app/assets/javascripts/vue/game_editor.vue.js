@@ -76,33 +76,33 @@ Vue.component('game-editor', {
   }
 });
 
-interact('.comp-drag').resizable({
-  onstart: function () {
-    this.options.resize.preserveAspectRatio = true;
-  },
-  onmove : function (event) {
-    if ($(event.target).hasClass('locked')) return;
-    if ($(event.target).hasClass('maintain-aspect')) {
-      this.options.resize.preserveAspectRatio = true;
-    } else {
-      this.options.resize.preserveAspectRatio = false;
-    }
-    bus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
-  },
-  onend: function () {
-    this.options.resize.preserveAspectRatio = true;
-  },
-  edges: { top: true, left: true, bottom: true, right: true },
-  // Aspect ratio resize
-  preserveAspectRatio: true,
-  // Flip component when resized past 0x0
-  invert: 'reposition',
-  // Limit multiple resizes per element
-  maxPerElement: 1
-});
+$(function() {
+  if (!onAnyOfPages({'games': ['new', 'edit']})) return;
 
-$(document).on('keyup keydown', function (event) {
-  if (event.keyCode == 16) { // Shift key
-    bus.$emit('flipAspectRatioLock');
-  }
+  interact('.comp-drag').resizable({
+    onstart: function () {
+      this.options.resize.preserveAspectRatio = true;
+    },
+    onmove: function (event) {
+      if ($(event.target).hasClass('locked')) return;
+      this.options.resize.preserveAspectRatio = $(event.target).hasClass('maintain-aspect');
+      bus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
+    },
+    onend: function () {
+      this.options.resize.preserveAspectRatio = true;
+    },
+    edges: {top: true, left: true, bottom: true, right: true},
+    // Aspect ratio resize
+    preserveAspectRatio: true,
+    // Flip component when resized past 0x0
+    invert: 'reposition',
+    // Limit multiple resizes per element
+    maxPerElement: 1
+  });
+
+  $(document).on('keyup keydown', function (event) {
+    if (event.keyCode === 16) { // Shift key
+      bus.$emit('flipAspectRatioLock');
+    }
+  });
 });

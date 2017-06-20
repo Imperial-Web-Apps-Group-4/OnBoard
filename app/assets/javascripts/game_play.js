@@ -7,6 +7,7 @@ $(function() {
 
   const Shared = require('onboard-shared');
   const Message = Shared.Message;
+  const Action = Shared.Action;
 
   /* Create the Vue for the main screen */
   let gameplayVue = new Vue({
@@ -41,6 +42,17 @@ $(function() {
         } else if (action.type === 'componentDelete') {
           vueDelete(this.game.components, action.componentID);
         }
+      },
+      componentRightClicked: function (componentID, component) {
+        let action;
+        if (!component.owned) {
+          action = new Action.TakeOwnership(componentID, USERIDENTIFICATION);
+        } else {
+          action = new Action.RemoveOwnership(componentID, USERIDENTIFICATION);
+        }
+        this.game.applyAction(action);
+        socket.send((new Message.GameMessage(action)).serialise());
+        console.log("Toggling ownership of " + componentID + " (" + component.owned + ")");
       }
     },
     data: {
@@ -69,10 +81,9 @@ $(function() {
       alert('Game server connection failed (version mismatch).');
       return;
     }
-
+    socket.send(new Message.InitMessage('v3', {'name': NAME}).serialise());
     // Display state from the server in the view
     gameplayVue.game = Shared.deserialiseGame(msg.initialState);
-
     // Register messages to be forwarded to the board
     this.onmessage = function (event) {
       gameplayVue.$emit('messageReceived', JSON.parse(event.data));

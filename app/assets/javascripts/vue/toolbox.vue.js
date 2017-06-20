@@ -3,27 +3,42 @@ Vue.component('toolbox', {
   template: `
   <div class="toolbox">
 
-    <toolbox-panel v-if="selectedComponent !== undefined" :title="'Editing Item <mark>' + selectedComponentID + '</mark>'">
+    <toolbox-panel v-if="selectedComponent !== undefined" :title="'Editing Item'">
       <form class="item-attrs">
-        <label for="position-x-selection"> Position X </label>
-        <input type="number" v-bind:value="selectedComponent.posX" min="0" id="position-x-selection"
-                             v-on:input="componentPropertyChanged(selectedComponentID, 'posX', $event.target.value)" />
 
-        <label for="position-y-selection"> Position Y </label>
-        <input type="number" v-bind:value="selectedComponent.posY" min="0" id="position-y-selection"
-                             v-on:input="componentPropertyChanged(selectedComponentID, 'posY', $event.target.value)" />
+        <fieldset>
+          <ul>
+            <li>
+              <label for="position-x-selection"> Position X </label>
+              <input type="number" v-bind:value="selectedComponent.posX" min="0" id="position-x-selection"
+                                   v-on:input="componentPropertyChanged(selectedComponentID, 'posX', $event.target.value)" />
+            </li>
+            <li>
+              <label for="position-y-selection"> Position Y </label>
+              <input type="number" v-bind:value="selectedComponent.posY" min="0" id="position-y-selection"
+                                   v-on:input="componentPropertyChanged(selectedComponentID, 'posY', $event.target.value)" />
+            </li>
+         </ul>
+       </fieldset>
 
        <input type="checkbox" v-bind:checked="selectedComponent.locked" id="position-locked"
                             v-on:click="componentPropertyChanged(selectedComponentID, 'locked', $event.target.checked)" />
        <label for="position-locked">Locked </label>
 
-       <label for="width-selection"> Width </label>
-       <input type="number" v-bind:value="Math.round(selectedComponent.width)" min="0" id="width-selection"
-                            v-on:input="componentPropertyChanged(selectedComponentID, 'width', $event.target.value)" />
-
-       <label for="height-selection"> Height </label>
-       <input type="number" v-bind:value="Math.round(selectedComponent.height)" min="0" id="height-selection"
-                            v-on:input="componentPropertyChanged(selectedComponentID, 'height', $event.target.value)" />
+       <fieldset>
+         <ul>
+           <li>
+              <label for="width-selection"> Width </label>
+              <input type="number" v-bind:value="Math.round(selectedComponent.width)" min="0" id="width-selection"
+                                   v-on:input="componentPropertyChanged(selectedComponentID, 'width', $event.target.value)" />
+            </li>
+            <li>
+              <label for="height-selection"> Height </label>
+              <input type="number" v-bind:value="Math.round(selectedComponent.height)" min="0" id="height-selection"
+                                   v-on:input="componentPropertyChanged(selectedComponentID, 'height', $event.target.value)" />
+            </li>
+         </ul>
+       </fieldset>
 
        <input type="checkbox" v-bind:checked="selectedComponent.aspectRatioLock" id="maintain-aspect-ratio"
                             v-on:click="componentPropertyChanged(selectedComponentID, 'aspectRatioLock', $event.target.checked); moveComponents();" />
@@ -75,7 +90,7 @@ Vue.component('toolbox', {
 Vue.component('toolbox-panel', {
   props: ['title'],
   template: `
-  <section class="panel">
+  <section class="panel" v-bind:class="[kebabCase(title)]">
     <header>
       <h2 v-html="title"></h2>
       <slot name="header">
@@ -84,5 +99,12 @@ Vue.component('toolbox-panel', {
     <slot>
       <p>Panel contents</p>
     </slot>
-  </section>`
+  </section>`,
+  methods: {
+    kebabCase: function (string) {
+      return string.split(/ |_|-/).join('-').split('').map(function (a) {
+        return a.toLowerCase();
+      }).join('').toLowerCase();
+    }
+  }
 });

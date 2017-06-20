@@ -176,28 +176,45 @@
 
   }
 
-  .toolbox {
+  .panel {
 
     ul {
-      margin: 0 5px;
+
       display: flex;
       flex-wrap: wrap;
+    }
 
-      li {
-        width: 25%;
-        line-height: 0;
+    &.toolbox {
+      ul {
+        li {
+          width: 25%;
+          line-height: 0;
 
-        .toolbox-item {
-          background-color: $background-col;
-          border-radius: 3px;
-          margin: 5px;
-          padding: 10px 0;
-          text-align: center;
+          .toolbox-item {
+            background-color: $background-col;
+            border-radius: 3px;
+            margin: 5px 0 5px 10px;
+            padding: 10px 0;
+            text-align: center;
+          }
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
         }
+      }
+    }
 
-        img {
-          width: 24px;
-          height: 24px;
+    &.editing-item {
+      ul {
+        li {
+          width: 50%;
+          box-sizing: border-box;
+
+          &:nth-of-type(odd) {
+            padding-right: 10px;
+          }
         }
       }
     }

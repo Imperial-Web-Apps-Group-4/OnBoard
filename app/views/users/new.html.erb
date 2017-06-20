@@ -39,6 +39,11 @@
         <%= f.password_field :password_confirmation %>
       </div>
 
+      <div class="field">
+        <%= f.check_box :accessibility %>
+        <%= f.label :accessibility, 'Accessibility mode (For visual impairments - bigger fonts, contrasting colours)' %>
+      </div>
+
       <div class="actions">
         <%= f.submit %>
       </div>

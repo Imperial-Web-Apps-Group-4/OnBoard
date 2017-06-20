@@ -433,6 +433,10 @@ h2.main-heading {
     text-align: center;
     font-size: 16px;
 
+    em {
+      color: $blue-highlight;
+    }
+
     ul {
       text-align: left;
       line-height: 2;
@@ -458,9 +462,9 @@ h2.main-heading {
   margin: 0;
   margin-top: -4px;
   background-color: lighten($background-col, 20%);
-  color: $blue-highlight;
-  padding-top: 2px;
-  padding-left: 2px;
+  color: whitesmoke;
+  padding-top: 1px;
+  padding-left: 1px;
   border-radius: 12.5px;
   width: 25px;
   height: 25px;

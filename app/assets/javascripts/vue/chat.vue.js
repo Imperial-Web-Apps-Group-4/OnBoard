@@ -17,10 +17,8 @@ Vue.component('chat-area', {
       <input v-model="typingMessage" v-on:keyup.enter="sendChat" type="text"/>
     </div>`,
   mounted: function () {
-    const WelcomeMessage = new Message.ChatMessage('OnBoard', 'Welcome to OnBoard!', true);
-    const ShareMessage = new Message.ChatMessage('OnBoard', `Share this link to your friends to play together: ${window.location.href}`, true);
+    const WelcomeMessage = new Message.ChatMessage('OnBoard', `Welcome to OnBoard! Share this link to your friends to play together: ${window.location.href}`, true);
     this.addMessage(WelcomeMessage);
-    this.addMessage(ShareMessage);
   },
   methods: {
     addMessage: function(msg) {

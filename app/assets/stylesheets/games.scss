@@ -159,16 +159,6 @@
       margin: 0 10px 10px;
     }
 
-    .no-component-text {
-      margin: 10px;
-      width: 300px;
-      text-shadow: 0 -1px 1px #2e3244;
-      font-size: 16px;
-      color: white;
-      text-align: center;
-      line-height: 1.5;
-    }
-
   }
 
   .panel {
@@ -184,6 +174,16 @@
         li {
           width: 25%;
           line-height: 0;
+
+          &.no-component-text {
+            margin: 10px;
+            width: 300px;
+            text-shadow: 0 -1px 1px #2e3244;
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            line-height: 1.5;
+          }
 
           .toolbox-item {
             background-color: $background-col;
@@ -202,13 +202,36 @@
     }
 
     &.editing-item {
-      ul {
+      .two-items {
         li {
           width: 50%;
           box-sizing: border-box;
 
           &:nth-of-type(odd) {
             padding-right: 10px;
+          }
+        }
+      }
+      .plus-minus {
+        li {
+          text-align: center;
+          box-sizing: border-box;
+          width: 60%;
+
+          &:nth-of-type(odd) {
+            width: 20%;
+          }
+          &:nth-of-type(even) {
+            color: $grey-blue;
+            line-height: 40px;
+          }
+        }
+        button {
+          margin: 0;
+          padding: 0 0 2px 0;
+
+          i {
+            line-height: 40px;
           }
         }
       }

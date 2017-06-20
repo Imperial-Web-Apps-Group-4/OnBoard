@@ -1,3 +1,5 @@
+const ComponentClass = require('onboard-shared').ComponentClass;
+
 Vue.component('toolbox', {
   props: ['game', 'selectedComponentID'],
   template: `
@@ -70,7 +72,7 @@ Vue.component('toolbox', {
       <ul>
         <li class="component" v-for="(componentClass, classID) in game.manifest.componentClasses">
           <div class="toolbox-item" draggable="true" @dragstart="e => handleDrag(e, classID)" v-on:click="classClicked(classID)">
-            <img v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'" draggable="false">
+            <img v-bind:src="'/user_upload/game_images/' + getImageID(classID) + '.png'" draggable="false">
           </div>
         </li>
         <li class="no-component-text" v-if="Object.entries(game.manifest.componentClasses).length === 0">
@@ -105,6 +107,9 @@ Vue.component('toolbox', {
     handleDrag: function (event, classID) {
       event.dataTransfer.setData('text/plain', classID);
       event.dataTransfer.dropEffect = 'none';
+    },
+    getImageID: function (classID) {
+      return ComponentClass.getImageID(this.game.getClass(classID));
     }
   },
   computed: {

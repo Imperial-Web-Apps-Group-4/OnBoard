@@ -17,8 +17,8 @@ $(function() {
       this.$on('messageReceived', this.handleMessage.bind(this));
     },
     methods: {
-      componentMovedHandler: function (movement) {
-        socket.send(new Message.GameMessage(movement).serialise());
+      actionAppliedHandler: function (action) {
+        socket.send(new Message.GameMessage(action).serialise());
       },
       handleMessage: function (msg) {
         switch (msg.type) {

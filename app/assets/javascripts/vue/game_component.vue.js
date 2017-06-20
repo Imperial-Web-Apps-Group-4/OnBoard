@@ -1,3 +1,5 @@
+/*globals USERIDENTIFICATION*/
+
 const Component = require('onboard-shared').Component;
 
 Vue.component('game-component', {
@@ -33,6 +35,6 @@ Vue.component('game-component', {
   data: function () {
     return {
       USERIDENTIFICATION: USERIDENTIFICATION
-    }
+    };
   }
 });

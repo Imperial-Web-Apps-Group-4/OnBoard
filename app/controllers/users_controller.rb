@@ -1,12 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :assert_correct_user!, only: [:show, :edit, :update, :destroy]
   before_action :redirect_if_not_logged_in!, only: [:new, :create, :login, :login_attempt]
-
-  # GET /users
-  # GET /users.json
-  def index
-    @users = User.all
-  end
 
   # GET /users/1
   # GET /users/1.json
@@ -119,10 +114,14 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :email_confirmation, :password, :password_confirmation, :about)
+      params.require(:user).permit(:name, :email, :email_confirmation, :password, :password_confirmation, :about, :accessibility)
     end
 
     def redirect_if_not_logged_in!
       redirect_to root_url if @current_user
+    end
+
+    def assert_correct_user!
+      redirect_to root_url unless @current_user === @user
     end
 end

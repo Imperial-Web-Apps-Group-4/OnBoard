@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
     def set_header_partial_and_name
       @username = switch_login :users => @current_user&.name, :guests => session[:guest_name], :none => "Not logged in"
       @userident = switch_login :users => "u#{@current_user&.id}", :guests => "g#{session[:guest_name]}", :none => ""
+      @accessibility_data = @current_user&.accessibility ? 'accessible' : ''
 
       @header_user_data = 'shared/not_logged_in_header'
       @header_user_data = 'shared/logged_in_header' if session[:logged_in_email]
@@ -27,8 +28,8 @@ class ApplicationController < ActionController::Base
     end
 
     def switch_login(options)
-      return options[:users] if @current_user
-      return options[:guests]     if session[:guest_name]
+      return options[:users]  if @current_user
+      return options[:guests] if session[:guest_name]
 
       options[:none]
     end

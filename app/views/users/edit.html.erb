@@ -1,5 +1,5 @@
 <div class="thin-page">
-  <h1>Editing User</h1>
+  <h2>Edit profile</h2>
 
   <%= form_for(@user) do |f| %>
       <% if @user.errors.any? %>
@@ -24,11 +24,15 @@
         <%= f.text_field :about %>
       </div>
 
+      <div class="field">
+        <%= f.check_box :accessibility %>
+        <%= f.label :accessibility, 'Accessibility mode (For visual impairments - bigger fonts, contrasting colours)' %>
+      </div>
+
       <div class="actions">
         <%= f.submit %>
       </div>
   <% end %>
 
-  <%= link_to 'Show', @user %> |
-  <%= link_to 'Back', users_path %>
+  <%= button_to 'Cancel', user_path(@user), method: :get %>
 </div>

@@ -299,6 +299,7 @@ hr {
 label, mark {
   background-color: transparent;
   color: $grey-blue;
+  display: block;
 }
 
 .action-login_session, .action-login_attempt {
@@ -310,4 +311,8 @@ label, mark {
   h2 {
     text-align: center;
   }
+}
+
+#notice {
+  display: none; /* TODO: Integrate into site at some future point in time */
 }

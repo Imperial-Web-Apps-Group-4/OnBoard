@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root :to => 'games#index'
-  resources :users, :path_names => { :new => 'register' } do
+  resources :users, :path_names => { :new => 'register' }, :except => ['index'] do
     collection do
       get 'login' => 'users#login'
       get 'login_session/:game_id/:game_hash' => 'users#login_session'

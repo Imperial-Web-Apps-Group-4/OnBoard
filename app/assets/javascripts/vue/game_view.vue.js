@@ -1,9 +1,9 @@
 const Action = require('onboard-shared').Action;
 
 Vue.component('game-view', {
-  props: ['game', 'selectedComponentID'],
+  props: ['game', 'selectedComponentID', 'maintainAspectRatio'],
   template: `
-  <figure class="board-area" v-bind:class="{ 'focus': game.components[selectedComponentID] !== undefined }">
+  <figure class="board-area" v-bind:class="{ 'focus': game.components[selectedComponentID] !== undefined}">
       <game-component v-for="(component, compID) in game.components"
         :id="compID" :component="component"
         :componentClass="game.manifest.componentClasses[component.classID]"
@@ -26,6 +26,7 @@ Vue.component('game-view', {
     bus.$on('componentClicked', (componentID) => {
       this.$emit('componentClicked', componentID);
     });
+
   }
 });
 

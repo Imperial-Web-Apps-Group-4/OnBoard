@@ -2,7 +2,7 @@ const Shared = require('onboard-shared');
 const Action    = Shared.Action;
 const Component = Shared.Component;
 
-let resizeBus = new Vue();
+let bus = new Vue();
 
 Vue.component('game-editor', {
   props: ['game'],
@@ -28,10 +28,10 @@ Vue.component('game-editor', {
       compSpawn = this.game.applyAction(compSpawn);
       makeReactive(this.game.components, compSpawn.componentID);
     },
-    componentClickedHandler: function(componentID) {
+    componentClickedHandler: function (componentID) {
       this.selectedComponentID = componentID;
     },
-    componentPropertyChangedHander: function(id, property, value) {
+    componentPropertyChangedHander: function (id, property, value) {
       this.game.components[id][property] = value;
     },
     dropHandler: function (event) {
@@ -50,11 +50,23 @@ Vue.component('game-editor', {
     }
   },
   mounted: function () {
-    resizeBus.$on('componentResized', (componentID, width, height, dx, dy) => {
+    bus.$on('componentResized', (componentID, width, height, dx, dy) => {
       let resize = new Action.Resize(componentID, width, height);
       let coords = this.game.getCoords(componentID);
       let movement = new Action.Movement(componentID, parseInt(coords.x) + parseInt(dx), parseInt(coords.y) + parseInt(dy));
       this.game.applyActions(resize, movement);
+    });
+    bus.$on('flipAspectRatioLock', () => {
+      let components = this.game.components;
+      if (this.selectedComponentID !== null) {
+        components[this.selectedComponentID].aspectRatioLock
+              = !components[this.selectedComponentID].aspectRatioLock;
+      } else {
+        Object.keys(components).forEach(function(key) {
+          components[key].aspectRatioLock
+                = !components[key].aspectRatioLock;
+        });
+      }
     });
   },
   data: function () {
@@ -65,15 +77,32 @@ Vue.component('game-editor', {
 });
 
 interact('.comp-drag').resizable({
+  onstart: function () {
+    this.options.resize.preserveAspectRatio = true;
+  },
   onmove : function (event) {
     if ($(event.target).hasClass('locked')) return;
-    resizeBus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
+    if ($(event.target).hasClass('maintain-aspect')) {
+      this.options.resize.preserveAspectRatio = true;
+    } else {
+      this.options.resize.preserveAspectRatio = false;
+    }
+    bus.$emit('componentResized', event.target.id, event.rect.width, event.rect.height, event.deltaRect.left, event.deltaRect.top);
+  },
+  onend: function () {
+    this.options.resize.preserveAspectRatio = true;
   },
   edges: { top: true, left: true, bottom: true, right: true },
-  // Aspect ratio resize disabled (buggy)
-  preserveAspectRatio: false,
+  // Aspect ratio resize
+  preserveAspectRatio: true,
   // Flip component when resized past 0x0
   invert: 'reposition',
   // Limit multiple resizes per element
   maxPerElement: 1
+});
+
+$(document).on('keyup keydown', function (event) {
+  if (event.keyCode == 16) { // Shift key
+    bus.$emit('flipAspectRatioLock');
+  }
 });

@@ -15,7 +15,13 @@ $(function() {
     mounted: function () {
       console.log('Board Vue loaded.');
       this.$on('messageReceived', this.handleMessage.bind(this));
-      $('#full-page-loading').fadeOut(1000, function() { $('#full-page-loading').remove() });
+      $('#full-page-loading').fadeOut(500, function() { $('#full-page-loading').remove() });
+
+      let chatMessages = this.chatMessages;
+      $('.close-dialog').click(function() {
+        chatMessages.unshift(new Message.ChatMessage('OnBoard', 'To re-open that help menu, just type /help', true))
+        $('.dialog').hide();
+      });
     },
     methods: {
       componentMovedHandler: function (movement) {
@@ -34,6 +40,7 @@ $(function() {
         }
       },
       msgSentHandler: function (msg) {
+        if (msg.content === '/help') { $('.dialog').show(); return; }
         socket.send(msg.serialise());
       },
       applyGameAction: function (action) {

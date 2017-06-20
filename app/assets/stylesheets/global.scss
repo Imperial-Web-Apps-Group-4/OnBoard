@@ -407,3 +407,63 @@ h2.main-heading {
   background-size: cover;
   opacity: 0.15;
 }
+
+.dialog {
+  width: 600px;
+  position: absolute;
+  top: calc(50vh - 150px);
+  left: calc(50vw - 300px);
+  z-index: 9999;
+  border: 1px solid #171a26;
+  background-color: #2e3244;
+  border-radius: 3px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .5);
+
+  nav {
+    padding: 10px;
+    background-color: #1f2333;
+    border-bottom: 2px solid #40b1d0;
+  }
+
+  aside {
+    padding: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: lighten($blue-highlight, 30%);
+    text-align: center;
+    font-size: 16px;
+
+    ul {
+      text-align: left;
+      line-height: 2;
+      padding-left: 30px;
+      box-sizing: border-box;
+      list-style: square;
+
+      li {
+        text-indent: -2em;
+        padding-left: 2em;
+      }
+    }
+  }
+}
+
+.dialog-name {
+  color: #8388a0;
+  display: inline;
+  user-select: none;
+}
+
+.close-dialog {
+  margin: 0;
+  margin-top: -4px;
+  background-color: lighten($background-col, 20%);
+  color: $blue-highlight;
+  padding-top: 2px;
+  padding-left: 2px;
+  border-radius: 12.5px;
+  width: 25px;
+  height: 25px;
+  border-width: 0;
+  float: right;
+}

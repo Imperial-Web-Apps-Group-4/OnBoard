@@ -3,7 +3,7 @@
 <div class="thin-page info-page">
   <h2>Welcome to <em>OnBoard</em>, <%= @user.name %></h2>
   <% if @user.game.count.zero? %>
-    It looks like you've never made a game on OnBoard! Consider reading our <%= link_to 'tutorial', 'pages#editing_tutorial' %> for creating games.
+    It looks like you've never made a game on OnBoard! You can create them using the create link at the top.
   <% else %>
     It looks like you've made some games here. Click Browse at the top to see your games and play.
   <% end %>

@@ -15,6 +15,7 @@ $(function() {
     mounted: function () {
       console.log('Board Vue loaded.');
       this.$on('messageReceived', this.handleMessage.bind(this));
+      $('#full-page-loading').fadeOut(1000, function() { $('#full-page-loading').remove() });
     },
     methods: {
       componentMovedHandler: function (movement) {
@@ -81,6 +82,7 @@ $(function() {
       alert('Game server connection failed (version mismatch).');
       return;
     }
+
     socket.send(new Message.InitMessage('v3', {'name': NAME}).serialise());
     // Display state from the server in the view
     gameplayVue.game = Shared.deserialiseGame(msg.initialState);

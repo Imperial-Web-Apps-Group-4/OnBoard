@@ -2,6 +2,10 @@
 @import url('https://fonts.googleapis.com/css?family=Caveat');
 @import '_variables.scss';
 
+html {
+  height: 100%;
+}
+
 body, * {
   font: 14px 'Nunito Sans', Arial, sans-serif;
 }
@@ -323,6 +327,10 @@ label, mark {
   hr {
     border-color: lighten($blue-highlight, 20%);
   }
+
+  background-color: darken($background-col, 15%);
+  box-shadow: inset 0 0 1000px 1px #000000;
+  height: 100%;
 }
 
 h2.main-heading {
@@ -352,6 +360,7 @@ h2.main-heading {
   text-align: center;
   margin-top: 30px;
   font-size: 18px;
+  text-shadow: 1px 1px 2px #000;
 
   .promotional-info-top {
     margin: 10px;
@@ -377,6 +386,7 @@ h2.main-heading {
       flex-shrink: 0;
       line-height: 2;
       header {
+        text-shadow: 1px 1px 2px darken($blue-highlight, 50%);
         font-size: 18px;
         color: $blue-highlight;
         font-weight: bold;
@@ -396,5 +406,4 @@ h2.main-heading {
   background-repeat: no-repeat;
   background-size: cover;
   opacity: 0.15;
-  backdrop-filter: blur(400px);
 }

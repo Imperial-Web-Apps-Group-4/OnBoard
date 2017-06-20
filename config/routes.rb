@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root :to => 'games#index'
+  root :to => 'pages#landing'
   resources :users, :path_names => { :new => 'register' }, :except => ['index'] do
     collection do
       get 'login' => 'users#login'

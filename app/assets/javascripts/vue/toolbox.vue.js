@@ -94,12 +94,13 @@ Vue.component('toolbox', {
       this.$emit('moveComponents');
     },
     increaseZIndex: function (event) {
-      this.componentPropertyChanged(this.selectedComponentID, 'zIndex', this.selectedComponent.zIndex + 1);
       event.preventDefault();
+      this.componentPropertyChanged(this.selectedComponentID, 'zIndex', this.selectedComponent.zIndex + 1);
     },
     decreaseZIndex: function (event) {
-      this.componentPropertyChanged(this.selectedComponentID, 'zIndex', this.selectedComponent.zIndex - 1);
       event.preventDefault();
+      if (this.selectedComponent.zIndex <= 1) return;
+      this.componentPropertyChanged(this.selectedComponentID, 'zIndex', this.selectedComponent.zIndex - 1);
     }
   },
   computed: {

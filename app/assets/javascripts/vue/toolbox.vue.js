@@ -13,9 +13,22 @@ Vue.component('toolbox', {
         <input type="number" v-bind:value="selectedComponent.posY" min="0" id="position-y-selection"
                              v-on:input="componentPropertyChanged(selectedComponentID, 'posY', $event.target.value)" />
 
-       <input type="checkbox" v-bind:checked="selectedComponent.locked" id="position-y-locked"
+       <input type="checkbox" v-bind:checked="selectedComponent.locked" id="position-locked"
                             v-on:click="componentPropertyChanged(selectedComponentID, 'locked', $event.target.checked)" />
-       <label for="position-y-locked">Locked </label>
+       <label for="position-locked">Locked </label>
+
+       <label for="width-selection"> Width </label>
+       <input type="number" v-bind:value="Math.round(selectedComponent.width)" min="0" id="width-selection"
+                            v-on:input="componentPropertyChanged(selectedComponentID, 'width', $event.target.value)" />
+
+       <label for="height-selection"> Height </label>
+       <input type="number" v-bind:value="Math.round(selectedComponent.height)" min="0" id="height-selection"
+                            v-on:input="componentPropertyChanged(selectedComponentID, 'height', $event.target.value)" />
+
+       <input type="checkbox" v-bind:checked="selectedComponent.aspectRatioLock" id="maintain-aspect-ratio"
+                            v-on:click="componentPropertyChanged(selectedComponentID, 'aspectRatioLock', $event.target.checked); moveComponents();" />
+       <label for="maintain-aspect-ratio">Maintain Aspect Ratio </label>
+
      </form>
     </toolbox-panel>
 
@@ -23,13 +36,13 @@ Vue.component('toolbox', {
       <template slot="header">
         <div class="field" v-bind:class="{'no-component-glow': Object.entries(game.manifest.componentClasses).length === 0}" id="image_upload">
           <i class="material-icons">file_upload</i>
-          <input type="file" multiple="multiple" name="image" id="image" :accept="acceptedFormats"/>
+          <input type="file" multiple="multiple" name="image" id="image" />
         </div>
       </template>
       <ul>
         <li class="component" v-for="(componentClass, classID) in game.manifest.componentClasses">
-          <div class="toolbox-item" draggable="true" @dragstart="e => handleDrag(e, classID)" v-on:click="classClicked(classID)">
-            <img v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'" draggable="false">
+          <div class="toolbox-item" v-on:click="classClicked(classID)">
+            <img v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
           </div>
         </li>
         <li class="no-component-text" v-if="Object.entries(game.manifest.componentClasses).length === 0">
@@ -46,19 +59,16 @@ Vue.component('toolbox', {
     componentPropertyChanged: function (id, property, value) {
       this.$emit('componentPropertyChanged', id, property, value);
     },
-    handleDrag: function (event, classID) {
-      event.dataTransfer.setData('text/plain', classID);
-      event.dataTransfer.dropEffect = 'none';
+    changeAspectRatio: function (bool) {
+      this.$emit('changeAspectRatio', bool);
+    },
+    moveComponents: function () {
+      this.$emit('moveComponents');
     }
   },
   computed: {
     selectedComponent: function () {
       return this.game.components[this.selectedComponentID];
-    },
-    acceptedFormats: function () {
-      let formats = ['gif', 'jpg', 'jpeg', 'png'];
-      let mimeTypes = ['image/gif', 'image/jpeg', 'image/png'];
-      return formats.map((item) => '.' + item).concat(mimeTypes).join(',');
     }
   }
 });

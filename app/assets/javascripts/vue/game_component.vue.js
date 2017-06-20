@@ -3,7 +3,7 @@ const Component = require('onboard-shared').Component;
 Vue.component('game-component', {
   props: ['id', 'component', 'componentClass', 'selected', 'maintain-aspect'],
   template: `
-    <div v-bind:id="id" class="component comp-drag" v-bind:class="{ 'locked': component.locked, 'comp-selected': selected, 'maintain-aspect': maintain-aspect }" v-bind:style="position">
+    <div v-bind:id="id" class="component comp-drag" v-bind:class="{ 'locked': component.locked, 'comp-selected': selected, 'maintain-aspect': this.component.aspectRatioLock }" v-bind:style="position">
       <img v-bind:style="size" v-bind:src="imageURL">
     </div>`,
   computed: {

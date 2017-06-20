@@ -7,7 +7,7 @@ Vue.component('toolbox', {
       <form class="item-attrs">
 
         <fieldset>
-          <ul>
+          <ul class="two-items">
             <li>
               <label for="position-x-selection"> Position X </label>
               <input type="number" v-bind:value="selectedComponent.posX" min="0" id="position-x-selection"
@@ -26,7 +26,7 @@ Vue.component('toolbox', {
        <label for="position-locked">Locked </label>
 
        <fieldset>
-         <ul>
+         <ul class="two-items">
            <li>
               <label for="width-selection"> Width </label>
               <input type="number" v-bind:value="Math.round(selectedComponent.width)" min="0" id="width-selection"
@@ -43,6 +43,20 @@ Vue.component('toolbox', {
        <input type="checkbox" v-bind:checked="selectedComponent.aspectRatioLock" id="maintain-aspect-ratio"
                             v-on:click="componentPropertyChanged(selectedComponentID, 'aspectRatioLock', $event.target.checked); moveComponents();" />
        <label for="maintain-aspect-ratio">Maintain Aspect Ratio </label>
+
+      <fieldset class="plus-minus">
+        <ul>
+          <li>
+            <button v-on:click="decreaseZIndex"><i class="material-icons">remove</i></button>
+          </li>
+          <li>
+            Layer {{selectedComponent.zIndex}}
+          </li>
+          <li>
+            <button v-on:click="increaseZIndex"><i class="material-icons">add</i></button>
+          </li>
+        </ul>
+      </fieldset>
      </form>
     </toolbox-panel>
 
@@ -78,6 +92,14 @@ Vue.component('toolbox', {
     },
     moveComponents: function () {
       this.$emit('moveComponents');
+    },
+    increaseZIndex: function (event) {
+      this.componentPropertyChanged(this.selectedComponentID, 'zIndex', this.selectedComponent.zIndex + 1);
+      event.preventDefault();
+    },
+    decreaseZIndex: function (event) {
+      this.componentPropertyChanged(this.selectedComponentID, 'zIndex', this.selectedComponent.zIndex - 1);
+      event.preventDefault();
     }
   },
   computed: {

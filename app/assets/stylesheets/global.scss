@@ -249,7 +249,7 @@ input[type=checkbox] {
   }
 }
 
-input[type=button], input[type=submit], .button {
+input[type=button], input[type=submit], .button, button {
   margin-top: 10px;
   text-align: center;
   background-color: $blue-highlight;
@@ -297,6 +297,7 @@ hr {
 }
 
 label, mark {
+  display: block;
   background-color: transparent;
   color: $grey-blue;
   display: block;

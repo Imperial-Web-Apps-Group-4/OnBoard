@@ -9,7 +9,9 @@ Vue.component('game-view', {
       :componentClass="game.manifest.componentClasses[component.classID]"
       :key="compID"
       v-bind:selected="compID == selectedComponentID"
-    v-on:component-right-clicked="(id, component) => $emit('component-right-clicked', id, component)"></game-component>
+      v-bind:style="{ 'z-index': component.zIndex }"
+      v-on:component-right-clicked="(id, component) => $emit('component-right-clicked', id, component)">
+    </game-component>
     <div class="recycle-bin">
       <i class="material-icons">delete</i>
     </div>

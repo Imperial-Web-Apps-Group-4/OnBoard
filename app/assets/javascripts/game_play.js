@@ -43,6 +43,11 @@ $(function() {
           vueDelete(this.game.components, action.componentID);
         }
       },
+      componentClicked: function (componentID, component) {
+        let action = new Action.Roll(componentID);
+        socket.send((new Message.GameMessage(action)).serialise());
+        this.game.applyAction(action);
+      }
       componentRightClicked: function (componentID, component) {
         let action;
         if (!component.owned) {

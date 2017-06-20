@@ -18,6 +18,8 @@ class ApplicationController < ActionController::Base
       @userident = switch_login :users => "u#{@current_user&.id}", :guests => "g#{session[:guest_name]}", :none => ""
       @accessibility_data = @current_user&.accessibility ? 'accessible' : ''
 
+      @header_logo_path = @current_user ? games_path : root_path
+
       @header_user_data = 'shared/not_logged_in_header'
       @header_user_data = 'shared/logged_in_header' if session[:logged_in_email]
       @header_user_data = 'shared/guest_header'     if session[:guest_name]

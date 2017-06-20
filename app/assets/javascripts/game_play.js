@@ -1,5 +1,6 @@
 //= require vue
 //= require config
+//= require js.cookie
 /* global config */
 
 $(function() {
@@ -18,9 +19,16 @@ $(function() {
       $('#full-page-loading').fadeOut(500, function() { $('#full-page-loading').remove() });
 
       let chatMessages = this.chatMessages;
-      $('.close-dialog').click(function() {
-        chatMessages.unshift(new Message.ChatMessage('OnBoard', 'To re-open that help menu, just type /help', true))
+
+      if (Cookies.get('helphidden') === 'y') {
         $('.dialog').hide();
+        chatMessages.unshift(new Message.ChatMessage('OnBoard', 'To open the help menu, just type /help', true));
+      }
+
+      $('.close-dialog').click(function() {
+        chatMessages.unshift(new Message.ChatMessage('OnBoard', 'To re-open that help menu, just type /help', true));
+        $('.dialog').hide();
+        Cookies.set('helphidden', 'y');
       });
     },
     methods: {

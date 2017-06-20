@@ -320,6 +320,12 @@ label, mark {
   display: none; /* TODO: Integrate into site at some future point in time */
 }
 
+.action-landing {
+  hr {
+    border-color: lighten($blue-highlight, 20%);
+  }
+}
+
 h2.main-heading {
   margin-top: 30px;
   font-size: 250% !important;

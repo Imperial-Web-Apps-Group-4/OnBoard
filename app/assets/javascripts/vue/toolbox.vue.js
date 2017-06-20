@@ -60,7 +60,7 @@ Vue.component('toolbox', {
      </form>
     </toolbox-panel>
 
-    <toolbox-panel :title="'Toolbox'">
+    <toolbox-panel :title="'Components'">
       <template slot="header">
         <div class="field" v-bind:class="{'no-component-glow': Object.entries(game.manifest.componentClasses).length === 0}" id="image_upload">
           <i class="material-icons">file_upload</i>

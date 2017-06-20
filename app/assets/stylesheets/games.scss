@@ -169,8 +169,9 @@
       flex-wrap: wrap;
     }
 
-    &.toolbox {
+    &.components {
       ul {
+        margin-right: 10px;
         li {
           width: 25%;
           line-height: 0;

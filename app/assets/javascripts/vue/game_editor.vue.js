@@ -15,7 +15,8 @@ Vue.component('game-editor', {
     <div class="right-settings sidebar">
       <toolbox v-bind:game="game"
                v-bind:selectedComponentID="selectedComponentID"
-               v-on:componentPropertyChanged="componentPropertyChangedHander"
+               v-on:componentPropertyChanged="componentPropertyChangedHandler"
+               v-on:classPropertyChanged="classPropertyChangedHandler"
                v-on:classClicked="newComponent"></toolbox>
     </div>
   </div>`,
@@ -31,8 +32,11 @@ Vue.component('game-editor', {
     componentClickedHandler: function (componentID) {
       this.selectedComponentID = componentID;
     },
-    componentPropertyChangedHander: function (id, property, value) {
+    componentPropertyChangedHandler: function (id, property, value) {
       this.game.components[id][property] = value;
+    },
+    classPropertyChangedHandler: function (id, property, value) {
+      this.game.manifest.componentClasses[id][property] = value;
     },
     dropHandler: function (event) {
       event.preventDefault();
@@ -100,8 +104,19 @@ $(function() {
     maxPerElement: 1
   });
 
-  $(document).on('keyup keydown', function (event) {
+  let shiftHeld = false;
+  $(document).on('keydown', function (event) {
     if (event.keyCode === 16) { // Shift key
+      if (shiftHeld) return;
+      bus.$emit('flipAspectRatioLock');
+      shiftHeld = true;
+
+    }
+  });
+
+  $(document).on('keyup', function (event) {
+    if (event.keyCode === 16) { // Shift key
+      shiftHeld = false;
       bus.$emit('flipAspectRatioLock');
     }
   });

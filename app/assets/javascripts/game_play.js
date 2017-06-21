@@ -2,6 +2,7 @@
 //= require config
 //= require js.cookie
 /* global config */
+/* global config NAME USERIDENTIFICATION Cookies */
 
 $(function() {
   if (!onAnyOfPages({'game_sessions': ['edit']})) return;
@@ -16,7 +17,7 @@ $(function() {
     mounted: function () {
       console.log('Board Vue loaded.');
       this.$on('messageReceived', this.handleMessage.bind(this));
-      $('#full-page-loading').fadeOut(500, function() { $('#full-page-loading').remove() });
+      $('#full-page-loading').fadeOut(500, function() { $('#full-page-loading').remove(); });
 
       let chatMessages = this.chatMessages;
 
@@ -32,8 +33,8 @@ $(function() {
       });
     },
     methods: {
-      componentMovedHandler: function (movement) {
-        socket.send(new Message.GameMessage(movement).serialise());
+      actionAppliedHandler: function (action) {
+        socket.send(new Message.GameMessage(action).serialise());
       },
       handleMessage: function (msg) {
         switch (msg.type) {
@@ -68,7 +69,7 @@ $(function() {
         }
         this.game.applyAction(action);
         socket.send((new Message.GameMessage(action)).serialise());
-        console.log("Toggling ownership of " + componentID + " (" + component.owned + ")");
+        console.log('Toggling ownership of ' + componentID + ' (' + component.owned + ')');
       }
     },
     data: {

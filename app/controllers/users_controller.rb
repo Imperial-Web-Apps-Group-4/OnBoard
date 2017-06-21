@@ -36,7 +36,7 @@ class UsersController < ApplicationController
       if params[:game_id]
         redirect_to edit_game_game_session_path(params[:game_id], params[:game_hash])
       else
-        redirect_to root_path, notice: 'Login successful'
+        redirect_to games_path, notice: 'Login successful'
       end
     else
       @failed = true

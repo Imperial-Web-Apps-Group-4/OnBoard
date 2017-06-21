@@ -18,6 +18,7 @@
 
 <% else %>
 
+<h2 class="games-heading"><%= @current_user.name %>'s <span class="site-logo">On<span>Board</span><em>.fun</em></span> games</h2>
 <ul class="games">
   <% @games.each do |game| %>
     <li class="card">

@@ -509,3 +509,7 @@ h2.main-heading {
   border-width: 0;
   float: right;
 }
+
+::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}

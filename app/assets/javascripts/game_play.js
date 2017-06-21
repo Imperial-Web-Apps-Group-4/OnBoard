@@ -1,12 +1,13 @@
 //= require vue
 //= require config
-/* global config */
+/* global config NAME USERIDENTIFICATION */
 
 $(function() {
   if (!onAnyOfPages({'game_sessions': ['edit']})) return;
 
   const Shared = require('onboard-shared');
   const Message = Shared.Message;
+  const Component = Shared.Component;
   const Action = Shared.Action;
 
   /* Create the Vue for the main screen */
@@ -52,7 +53,7 @@ $(function() {
         }
         this.game.applyAction(action);
         socket.send((new Message.GameMessage(action)).serialise());
-        console.log("Toggling ownership of " + componentID + " (" + component.owned + ")");
+        console.log('Toggling ownership of ' + componentID + ' (' + component.owned + ')');
       }
     },
     data: {

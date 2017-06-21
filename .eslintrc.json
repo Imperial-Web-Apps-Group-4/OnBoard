@@ -39,6 +39,9 @@
     ],
     "no-var": [
       "error"
+    ],
+    "no-fallthrough": [
+      0
     ]
   }
 }

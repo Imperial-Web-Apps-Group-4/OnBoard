@@ -11,7 +11,7 @@ Vue.component('game-view', {
       :componentClass="game.manifest.componentClasses[component.classID]"
       :key="compID"
       v-bind:selected="compID == selectedComponentID"
-      v-bind:style="{ 'z-index': component.zIndex }"
+      v-bind:style="{ 'z-index': compID == selectedComponentID ? 9999 : component.zIndex }"
       v-on:component-right-clicked="(id, component) => $emit('component-right-clicked', id, component)">
     </game-component>
     <div class="recycle-bin">
@@ -52,19 +52,27 @@ Vue.component('game-view', {
       }
 
       // Handle decks & stacks
-      let compClass = this.game.getClass;
+      let compClass = this.game.getClass(component.classID);
       let newComp;
       if (component.type === 'deck') {
-        let cardClassID = component.pop();
-        newComp = Component.fromClass(cardClassID);
+        if (component.currentCardClasses.length === 0) return; // Ignore clicks on empty decks
+        let cardClassID = component.currentCardClasses.pop();
+        newComp = Component.fromClass(cardClassID, this.game.getClass(cardClassID));
       } else if (component.type === 'stack') {
+        if (component.count === 0) return; // Ignore clicks on empty stacks
         component.count--;
-        newComp = Component.fromClass(compClass.elementCompID);
+        newComp = Component.fromClass(compClass.itemClassID, this.game.getClass(compClass.itemClassID));
       }
+      // Set ownership based on parent
       if (component.owned) {
         newComp.owned = true;
         newComp.owner = component.owner;
       }
+      // Set dimensions & position to be like parent
+      newComp.width = component.width;
+      newComp.height = component.height;
+      newComp.posX = component.posX + 15;
+      newComp.posY = component.posY + 15;
       // Apply component spawn action
       let action = new Action.ComponentSpawn(null, newComp);
       action = this.game.applyAction(action);

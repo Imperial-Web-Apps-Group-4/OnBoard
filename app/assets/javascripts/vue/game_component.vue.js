@@ -7,7 +7,7 @@ Vue.component('game-component', {
   template: `
 <div v-bind:id="id" class="component comp-drag" v-bind:class="{ 'locked': component.locked, 'comp-selected': selected, 'maintain-aspect': this.component.aspectRatioLock, 'comp-owned': component.owned, 'comp-hidden': (component.owned && component.owner !== USERIDENTIFICATION) }"
     v-bind:style="position" @contextmenu.prevent="rightClick">
-  <img v-bind:style="size" v-bind:src="'/user_upload/game_images/' + componentClass.imageID + '.png'">
+  <img v-bind:style="size" v-bind:src="imageURL">
 </div>`,
   methods: {
     rightClick: function () {

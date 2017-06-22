@@ -93,6 +93,9 @@ Vue.component('toolbox', {
     moveComponents: function () {
       this.$emit('moveComponents');
     },
+    scaledResize: function () {
+
+    },
     increaseZIndex: function (event) {
       event.preventDefault();
       this.componentPropertyChanged(this.selectedComponentID, 'zIndex', this.selectedComponent.zIndex + 1);

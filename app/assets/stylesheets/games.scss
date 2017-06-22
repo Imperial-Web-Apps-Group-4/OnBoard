@@ -155,7 +155,7 @@
       }
     }
 
-    .item-attrs, .general-settings {
+    .item-attrs, .general-settings, .class-attrs {
       margin: 0 10px 10px;
     }
 
@@ -164,7 +164,6 @@
   .panel {
 
     ul {
-
       display: flex;
       flex-wrap: wrap;
     }
@@ -203,7 +202,7 @@
       }
     }
 
-    &.editing-component {
+    &.editing-component, &.editing-component-class {
       .two-items {
         li {
           width: 50%;

@@ -241,7 +241,7 @@ a {
 }
 
 input[type=button], input[type=submit], input[type=text], input[type=password],
-input[type=number], input[type=checkbox], button, .button {
+input[type=number], input[type=checkbox], button, .button, select {
   display: block;
   width: 100%;
   padding: 10px;
@@ -253,7 +253,8 @@ input[type=number], input[type=checkbox], button, .button {
   margin: 5px 0;
 }
 
-input[type=text], input[type=password], input[type=number], input[type=checkbox] {
+input[type=text], input[type=password], input[type=number], input[type=checkbox],
+select {
   border: 1px solid $grey-blue;
   background-color: rgba(255,255,255,.02);
 
@@ -266,10 +267,13 @@ input[type=text], input[type=password], input[type=number], input[type=checkbox]
   }
 }
 
-input[type=checkbox] {
+input[type=checkbox], select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+
+input[type=checkbox] {
   width: 32px;
   height: 32px;
   padding: 0;

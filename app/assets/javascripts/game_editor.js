@@ -102,7 +102,7 @@ $(function() {
 
   $('form').submit(function() {
     if (!$('#game_name').val()) {
-      $('game-name-needed').fadeIn(500).delay(2500).fadeOut(500);
+      $('#game-name-needed').fadeIn(500).delay(2500).fadeOut(500);
       return false;
     }
   });

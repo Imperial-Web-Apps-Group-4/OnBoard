@@ -344,8 +344,11 @@ hr {
 label, mark {
   display: block;
   background-color: transparent;
-  color: $grey-blue;
   display: block;
+}
+
+label, mark, select {
+  color: $grey-blue;
 }
 
 .action-login_session, .action-login_attempt {

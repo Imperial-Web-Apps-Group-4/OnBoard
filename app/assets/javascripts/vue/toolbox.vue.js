@@ -90,26 +90,49 @@ Vue.component('toolbox', {
         <option value="stack">Stack</option>
       </select>
 
-      <label for="primary-image-upload">{{primaryImageName(selectedClass.type)}}</label>
-      <div class="content"><img style="width: 50px; height: 50px;" :src="getImageURL(getClassImgID(selectedClassID))"/></div>
 
-      <div class="field" id="primaryImageUpload">
-        <i class="material-icons">file_upload</i>
-        <input type="file" name="primary_image_upload" id="primary_image_upload" :accept="acceptedFormats">
+      <fieldset>
+      <ul class="two-items">
+      <li>
+      <label for="primary-image-upload">{{primaryImageName(selectedClass.type)}}</label>
+      <div class="content toolbox-item special">
+        <img :src="getImageURL(getClassImgID(selectedClassID))"/>
+        <div class="field" id="primaryImageUpload">
+          <i class="material-icons">file_upload</i>
+          <input type="file" name="primary_image_upload" id="primary_image_upload" :accept="acceptedFormats">
+        </div>
       </div>
+      </li>
+      <li>
+      <div v-if="selectedClass.type === 'flippable'">
+        <label for="flip-image-upload">Front image</label>
+        <div class="content toolbox-item special">
+          <img :src="getImageURL(selectedClass.frontImageID)" />
+          <div class="field" id="flipImageUpload">
+            <i class="material-icons">file_upload</i>
+            <input type="file" name="flip-image-upload" id="flip-image-upload" :accept="acceptedFormats"/>
+          </div>
+        </div>
+      </div>
+      </li>
+      </ul>
+      </fieldset>
 
       <div v-if="selectedClass.type === 'deck'">
         <!-- Deck front classes -->
         <label for="deckFrontClasses">Card fronts</label>
         <section id="deckFrontClasses">
-          <div v-for="cardClassID in selectedClass.cardClassIDs" class="card-front">
-            <img style="width: 50px; height: 50px;" :src="getImageURL(game.getClass(cardClassID).frontImageID)"/>
-          </div>
-
-          <div class="field" id="deckImageUpload">
+          <div class="field deck" id="deckImageUpload">
             <i class="material-icons">file_upload</i>
             <input type="file" :multiple="true" name="deck-image-upload" id="deck-image-upload" :accept="acceptedFormats"/>
           </div>
+          <ul>
+          <li class="component" v-for="cardClassID in selectedClass.cardClassIDs">
+          <div class="card-front toolbox-item">
+            <img :src="getImageURL(game.getClass(cardClassID).frontImageID)"/>
+          </div>
+          </li>
+          </ul>
         </section>
       </div>
 
@@ -121,15 +144,6 @@ Vue.component('toolbox', {
         <input type="checkbox" v-bind:checked="infiniteStack(selectedClass)" id="stack-infinite"
                             v-on:click="infiniteClicked(selectedClassID, $event.target.checked)" >
         <label for="stack-infinite">Infinite</label>
-      </div>
-
-      <div v-if="selectedClass.type === 'flippable'">
-        <label for="flip-image-upload">Front image</label>
-        <div class="content"><img :src="getImageURL(selectedClass.frontImageID)" style="width: 50px; height: 50px;"/></div>
-        <div class="field" id="flipImageUpload">
-          <i class="material-icons">file_upload</i>
-          <input type="file" name="flip-image-upload" id="flip-image-upload" :accept="acceptedFormats"/>
-        </div>
       </div>
      </form>
     </toolbox-panel>

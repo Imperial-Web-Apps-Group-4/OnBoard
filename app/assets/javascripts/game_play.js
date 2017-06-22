@@ -1,6 +1,8 @@
 //= require vue
 //= require config
+//= require js.cookie
 /* global config */
+/* global config NAME USERIDENTIFICATION Cookies */
 
 $(function() {
   if (!onAnyOfPages({'game_sessions': ['edit']})) return;
@@ -15,10 +17,24 @@ $(function() {
     mounted: function () {
       console.log('Board Vue loaded.');
       this.$on('messageReceived', this.handleMessage.bind(this));
+      $('#full-page-loading').fadeOut(500, function() { $('#full-page-loading').remove(); });
+
+      let chatMessages = this.chatMessages;
+
+      if (Cookies.get('helphidden') === 'y') {
+        $('.dialog').hide();
+        chatMessages.unshift(new Message.ChatMessage('OnBoard', 'To open the help menu, just type /help', true));
+      }
+
+      $('.close-dialog').click(function() {
+        chatMessages.unshift(new Message.ChatMessage('OnBoard', 'To re-open that help menu, just type /help', true));
+        $('.dialog').hide();
+        Cookies.set('helphidden', 'y');
+      });
     },
     methods: {
-      componentMovedHandler: function (movement) {
-        socket.send(new Message.GameMessage(movement).serialise());
+      actionAppliedHandler: function (action) {
+        socket.send(new Message.GameMessage(action).serialise());
       },
       handleMessage: function (msg) {
         switch (msg.type) {
@@ -33,6 +49,7 @@ $(function() {
         }
       },
       msgSentHandler: function (msg) {
+        if (msg.content === '/help') { $('.dialog').show(); return; }
         socket.send(msg.serialise());
       },
       applyGameAction: function (action) {
@@ -52,7 +69,7 @@ $(function() {
         }
         this.game.applyAction(action);
         socket.send((new Message.GameMessage(action)).serialise());
-        console.log("Toggling ownership of " + componentID + " (" + component.owned + ")");
+        console.log('Toggling ownership of ' + componentID + ' (' + component.owned + ')');
       }
     },
     data: {
@@ -81,6 +98,7 @@ $(function() {
       alert('Game server connection failed (version mismatch).');
       return;
     }
+
     socket.send(new Message.InitMessage('v3', {'name': NAME}).serialise());
     // Display state from the server in the view
     gameplayVue.game = Shared.deserialiseGame(msg.initialState);

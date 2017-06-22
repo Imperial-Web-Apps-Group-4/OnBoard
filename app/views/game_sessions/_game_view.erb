@@ -1,5 +1,25 @@
+<div id="full-page-loading"><div class='uil-ring-css' style='transform:scale(0.58);'><div></div></div></div>
+
+<div class="dialog">
+  <nav>
+    <h3 class="dialog-name">Introduction</h3>
+    <a class="close-dialog"><i class="material-icons">close</i></a>
+  </nav>
+  <aside>
+    Welcome to <em><%= @game.name %></em> - a game made on  <span class="site-logo">On<span>Board</span><em>.fun</em></span>
+    <hr/>
+    <ul>
+      <li>To move a game piece, you can <em>click</em> or <em>touch</em> and drag</li>
+      <li>To 'own' a piece and hide it from others, you can <em>right click</em> or <em>long touch</em> it</li>
+      <li>To flip a double-sided piece, take a card from a deck, or take a piece from a stack of pieces, you can <em>double click</em> or <em>double tap</em> it</li>
+      <li>Roll a die by typing '<em>/roll</em>' in chat. If you want a die that is not six-sided, you can do '<em>/roll n</em>' for an n sided die, e.g. '<em>/roll 20</em>'.</li>
+    </ul>
+  </aside>
+</div>
+
 <section class="game-table game-table-chat-enabled" id="game-board">
-  <game-view v-bind:game="game" v-on:component-moved="componentMovedHandler" v-on:component-right-clicked="componentRightClicked"></game-view>
+  <game-view v-bind:game="game" v-on:action-applied="actionAppliedHandler"
+    v-on:component-right-clicked="componentRightClicked"></game-view>
   <div class="chatbox">
     <header>
       <h2>Chat</h2>

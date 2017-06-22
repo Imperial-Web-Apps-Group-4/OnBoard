@@ -5,9 +5,13 @@ body.accessible {
   font-size: 120%;
   background-color: #000;
 
-  header, .sidebar header, .chatbox *, .chatbox header, .sidebar, button, input[type=button], input[type=submit], .button {
+  header, .sidebar header, .chatbox *, .chatbox header, .sidebar, button, input[type=button], input[type=submit], .button, .dialog nav {
     background-image: none;
     background-color: #000;
+    border-color: $accessible-yellow;
+  }
+
+  hr {
     border-color: $accessible-yellow;
   }
 

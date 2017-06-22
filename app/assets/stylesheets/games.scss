@@ -178,7 +178,8 @@
 
           &.no-component-text {
             margin: 10px;
-            width: 300px;
+            box-sizing: border-box;
+            width: 100%;
             text-shadow: 0 -1px 1px #2e3244;
             font-size: 16px;
             color: white;
@@ -202,7 +203,7 @@
       }
     }
 
-    &.editing-item {
+    &.editing-component {
       .two-items {
         li {
           width: 50%;

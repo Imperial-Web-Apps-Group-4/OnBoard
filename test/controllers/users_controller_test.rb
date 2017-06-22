@@ -28,7 +28,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should be able to login" do
     login
-    assert_redirected_to root_url
+    assert_redirected_to games_url
   end
 
   test "should not be able to get login page when logged in" do
